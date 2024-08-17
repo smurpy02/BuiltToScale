@@ -75,9 +75,14 @@ public class ExpansionManager : MonoBehaviour
 
             validPosition &= !blocks.ContainsKey(newPosition);
 
-            RaycastHit2D hit = Physics2D.BoxCast((Vector2)transform.position + newPosition, Vector2.one * 0.9f, 0, direction, 0f, 3);
+            RaycastHit2D hit = Physics2D.BoxCast((Vector2)transform.position + newPosition, Vector2.one * 0.8f, 0, direction, 0f, 3);
 
             validPosition &= hit.collider == null;
+
+            if(hit.collider != null)
+            {
+                Debug.Log(hit.collider);
+            }
 
             if(validPosition)
             {

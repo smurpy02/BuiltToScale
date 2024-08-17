@@ -15,6 +15,8 @@ public class Movement : MonoBehaviour
 
     public static List<Transform> groundChecks = new List<Transform>();
 
+    public Transform body;
+
     private void Update()
     {
         float horizontal = horizontalMove.action.ReadValue<float>();
@@ -28,11 +30,15 @@ public class Movement : MonoBehaviour
 
     void Jumping()
     {
-        if (jump.action.IsPressed() && rb.velocity.y == 0)
+        if (jump.action.IsPressed() && rb.velocity.y <= 0.2f)
         {
-            foreach (Transform groundCheck in groundChecks)
+            Debug.Log("jump time");
+
+            foreach(Transform square in body)
+            //foreach (Transform groundCheck in groundChecks)
             {
-                RaycastHit2D hit = Physics2D.CircleCast(groundCheck.position, 0.5f, Vector2.down, 0.1f, 3);
+                RaycastHit2D hit = Physics2D.BoxCast(square.transform.position, Vector2.one, 0, Vector2.down, 0.2f, 3);
+                //RaycastHit2D hit = Physics2D.CircleCast(square.position, 0.5f, Vector2.down, 1f, 3);
 
                 if (hit.collider != null)
                 {

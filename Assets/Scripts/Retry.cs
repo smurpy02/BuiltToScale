@@ -14,6 +14,8 @@ public class Retry : MonoBehaviour
     Vector3 cameraStart;
     Transform cameraTransform;
 
+    bool sceneLoaded;
+
     private void Start()
     {
         cameraTransform = Camera.main.transform;
@@ -26,8 +28,9 @@ public class Retry : MonoBehaviour
 
         cameraTransform.position = cameraStart + (Vector3)(Random.insideUnitCircle * retryHeld / retryHoldTime * maxShake);
 
-        if(retryHeld >= retryHoldTime)
+        if(retryHeld >= retryHoldTime && !sceneLoaded)
         {
+            sceneLoaded = true;
             SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
         }
     }
