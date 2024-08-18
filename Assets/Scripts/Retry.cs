@@ -26,7 +26,7 @@ public class Retry : MonoBehaviour
     {
         retryHeld = retry.action.IsPressed() ? retryHeld + Time.deltaTime : 0;
 
-        cameraTransform.position = cameraStart + (Vector3)(Random.insideUnitCircle * Mathf.Clamp(retryHeld / retryHoldTime * maxShake, 0, maxShake));
+        cameraTransform.position = cameraStart + (Vector3)(Random.insideUnitCircle * (sceneLoaded ? maxShake : Mathf.Clamp(retryHeld / retryHoldTime * maxShake, 0, maxShake)));
 
         if(retryHeld >= retryHoldTime && !sceneLoaded)
         {

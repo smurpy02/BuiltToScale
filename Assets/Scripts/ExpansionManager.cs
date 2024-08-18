@@ -22,6 +22,10 @@ public class ExpansionManager : MonoBehaviour
 
     public AudioSource pop;
 
+    public GameObject breakBlock;
+
+    public List<Vector2Int> initialExpansions;
+
     static Vector2[] defaultPoints = new Vector2[]
     {
         new Vector2(0.45f, 0.45f),
@@ -40,6 +44,11 @@ public class ExpansionManager : MonoBehaviour
         Movement.groundChecks.Add(source.transform.Find("GroundCheck"));
 
         blocks.Add(source.position, source);
+
+        foreach(Vector2Int expansion in initialExpansions)
+        {
+            Expand(expansion, false);
+        }
     }
 
     private void Update()
@@ -65,7 +74,7 @@ public class ExpansionManager : MonoBehaviour
         }
     }
 
-    void Expand(Vector2Int direction)
+    void Expand(Vector2Int direction, bool playSound = true)
     {
         List<Block> newBlocks = new List<Block>();
 
@@ -97,7 +106,7 @@ public class ExpansionManager : MonoBehaviour
             blocks.Add(block.position, block);
         }
 
-        if(newBlocks.Count > 0)
+        if(newBlocks.Count > 0 && playSound)
         {
             pop.Play();
         }
@@ -121,9 +130,34 @@ public class ExpansionManager : MonoBehaviour
 
         polygonCollider.pathCount++;
         polygonCollider.SetPath(polygonCollider.pathCount - 1, colliderPoints);
+        newBlock.colliderIndex = polygonCollider.pathCount - 1;
 
         Movement.groundChecks.Add(newBlock.transform.Find("GroundCheck"));
 
         return (newBlock);
+    }
+
+    public void Break(Vector2Int position, Transform blockTransform)
+    {
+        Block block = blocks[position];
+
+        for(int index = block.colliderIndex; index < polygonCollider.pathCount-1; index++)
+        {
+            polygonCollider.SetPath(index, polygonCollider.GetPath(index+1));
+        }
+
+        foreach(Block currentBlock in blocks.Values)
+        {
+            if(currentBlock.colliderIndex > block.colliderIndex)
+            {
+                currentBlock.colliderIndex--;
+            }
+        }
+
+        polygonCollider.pathCount--;
+
+        Instantiate(breakBlock, blockTransform.position, Quaternion.identity).GetComponentInChildren<Renderer>().material.color = blockTransform.GetComponentInChildren<Renderer>().material.color;
+
+        blocks.Remove(position);
     }
 }

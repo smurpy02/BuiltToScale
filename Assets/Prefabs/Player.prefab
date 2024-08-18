@@ -446,7 +446,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   retry: {fileID: -6700800870649951276, guid: e67e7aff5410c5f48a91baf94195cb24, type: 3}
   maxShake: 0.1
-  retryHoldTime: 0.6
+  retryHoldTime: 0.15
 --- !u!1 &6794912828347394563
 GameObject:
   m_ObjectHideFlags: 0
@@ -665,6 +665,8 @@ MonoBehaviour:
   blockObject: {fileID: 5531879387261924823, guid: 24c0ea8e1885eb84f98a2361f748500e, type: 3}
   polygonCollider: {fileID: 4681871404168371702}
   pop: {fileID: 5668266847714848562}
+  breakBlock: {fileID: 7893191256850455672, guid: 6e3770027bbb4fe4da323ea522ad87af, type: 3}
+  initialExpansions: []
 --- !u!82 &5668266847714848562
 AudioSource:
   m_ObjectHideFlags: 0

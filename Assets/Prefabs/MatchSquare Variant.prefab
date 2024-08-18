@@ -4972,6 +4972,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3437925835937517702, guid: 24c0ea8e1885eb84f98a2361f748500e, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3765179812504779918, guid: 24c0ea8e1885eb84f98a2361f748500e, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -4988,7 +4992,8 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7327708524381090711, guid: 24c0ea8e1885eb84f98a2361f748500e, type: 3}
     m_RemovedGameObjects:
     - {fileID: 8282870701759713922, guid: 24c0ea8e1885eb84f98a2361f748500e, type: 3}
     m_AddedGameObjects:
