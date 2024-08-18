@@ -10,7 +10,10 @@ public class PatternMatcher : MonoBehaviour
 
     public float matchDistance;
 
+    public AudioSource pop;
+
     bool sceneLoaded;
+
 
     private void Update()
     {
@@ -20,6 +23,14 @@ public class PatternMatcher : MonoBehaviour
         {
             sceneLoaded = true;
             FindObjectOfType<Movement>().enabled = false;
+
+            foreach(Transform block in matchBody)
+            {
+                Transform highlight = block.Find("Highlight");
+                highlight.gameObject.SetActive(true);
+            }
+
+            pop.Play();
             GameObject.Find("Player").GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
             SceneTransition.TransitionScene(SceneManager.GetActiveScene().buildIndex + 1);
         }

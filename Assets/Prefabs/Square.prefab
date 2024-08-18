@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1878225180422565565}
   - component: {fileID: 5372960888431239229}
   - component: {fileID: 3765179812504779918}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -110,7 +110,7 @@ GameObject:
   - component: {fileID: 5776040945490792546}
   - component: {fileID: 8888472267829451588}
   - component: {fileID: 2570366390084781706}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4947,7 +4947,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1937082595486045993}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}

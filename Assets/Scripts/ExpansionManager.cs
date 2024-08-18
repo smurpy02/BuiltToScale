@@ -20,6 +20,8 @@ public class ExpansionManager : MonoBehaviour
 
     public PolygonCollider2D polygonCollider;
 
+    public AudioSource pop;
+
     static Vector2[] defaultPoints = new Vector2[]
     {
         new Vector2(0.45f, 0.45f),
@@ -93,6 +95,11 @@ public class ExpansionManager : MonoBehaviour
         foreach(Block block in newBlocks)
         {
             blocks.Add(block.position, block);
+        }
+
+        if(newBlocks.Count > 0)
+        {
+            pop.Play();
         }
     }
 
