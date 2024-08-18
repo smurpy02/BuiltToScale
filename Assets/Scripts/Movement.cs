@@ -37,7 +37,7 @@ public class Movement : MonoBehaviour
             foreach(Transform square in body)
             //foreach (Transform groundCheck in groundChecks)
             {
-                RaycastHit2D hit = Physics2D.BoxCast(square.transform.position, Vector2.one, 0, Vector2.down, 0.2f, 3);
+                RaycastHit2D hit = Physics2D.BoxCast(square.transform.position, Vector2.one * 0.9f, 0, Vector2.down, 0.2f, 3);
                 //RaycastHit2D hit = Physics2D.CircleCast(square.position, 0.5f, Vector2.down, 1f, 3);
 
                 if (hit.collider != null)

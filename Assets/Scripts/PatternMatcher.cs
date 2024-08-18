@@ -10,13 +10,18 @@ public class PatternMatcher : MonoBehaviour
 
     public float matchDistance;
 
+    bool sceneLoaded;
+
     private void Update()
     {
         //playerBody.GetComponentsInChildren(playerPositions);
 
-        if (PositionsMatch())
+        if (PositionsMatch() && !sceneLoaded)
         {
-            SceneManager.LoadScene(0);
+            sceneLoaded = true;
+            FindObjectOfType<Movement>().enabled = false;
+            GameObject.Find("Player").GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+            SceneTransition.TransitionScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }
 
@@ -55,6 +60,8 @@ public class PatternMatcher : MonoBehaviour
 
             if (validMatch)
             {
+                Vector2 newPosition = playerBody.position + matchBody.GetChild(0).position - playerPosition.position;
+                playerBody.position = newPosition;
                 return true;
             }
         }

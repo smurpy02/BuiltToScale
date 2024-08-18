@@ -5,47 +5,30 @@ using UnityEngine;
 public class RandomiseColours : MonoBehaviour
 {
     public List<Color> colors = new List<Color>();
-
-    public Transform player;
-    public Transform level;
-    public Transform pattern;
-
-    Color playerColor;
-    Color levelColor;
-    Color patternColor;
+    public List<Transform> elements = new List<Transform>();
+    Dictionary<Transform, Color> colorPairs = new Dictionary<Transform, Color>();
 
     private void Awake()
     {
-        if(colors.Count < 3)
+        if(colors.Count < elements.Count)
         {
             return;
         }
 
-        playerColor = ChooseRandomColour();
-        levelColor = ChooseRandomColour();
-        patternColor = ChooseRandomColour();
-
-        foreach(Renderer sprite in player.GetComponentsInChildren<Renderer>())
+        foreach(Transform element in elements)
         {
-            sprite.material.color = playerColor;
-        }
-
-        foreach(Renderer sprite in level.GetComponentsInChildren<Renderer>())
-        {
-            sprite.material.color = levelColor;
-        }
-
-        foreach(Renderer sprite in pattern.GetComponentsInChildren<Renderer>())
-        {
-            sprite.material.color = patternColor;
+            colorPairs.Add(element, ChooseRandomColour());
         }
     }
 
     private void Update()
     {
-        foreach (Renderer sprite in player.GetComponentsInChildren<Renderer>())
+        foreach(Transform element in elements)
         {
-            sprite.material.color = playerColor;
+            foreach(Renderer renderer in element.GetComponentsInChildren<Renderer>())
+            {
+                renderer.material.color = colorPairs[element];
+            }
         }
     }
 

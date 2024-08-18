@@ -31,7 +31,7 @@ public class Retry : MonoBehaviour
         if(retryHeld >= retryHoldTime && !sceneLoaded)
         {
             sceneLoaded = true;
-            SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
+            SceneTransition.TransitionScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
 }
