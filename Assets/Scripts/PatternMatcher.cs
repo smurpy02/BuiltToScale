@@ -65,7 +65,6 @@ public class PatternMatcher : MonoBehaviour
 
     bool PositionsMatch()
     {
-        Debug.Log("matching " + playerBody.parent.name);
         if (matchBody.childCount != playerBody.childCount)
         {
             return false;
@@ -73,37 +72,25 @@ public class PatternMatcher : MonoBehaviour
 
         foreach (Transform playerPosition in playerBody)
         {
-            Debug.Log("player position " + playerPosition.gameObject.name);
-
             List<Vector2Int> playerOffsets = new List<Vector2Int>();
 
             foreach (Transform otherPlayerPosition in playerBody)
             {
                 if (otherPlayerPosition != playerPosition)
                 {
-                    Debug.Log("player offset " + (playerPosition.position - otherPlayerPosition.position));
                     playerOffsets.Add(Vector2Int.RoundToInt(playerPosition.position - otherPlayerPosition.position));
                 }
             }
 
-            Debug.Log("player offsets length " + playerOffsets.Count);
-
-            foreach(Vector2 pos in playerOffsets) { Debug.Log("playpos " + pos); };
-
             bool validMatch = true;
 
             validMatch &= Vector2.Distance(playerPosition.position, matchBody.GetChild(0).position) < matchDistance;
-
-            Debug.Log("close enough " + (Vector2.Distance(playerPosition.position, matchBody.GetChild(0).position) < matchDistance));
 
             foreach (Transform child in matchBody)
             {
                 if (child != matchBody.GetChild(0))
                 {
                     Vector2Int offset = Vector2Int.RoundToInt(matchBody.GetChild(0).position - child.position);
-
-                    Debug.Log("match offset " + offset);
-                    Debug.Log("offsets contain " + playerOffsets.Contains(offset));
 
                     validMatch &= playerOffsets.Contains(offset);
                 }

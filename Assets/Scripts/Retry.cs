@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.SceneManagement;
 
 public class Retry : MonoBehaviour
@@ -26,7 +27,9 @@ public class Retry : MonoBehaviour
     {
         retryHeld = retry.action.IsPressed() ? retryHeld + Time.deltaTime : 0;
 
-        cameraTransform.position = cameraStart + (Vector3)(Random.insideUnitCircle * (sceneLoaded ? maxShake : Mathf.Clamp(retryHeld / retryHoldTime * maxShake, 0, maxShake)));
+        float retryProgress = retryHeld / retryHoldTime;
+
+        cameraTransform.position = Vector3.Lerp(cameraTransform.position, cameraStart + (Vector3)(Random.insideUnitCircle * (sceneLoaded ? maxShake : Mathf.Clamp(retryProgress * maxShake, 0, maxShake))), Time.deltaTime * 50);
 
         if(retryHeld >= retryHoldTime && !sceneLoaded)
         {

@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 866715977}
   - component: {fileID: 866715976}
   m_Layer: 5
-  m_Name: Retry (1)
+  m_Name: ExpandInstruction
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

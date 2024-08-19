@@ -109,6 +109,7 @@ public class ExpansionManager : MonoBehaviour
 
         foreach(Block block in newBlocks)
         {
+            Debug.Log("new block " + block.position);
             blocks.Add(block.position, block);
         }
 
@@ -145,6 +146,7 @@ public class ExpansionManager : MonoBehaviour
 
     public void Break(Vector2Int position, Transform blockTransform)
     {
+        Debug.Log("break " + blockTransform.name);
         Block block = blocks[position];
 
         for(int index = block.colliderIndex; index < polygonCollider.pathCount-1; index++)

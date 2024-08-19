@@ -10,7 +10,7 @@ public class Square : MonoBehaviour
 
         if(collision.tag == "Breaker")
         {
-            FindObjectOfType<ExpansionManager>().Break(Vector2Int.RoundToInt(transform.localPosition), transform);
+            transform.parent.parent.GetComponentInChildren<ExpansionManager>().Break(Vector2Int.RoundToInt(transform.localPosition), transform);
             Destroy(gameObject);
         }
     }
