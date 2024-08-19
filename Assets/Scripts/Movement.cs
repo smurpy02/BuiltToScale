@@ -17,9 +17,13 @@ public class Movement : MonoBehaviour
 
     public Transform body;
 
+    public bool invert = false;
+
+    public LayerMask jumpingMask;
+
     private void Update()
     {
-        float horizontal = horizontalMove.action.ReadValue<float>();
+        float horizontal = horizontalMove.action.ReadValue<float>() * (invert ? -1 : 1);
 
         Vector2 velocity = rb.velocity;
         velocity.x = horizontal * speed;
@@ -34,12 +38,13 @@ public class Movement : MonoBehaviour
         {
             Debug.Log("jump time");
 
-            foreach(Transform square in body)
+            foreach (Transform square in body)
             {
-                RaycastHit2D hit = Physics2D.BoxCast(square.transform.position, Vector2.one * 0.9f, 0, Vector2.down, 0.2f, 3);
+                RaycastHit2D hit = Physics2D.BoxCast(square.transform.position, Vector2.one * 0.9f, 0, Vector2.down, 0.2f, jumpingMask);
 
                 if (hit.collider != null)
                 {
+                    Debug.Log(hit.collider.name);
                     rb.velocity += Vector2.up * jumpForce;
                     return;
                 }

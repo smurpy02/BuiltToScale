@@ -26,6 +26,10 @@ public class ExpansionManager : MonoBehaviour
 
     public List<Vector2Int> initialExpansions;
 
+    public bool invert = false;
+
+    public LayerMask expansionMask;
+
     static Vector2[] defaultPoints = new Vector2[]
     {
         new Vector2(0.45f, 0.45f),
@@ -76,6 +80,8 @@ public class ExpansionManager : MonoBehaviour
 
     void Expand(Vector2Int direction, bool playSound = true)
     {
+        if (invert) direction.x *= -1;
+
         List<Block> newBlocks = new List<Block>();
 
         foreach(Block block in blocks.Values)
@@ -86,7 +92,7 @@ public class ExpansionManager : MonoBehaviour
 
             validPosition &= !blocks.ContainsKey(newPosition);
 
-            RaycastHit2D hit = Physics2D.BoxCast((Vector2)transform.position + newPosition, Vector2.one * 0.8f, 0, direction, 0f, 3);
+            RaycastHit2D hit = Physics2D.BoxCast((Vector2)transform.position + newPosition, Vector2.one * 0.8f, 0, direction, 0f, expansionMask);
 
             validPosition &= hit.collider == null;
 

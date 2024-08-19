@@ -256,6 +256,10 @@ MonoBehaviour:
   speed: 4
   jumpForce: 12
   body: {fileID: 7277275220389091222}
+  invert: 0
+  jumpingMask:
+    serializedVersion: 2
+    m_Bits: 55
 --- !u!60 &4681871404168371702
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -361,6 +365,10 @@ MonoBehaviour:
   pop: {fileID: 5668266847714848562}
   breakBlock: {fileID: 7893191256850455672, guid: 6e3770027bbb4fe4da323ea522ad87af, type: 3}
   initialExpansions: []
+  invert: 0
+  expansionMask:
+    serializedVersion: 2
+    m_Bits: 119
 --- !u!82 &5668266847714848562
 AudioSource:
   m_ObjectHideFlags: 0
