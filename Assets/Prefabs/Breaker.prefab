@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7615532671968442313}
   - component: {fileID: 7251110158033824653}
   - component: {fileID: 6600552660470549033}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4841,7 +4841,7 @@ GameObject:
   - component: {fileID: 7287787592297158721}
   - component: {fileID: 7629423533813166477}
   - component: {fileID: 7767801111188358620}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Breaker
   m_TagString: Breaker
   m_Icon: {fileID: 0}

@@ -4,6 +4,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
 public class LevelSelect : MonoBehaviour
@@ -19,17 +20,18 @@ public class LevelSelect : MonoBehaviour
         UpdateLevel();
 
         maxLevel = SceneManager.sceneCount - 2;
-        
+
         List<string> levelNames = new List<string>();
 
         Debug.Log("scenes " + SceneManager.sceneCountInBuildSettings);
 
-        for(int scene = 2; scene < SceneManager.sceneCountInBuildSettings; scene++)
+        for (int scene = 2; scene < SceneManager.sceneCountInBuildSettings; scene++)
         {
             Debug.Log(scene);
-            Scene level = SceneManager.GetSceneByBuildIndex(scene);
-            levels.Add(level);
-            levelNames.Add("Level " + (scene-2));
+            if (scene != SceneManager.sceneCountInBuildSettings - 1)
+            {
+                levelNames.Add("Level " + (scene - 2));
+            }
         }
 
         dropdown.ClearOptions();
