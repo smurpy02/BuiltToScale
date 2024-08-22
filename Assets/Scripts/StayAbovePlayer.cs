@@ -9,26 +9,26 @@ public class StayAbovePlayer : MonoBehaviour
     private void Update()
     {
         bool positionUnasigned = true;
-        int highestPosition = 0;
+        Vector2 highestPosition = Vector2.zero;
 
         foreach(Vector2Int blockPositions in expansion.blocks.Keys)
         {
             if(positionUnasigned)
             {
-                highestPosition = blockPositions.y;
+                highestPosition = blockPositions;
                 positionUnasigned = false;
             }
             else
             {
-                if(blockPositions.y > highestPosition)
+                if(blockPositions.y > highestPosition.y)
                 {
-                    highestPosition = blockPositions.y;
+                    highestPosition = blockPositions;
                 }
             }
         }
 
-        Vector2 position = transform.localPosition;
-        position.y = highestPosition + 1;
+        Vector2 position = highestPosition;
+        position.y = highestPosition.y + 1;
         transform.localPosition = position;
     }
 }
