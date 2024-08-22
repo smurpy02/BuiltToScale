@@ -40,7 +40,7 @@ public class Movement : MonoBehaviour
 
             foreach (Transform square in body)
             {
-                RaycastHit2D hit = Physics2D.BoxCast(square.transform.position, Vector2.one * 0.9f, 0, Vector2.down, 0.2f, jumpingMask);
+                RaycastHit2D hit = Physics2D.BoxCast(square.transform.position, Vector2.one * 0.8f, 0, Vector2.down, 0.1f, jumpingMask);
 
                 if (hit.collider != null)
                 {
