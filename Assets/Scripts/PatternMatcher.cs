@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -16,30 +17,40 @@ public class PatternMatcher : MonoBehaviour
 
     public bool fit = false;
 
+    public bool levelSelecter = false;
+    public int levelToLoad;
+    public TextMeshProUGUI levelText;
+
     Transform originBlock;
 
     private void Update()
     {
         //playerBody.GetComponentsInChildren(playerPositions);
 
-        if (PositionsMatch() && !sceneLoaded)
-        {
-            fit = true;
+        fit = PositionsMatch();
+
+        //if (PositionsMatch() && !sceneLoaded)
+        //{
+            //fit = true;
 
             bool snapIntoPlace = true;
 
             foreach(PatternMatcher matcher in FindObjectsOfType<PatternMatcher>())
             {
-                Debug.Log(matcher.gameObject.name);
+                //Debug.Log(matcher.gameObject.name);
                 snapIntoPlace &= matcher.fit;
             }
+
+        snapIntoPlace |= levelSelecter;
+        snapIntoPlace &= !sceneLoaded;
+        snapIntoPlace &= originBlock != null;
 
             if (!snapIntoPlace)
             {
                 return;
             }
 
-            Debug.Log("pop");
+            //Debug.Log("pop");
 
             Vector2 newPosition = playerBody.position + matchBody.GetChild(0).position - originBlock.position;
             playerBody.position = newPosition;
@@ -53,14 +64,17 @@ public class PatternMatcher : MonoBehaviour
                 highlight.gameObject.SetActive(true);
             }
 
+        Debug.Log("Pop " + levelSelecter);
+
             pop.Play();
             playerBody.GetComponentInParent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
-            SceneTransition.TransitionScene(SceneManager.GetActiveScene().buildIndex + 1);
-        }
-        else
-        {
-            fit = false;
-        }
+        int scene = levelSelecter ? levelToLoad : SceneManager.GetActiveScene().buildIndex + 1;
+            SceneTransition.TransitionScene(scene);
+        //}
+        //else
+        //{
+        //    fit = false;
+        //}
     }
 
     bool PositionsMatch()

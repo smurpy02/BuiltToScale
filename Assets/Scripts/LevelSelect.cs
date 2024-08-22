@@ -18,45 +18,41 @@ public class World
 
 public class LevelSelect : MonoBehaviour
 {
-    public static int level = 2;
-    public TMP_Dropdown dropdown;
-
     public List<World> worlds;
+    public List<PatternMatcher> patterns;
     public GameObject worldButton;
     public Transform worldContainer;
 
-    private int maxLevel;
+    bool buttonSelected;
 
     private void Start()
     {
-        //UpdateLevel();
-
-        //maxLevel = SceneManager.sceneCount - 2;
-
-        //List<string> levelNames = new List<string>();
-
-        //Debug.Log("scenes " + SceneManager.sceneCountInBuildSettings);
-
-        //for (int scene = 2; scene < SceneManager.sceneCountInBuildSettings; scene++)
-        //{
-        //    Debug.Log(scene);
-        //    if (scene != SceneManager.sceneCountInBuildSettings - 1)
-        //    {
-        //        levelNames.Add("Level " + (scene - 2));
-        //    }
-        //}
-
-        //dropdown.ClearOptions();
-        //dropdown.AddOptions(levelNames);
-
-        foreach(World world in worlds)
+        foreach (World world in worlds)
         {
-            Instantiate(worldButton, worldContainer).GetComponentInChildren<TextMeshProUGUI>().text = worlds.IndexOf(world).ToString("0");
+            Debug.Log("world");
+            GameObject button = Instantiate(worldButton, worldContainer);
+            int worldIndex = worlds.IndexOf(world);
+            button.GetComponentInChildren<TextMeshProUGUI>().text = worldIndex.ToString("0");
+
+            foreach (PatternMatcher pattern in patterns)
+            {
+                int patternIndex = patterns.IndexOf(pattern);
+                int level = world.firstLevel + patternIndex;
+                button.GetComponentInChildren<Button>().onClick.AddListener(() => SetPatternLevel(patternIndex, level));
+
+                if (!buttonSelected)
+                {
+                    SetPatternLevel(patternIndex, level);
+                }
+            }
+
+            buttonSelected = true;
         }
     }
 
-    public void UpdateLevel()
+    void SetPatternLevel(int pattern, int level)
     {
-        level = dropdown.value + 2;
+        patterns[pattern].levelToLoad = level;
+        patterns[pattern].levelText.text = (level-3).ToString("0");
     }
 }
