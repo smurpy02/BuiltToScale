@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -7,35 +8,51 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
+[Serializable]
+public class World
+{
+    public string worldName;
+    public int firstLevel;
+    public int lastLevel;
+}
+
 public class LevelSelect : MonoBehaviour
 {
     public static int level = 2;
-    int maxLevel;
-
     public TMP_Dropdown dropdown;
-    List<Scene> levels = new List<Scene>();
+
+    public List<World> worlds;
+    public GameObject worldButton;
+    public Transform worldContainer;
+
+    private int maxLevel;
 
     private void Start()
     {
-        UpdateLevel();
+        //UpdateLevel();
 
-        maxLevel = SceneManager.sceneCount - 2;
+        //maxLevel = SceneManager.sceneCount - 2;
 
-        List<string> levelNames = new List<string>();
+        //List<string> levelNames = new List<string>();
 
-        Debug.Log("scenes " + SceneManager.sceneCountInBuildSettings);
+        //Debug.Log("scenes " + SceneManager.sceneCountInBuildSettings);
 
-        for (int scene = 2; scene < SceneManager.sceneCountInBuildSettings; scene++)
+        //for (int scene = 2; scene < SceneManager.sceneCountInBuildSettings; scene++)
+        //{
+        //    Debug.Log(scene);
+        //    if (scene != SceneManager.sceneCountInBuildSettings - 1)
+        //    {
+        //        levelNames.Add("Level " + (scene - 2));
+        //    }
+        //}
+
+        //dropdown.ClearOptions();
+        //dropdown.AddOptions(levelNames);
+
+        foreach(World world in worlds)
         {
-            Debug.Log(scene);
-            if (scene != SceneManager.sceneCountInBuildSettings - 1)
-            {
-                levelNames.Add("Level " + (scene - 2));
-            }
+            Instantiate(worldButton, worldContainer).GetComponentInChildren<TextMeshProUGUI>().text = worlds.IndexOf(world).ToString("0");
         }
-
-        dropdown.ClearOptions();
-        dropdown.AddOptions(levelNames);
     }
 
     public void UpdateLevel()
