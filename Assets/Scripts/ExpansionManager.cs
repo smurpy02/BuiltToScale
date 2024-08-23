@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 using static Unity.VisualScripting.Member;
 
 public class ExpansionManager : MonoBehaviour
@@ -167,5 +168,27 @@ public class ExpansionManager : MonoBehaviour
         Instantiate(breakBlock, blockTransform.position, Quaternion.identity).GetComponentInChildren<Renderer>().material.color = blockTransform.GetComponentInChildren<Renderer>().material.color;
 
         blocks.Remove(position);
+    }
+
+    public void UpdateAfterSpin()
+    {
+        int index = 0;
+
+        foreach(Block block in blocks.Values)
+        {
+            block.position = Vector2Int.RoundToInt(block.transform.localPosition);
+
+            Vector2[] colliderPoints = new Vector2[4];
+            defaultPoints.CopyTo(colliderPoints, 0);
+
+            for (int point = 0; point < colliderPoints.Length; point++)
+            {
+                colliderPoints[point] += block.position;
+            }
+
+            polygonCollider.SetPath(index, colliderPoints);
+
+            index++;
+        }
     }
 }

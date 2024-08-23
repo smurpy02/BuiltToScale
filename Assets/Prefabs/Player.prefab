@@ -514,7 +514,7 @@ GameObject:
   - component: {fileID: 6284620785591392340}
   - component: {fileID: 2980472109850893042}
   - component: {fileID: 5668266847714848562}
-  m_Layer: 3
+  m_Layer: 8
   m_Name: Expansion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
