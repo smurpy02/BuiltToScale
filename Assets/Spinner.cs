@@ -26,8 +26,12 @@ public class Spinner : MonoBehaviour
 
     public void Spin()
     {
+        if (stoppedMovement)
+        {
+            return;
+        }
+
         spin = true;
-        Debug.Log("spin");
     }
 
     private void Update()
