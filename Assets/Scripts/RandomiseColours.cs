@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RandomiseColours : MonoBehaviour
 {
@@ -28,6 +29,12 @@ public class RandomiseColours : MonoBehaviour
             foreach(Renderer renderer in element.GetComponentsInChildren<Renderer>())
             {
                 renderer.material.color = colorPairs[element];
+            }
+
+            foreach(Image image in element.GetComponentsInChildren<Image>())
+            {
+                image.color = colorPairs[element];
+                image.material.color = Color.white;
             }
         }
     }

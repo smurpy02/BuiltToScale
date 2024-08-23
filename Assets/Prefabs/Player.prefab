@@ -332,8 +332,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   retry: {fileID: -6700800870649951276, guid: e67e7aff5410c5f48a91baf94195cb24, type: 3}
-  maxShake: 0.3
-  retryHoldTime: 0.3
+  maxShake: 0.1
+  retryHoldTime: 0.6
+  retryBar: {fileID: 0}
+  retryBarProgress: {fileID: 0}
 --- !u!1 &6794912828347394563
 GameObject:
   m_ObjectHideFlags: 0

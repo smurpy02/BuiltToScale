@@ -11,11 +11,13 @@ public class SceneTransition : MonoBehaviour
 
     public static SceneTransition instance;
 
+    public int yValue = 15;
+
     private void Start()
     {
         instance = this;
-        lower.DOMoveY(-15, 1f).SetEase(Ease.InCubic);
-        upper.DOMoveY(15, 1f).SetEase(Ease.InCubic);
+        lower.DOMoveY(-yValue, 1f).SetEase(Ease.InCubic);
+        upper.DOMoveY(yValue, 1f).SetEase(Ease.InCubic);
     }
 
     public static void TransitionScene(int scene)
