@@ -21,6 +21,11 @@ public class UIManager : MonoBehaviour
         SceneManager.LoadScene(1);
     }
 
+    public void LevelSelect()
+    {
+        SceneManager.LoadScene(2);
+    }
+
     public void Exit()
     {
         Application.Quit();

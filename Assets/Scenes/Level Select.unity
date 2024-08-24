@@ -917,6 +917,9 @@ MonoBehaviour:
   - worldName: Clones
     firstLevel: 22
     numLevels: 9
+  - worldName: Spinner
+    firstLevel: 31
+    numLevels: 5
   patterns:
   - {fileID: 611636316}
   - {fileID: 587125022}

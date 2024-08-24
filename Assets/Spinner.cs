@@ -11,16 +11,16 @@ public class Spinner : MonoBehaviour
     bool stoppedMovement;
 
     public bool spin;
-    public Movement movement;
-    public ExpansionManager expansionManager;
-    public Rigidbody2D body;
+    //public Movement movement;
+    //public ExpansionManager expansionManager;
+    //public Rigidbody2D body;
 
-    private void Start()
-    {
-        movement = FindObjectOfType<Movement>();
-        expansionManager = FindObjectOfType<ExpansionManager>();
-        body = movement.rb;
-    }
+    //private void Start()
+    //{
+    //    movement = FindObjectOfType<Movement>();
+    //    expansionManager = FindObjectOfType<ExpansionManager>();
+    //    body = movement.rb;
+    //}
 
     public void AddSquare(Transform square)
     {
@@ -83,9 +83,17 @@ public class Spinner : MonoBehaviour
                 }
             }
 
-            body.velocity = Vector3.zero;
-            movement.enabled = false;
-            expansionManager.enabled = false;
+            foreach(Movement movement in FindObjectsOfType<Movement>())
+            {
+                movement.enabled = false;
+                movement.rb.velocity = Vector3.zero;
+            }
+
+            foreach(ExpansionManager expansion in FindObjectsOfType<ExpansionManager>())
+            {
+                expansion.enabled = false;
+            }
+
             stoppedMovement = true;
         }
 
@@ -96,9 +104,6 @@ public class Spinner : MonoBehaviour
         if (stoppedMovement)
         {
             Debug.Log("Resetting Blocks");
-
-            movement.enabled = true;
-            expansionManager.enabled = true;
 
             foreach (Transform square in originalParentOfBlock.Keys)
             {
@@ -114,7 +119,16 @@ public class Spinner : MonoBehaviour
                 square.localPosition = localPosition;
             }
 
-            expansionManager.UpdateAfterSpin();
+            foreach (Movement movement in FindObjectsOfType<Movement>())
+            {
+                movement.enabled = true;
+            }
+
+            foreach (ExpansionManager expansion in FindObjectsOfType<ExpansionManager>())
+            {
+                expansion.enabled = true;
+                expansion.UpdateAfterSpin();
+            }
         }
 
         stoppedMovement = false;
