@@ -14,13 +14,29 @@ public class Spinner : MonoBehaviour
     public Movement movement;
     public ExpansionManager expansionManager;
 
+    private void Start()
+    {
+        movement = FindObjectOfType<Movement>();
+        expansionManager = FindObjectOfType<ExpansionManager>();
+    }
+
     public void AddSquare(Transform square)
     {
+        if(squares.Contains(square))
+        {
+            return;
+        }
+
         squares.Add(square);
     }
 
     public void RemoveSquare(Transform square)
     {
+        if (!squares.Contains(square))
+        {
+            return;
+        }
+
         squares.Remove(square);
     }
 
@@ -46,31 +62,36 @@ public class Spinner : MonoBehaviour
 
     IEnumerator Rotate()
     {
-        Transform[] blocksTransformed = new Transform[squares.Count];
-        squares.CopyTo(0, blocksTransformed, 0, squares.Count);
+        Dictionary<Transform, Transform> originalParentOfBlock = new Dictionary<Transform, Transform>();
 
-        Debug.Log("blocks " + blocksTransformed.Length);
+        foreach(Transform square in squares)
+        {
+            originalParentOfBlock.Add(square, square.parent);
+        }
 
         if (squares.Count > 0)
         {
-            foreach(Transform square in blocksTransformed)
+            foreach(Transform square in originalParentOfBlock.Keys)
             {
+                square.parent = transform;
+
                 foreach(Collider2D col in square.GetComponentsInChildren<Collider2D>())
                 {
                     col.enabled = false;
                 }
 
-                Vector3 targetRotation = square.rotation.eulerAngles;
-                targetRotation.z += 90;
+                //Vector3 targetRotation = square.rotation.eulerAngles;
+                //targetRotation.z += 90;
 
-                square.DORotate(targetRotation, 1f);
+                //square.DORotate(targetRotation, 1f);
 
-                Vector2 targetPosition = square.position + GetRotatedPointDelta(square.position, transform.position, Vector3.forward, 90);
+                //Vector2 targetPosition = square.position + GetRotatedPointDelta(square.position, transform.position, Vector3.forward, 90);
 
-                square.DOMove(targetPosition, 1f);
+                //square.DOMove(targetPosition, 1f);
             }
 
             movement.enabled = false;
+            expansionManager.enabled = false;
             stoppedMovement = true;
         }
 
@@ -83,11 +104,12 @@ public class Spinner : MonoBehaviour
             Debug.Log("Resetting Blocks");
 
             movement.enabled = true;
+            expansionManager.enabled = true;
 
-            Debug.Log("blocks " + blocksTransformed.Length);
-
-            foreach (Transform square in blocksTransformed)
+            foreach (Transform square in originalParentOfBlock.Keys)
             {
+                square.parent = originalParentOfBlock[square];
+
                 foreach (Collider2D col in square.GetComponentsInChildren<Collider2D>())
                 {
                     col.enabled = true;
