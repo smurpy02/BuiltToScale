@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
@@ -147,15 +148,19 @@ public class ExpansionManager : MonoBehaviour
 
     public void Break(Vector2Int position, Transform blockTransform)
     {
-        Debug.Log("break " + blockTransform.name);
+        Debug.Log("break " + blockTransform.name + " in position " + position);
         Block block = blocks[position];
+        Debug.Log("block position " + block.position);
+        Debug.Log("block collider index " + block.colliderIndex);
 
         for(int index = block.colliderIndex; index < polygonCollider.pathCount-1; index++)
         {
             polygonCollider.SetPath(index, polygonCollider.GetPath(index+1));
         }
 
-        foreach(Block currentBlock in blocks.Values)
+        Debug.Log("paths reset");
+
+        foreach (Block currentBlock in blocks.Values)
         {
             if(currentBlock.colliderIndex > block.colliderIndex)
             {
@@ -163,7 +168,11 @@ public class ExpansionManager : MonoBehaviour
             }
         }
 
+        Debug.Log("path indexes updated");
+
         polygonCollider.pathCount--;
+
+        Debug.Log("lower polygon count " + polygonCollider.pathCount);
 
         Instantiate(breakBlock, blockTransform.position, Quaternion.identity).GetComponentInChildren<Renderer>().material.color = blockTransform.GetComponentInChildren<Renderer>().material.color;
 
@@ -172,11 +181,15 @@ public class ExpansionManager : MonoBehaviour
 
     public void UpdateAfterSpin()
     {
-        int index = 0;
+        List<Vector2Int> blockPositions = blocks.Keys.ToList();
+        List<Block> newBlocks = new List<Block>();
 
-        foreach(Block block in blocks.Values)
+        foreach(Vector2Int blockPosition in blockPositions)
         {
+            Block block = blocks[blockPosition];
             block.position = Vector2Int.RoundToInt(block.transform.localPosition);
+            blocks.Remove(blockPosition);
+            newBlocks.Add(block);
 
             Vector2[] colliderPoints = new Vector2[4];
             defaultPoints.CopyTo(colliderPoints, 0);
@@ -186,9 +199,12 @@ public class ExpansionManager : MonoBehaviour
                 colliderPoints[point] += block.position;
             }
 
-            polygonCollider.SetPath(index, colliderPoints);
+            polygonCollider.SetPath(block.colliderIndex, colliderPoints);
+        }
 
-            index++;
+        foreach(Block block in newBlocks)
+        {
+            blocks.Add(block.position, block);
         }
     }
 }

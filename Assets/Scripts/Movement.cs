@@ -36,8 +36,6 @@ public class Movement : MonoBehaviour
     {
         if (jump.action.IsPressed() && rb.velocity.y <= 0.2f)
         {
-            Debug.Log("jump time");
-
             foreach (Transform square in body)
             {
                 RaycastHit2D hit = Physics2D.BoxCast(square.transform.position, Vector2.one * 0.8f, 0, Vector2.down, 0.1f, jumpingMask);

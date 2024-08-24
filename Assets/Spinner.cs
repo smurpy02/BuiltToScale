@@ -13,11 +13,13 @@ public class Spinner : MonoBehaviour
     public bool spin;
     public Movement movement;
     public ExpansionManager expansionManager;
+    public Rigidbody2D body;
 
     private void Start()
     {
         movement = FindObjectOfType<Movement>();
         expansionManager = FindObjectOfType<ExpansionManager>();
+        body = movement.rb;
     }
 
     public void AddSquare(Transform square)
@@ -79,17 +81,9 @@ public class Spinner : MonoBehaviour
                 {
                     col.enabled = false;
                 }
-
-                //Vector3 targetRotation = square.rotation.eulerAngles;
-                //targetRotation.z += 90;
-
-                //square.DORotate(targetRotation, 1f);
-
-                //Vector2 targetPosition = square.position + GetRotatedPointDelta(square.position, transform.position, Vector3.forward, 90);
-
-                //square.DOMove(targetPosition, 1f);
             }
 
+            body.velocity = Vector3.zero;
             movement.enabled = false;
             expansionManager.enabled = false;
             stoppedMovement = true;
