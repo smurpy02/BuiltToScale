@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Spinner : MonoBehaviour
 {
@@ -11,6 +12,9 @@ public class Spinner : MonoBehaviour
     bool stoppedMovement;
 
     public bool spin;
+    public InputActionReference spinInput;
+    public GameObject spinPrompt;
+
     //public Movement movement;
     //public ExpansionManager expansionManager;
     //public Rigidbody2D body;
@@ -24,7 +28,7 @@ public class Spinner : MonoBehaviour
 
     public void AddSquare(Transform square)
     {
-        if(squares.Contains(square))
+        if (squares.Contains(square))
         {
             return;
         }
@@ -54,6 +58,10 @@ public class Spinner : MonoBehaviour
 
     private void Update()
     {
+        spinPrompt.SetActive(squares.Count > 0);
+
+        spin |= spinInput.action.WasPressedThisFrame();
+
         if (spin)
         {
             spin = false;
@@ -66,33 +74,27 @@ public class Spinner : MonoBehaviour
     {
         Dictionary<Transform, Transform> originalParentOfBlock = new Dictionary<Transform, Transform>();
 
-        foreach(Transform square in squares)
+        foreach (Transform square in squares)
         {
-            originalParentOfBlock.Add(square, square.parent);
+            if (square != null)
+            {
+                originalParentOfBlock.Add(square, square.parent);
+            }
         }
 
         if (squares.Count > 0)
         {
-            foreach(Transform square in originalParentOfBlock.Keys)
+            foreach (Transform square in originalParentOfBlock.Keys)
             {
                 square.parent = transform;
 
-                foreach(Collider2D col in square.GetComponentsInChildren<Collider2D>())
+                foreach (Collider2D col in square.GetComponentsInChildren<Collider2D>())
                 {
                     col.enabled = false;
                 }
             }
 
-            foreach(Movement movement in FindObjectsOfType<Movement>())
-            {
-                movement.enabled = false;
-                movement.rb.velocity = Vector3.zero;
-            }
-
-            foreach(ExpansionManager expansion in FindObjectsOfType<ExpansionManager>())
-            {
-                expansion.enabled = false;
-            }
+            ToggleSystems(false);
 
             stoppedMovement = true;
         }
@@ -119,24 +121,36 @@ public class Spinner : MonoBehaviour
                 square.localPosition = localPosition;
             }
 
-            foreach (Movement movement in FindObjectsOfType<Movement>())
-            {
-                movement.enabled = true;
-            }
+            ToggleSystems(true);
 
-            foreach (ExpansionManager expansion in FindObjectsOfType<ExpansionManager>())
-            {
-                expansion.enabled = true;
-                expansion.UpdateAfterSpin();
-            }
         }
 
         stoppedMovement = false;
     }
-    public Vector3 GetRotatedPointDelta(Vector3 startPosition, Vector3 rotationCentre, Vector3 rotationAxis, float angle)
+    //public Vector3 GetRotatedPointDelta(Vector3 startPosition, Vector3 rotationCentre, Vector3 rotationAxis, float angle)
+    //{
+    //    Quaternion q = Quaternion.AngleAxis(angle, rotationAxis);
+    //    Vector3 localPosition = startPosition - rotationCentre;
+    //    return (q * localPosition) - localPosition;
+    //}
+
+    void ToggleSystems(bool enable)
     {
-        Quaternion q = Quaternion.AngleAxis(angle, rotationAxis);
-        Vector3 localPosition = startPosition - rotationCentre;
-        return (q * localPosition) - localPosition;
+        foreach (Movement movement in FindObjectsOfType<Movement>())
+        {
+            movement.enabled = enable;
+            if (!enable) movement.rb.velocity = Vector3.zero;
+        }
+
+        foreach (ExpansionManager expansion in FindObjectsOfType<ExpansionManager>())
+        {
+            expansion.enabled = enable;
+            if (enable) expansion.UpdateAfterSpin();
+        }
+
+        foreach (PatternMatcher pattern in FindObjectsOfType<PatternMatcher>())
+        {
+            pattern.enabled = enable;
+        }
     }
 }

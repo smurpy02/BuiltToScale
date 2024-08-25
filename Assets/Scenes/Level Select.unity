@@ -919,7 +919,7 @@ MonoBehaviour:
     numLevels: 9
   - worldName: Spinner
     firstLevel: 31
-    numLevels: 5
+    numLevels: 9
   patterns:
   - {fileID: 611636316}
   - {fileID: 587125022}
