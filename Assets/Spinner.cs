@@ -62,7 +62,7 @@ public class Spinner : MonoBehaviour
 
         spin |= spinInput.action.WasPressedThisFrame();
 
-        if (spin)
+        if (spin && !stoppedMovement)
         {
             spin = false;
             currentAngle += 90;
