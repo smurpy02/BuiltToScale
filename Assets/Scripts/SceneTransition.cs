@@ -20,20 +20,20 @@ public class SceneTransition : MonoBehaviour
         upper.DOMoveY(yValue, 1f).SetEase(Ease.InCubic);
     }
 
-    public static void TransitionScene(int scene)
+    public static void TransitionScene(int scene, float transitionTime = 1)
     {
-        instance.TransitionToNextScene(scene);
+        instance.TransitionToNextScene(scene, transitionTime);
     }
 
-    public void TransitionToNextScene(int scene)
+    public void TransitionToNextScene(int scene, float transitionTime)
     {
-        StartCoroutine(NextScene(scene));
+        StartCoroutine(NextScene(scene, transitionTime));
     }
 
-    IEnumerator NextScene(int scene)
+    IEnumerator NextScene(int scene, float transitionTime)
     {
-        lower.DOMoveY(0, 1f).SetEase(Ease.InCubic);
-        yield return upper.DOMoveY(0, 1f).SetEase(Ease.InCubic).WaitForCompletion();
+        lower.DOMoveY(0, transitionTime).SetEase(Ease.InCubic);
+        yield return upper.DOMoveY(0, transitionTime).SetEase(Ease.InCubic).WaitForCompletion();
 
         SceneManager.LoadSceneAsync(scene);
     }
