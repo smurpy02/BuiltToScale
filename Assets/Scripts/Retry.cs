@@ -32,14 +32,17 @@ public class Retry : MonoBehaviour
 
         float retryProgress = retryHeld / retryHoldTime;
 
-        retryBar.SetActive(sceneLoaded || retryProgress > 0);
-        Vector3 scale = retryBarProgress.localScale;
-        scale.x = sceneLoaded ? 1 : Mathf.Clamp(retryProgress, 0 , 1);
-        retryBarProgress.localScale = scale;
+        if (retryBar != null && retryBarProgress != null)
+        {
+            retryBar.SetActive(sceneLoaded || retryProgress > 0);
+            Vector3 scale = retryBarProgress.localScale;
+            scale.x = sceneLoaded ? 1 : Mathf.Clamp(retryProgress, 0, 1);
+            retryBarProgress.localScale = scale;
+        }
 
         cameraTransform.position = Vector3.Lerp(cameraTransform.position, cameraStart + (Vector3)(Random.insideUnitCircle * (sceneLoaded ? maxShake : Mathf.Clamp(retryProgress * maxShake, 0, maxShake))), Time.deltaTime * 50);
 
-        if(retryHeld >= retryHoldTime && !sceneLoaded)
+        if (retryHeld >= retryHoldTime && !sceneLoaded)
         {
             sceneLoaded = true;
             SceneTransition.TransitionScene(SceneManager.GetActiveScene().buildIndex);

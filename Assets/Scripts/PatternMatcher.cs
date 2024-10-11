@@ -6,6 +6,10 @@ using UnityEngine.SceneManagement;
 
 public class PatternMatcher : MonoBehaviour
 {
+    public static PatternMatcher instance;
+    public static List<PatternMatcher> listeners = new List<PatternMatcher>();
+    public static PatternMatcher selectedLevel;
+
     public Transform matchBody;
     public Transform playerBody;
 
@@ -25,56 +29,66 @@ public class PatternMatcher : MonoBehaviour
 
     private void Update()
     {
-        //playerBody.GetComponentsInChildren(playerPositions);
+        if(instance == null) instance = this;
 
         fit = PositionsMatch();
 
-        //if (PositionsMatch() && !sceneLoaded)
-        //{
-            //fit = true;
+        if (!instance == this)
+        {
+            return;
+        }
 
-            bool snapIntoPlace = true;
+        if (!ValidMatch())
+        {
+            return;
+        }
 
-            foreach(PatternMatcher matcher in FindObjectsOfType<PatternMatcher>())
-            {
-                //Debug.Log(matcher.gameObject.name);
-                snapIntoPlace &= matcher.fit;
-            }
+        if (levelSelecter)
+        {
+            selectedLevel.SnapIntoPlace();
+            selectedLevel.TransitionScene();
+            return;
+        }
+
+        foreach (PatternMatcher matcher in listeners)
+        {
+            matcher.SnapIntoPlace();
+        }
+
+        TransitionScene();
+    }
+
+    public void SnapIntoPlace()
+    {
+        Vector2 newPosition = playerBody.position + matchBody.GetChild(0).position - originBlock.position;
+        playerBody.position = newPosition;
+
+        playerBody.GetComponentInParent<Movement>().enabled = false;
+
+        foreach (Transform block in matchBody)
+        {
+            Transform highlight = block.Find("Highlight");
+            highlight.gameObject.SetActive(true);
+        }
+
+        pop.Play();
+        playerBody.GetComponentInParent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+    }
+
+    bool ValidMatch()
+    {
+        bool snapIntoPlace = true;
+
+        foreach (PatternMatcher matcher in listeners)
+        {
+            snapIntoPlace &= matcher.fit;
+        }
 
         snapIntoPlace |= levelSelecter;
         snapIntoPlace &= !sceneLoaded;
         snapIntoPlace &= originBlock != null;
 
-            if (!snapIntoPlace)
-            {
-                return;
-            }
-
-            //Debug.Log("pop");
-
-            Vector2 newPosition = playerBody.position + matchBody.GetChild(0).position - originBlock.position;
-            playerBody.position = newPosition;
-
-            sceneLoaded = true;
-            FindObjectOfType<Movement>().enabled = false;
-
-            foreach(Transform block in matchBody)
-            {
-                Transform highlight = block.Find("Highlight");
-                highlight.gameObject.SetActive(true);
-            }
-
-        Debug.Log("Pop " + levelSelecter);
-
-            pop.Play();
-            playerBody.GetComponentInParent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
-        int scene = levelSelecter ? levelToLoad : SceneManager.GetActiveScene().buildIndex + 1;
-            SceneTransition.TransitionScene(scene);
-        //}
-        //else
-        //{
-        //    fit = false;
-        //}
+        return snapIntoPlace;
     }
 
     bool PositionsMatch()
@@ -113,10 +127,31 @@ public class PatternMatcher : MonoBehaviour
             if (validMatch)
             {
                 originBlock = playerPosition;
+                if (levelSelecter) selectedLevel = this;
+
                 return true;
             }
         }
 
         return false;
+    }
+
+    void TransitionScene()
+    {
+        sceneLoaded = true;
+        int scene = levelSelecter ? levelToLoad : SceneManager.GetActiveScene().buildIndex + 1;
+        SceneTransition.TransitionScene(scene);
+    }
+
+    void OnDisable()
+    {
+        instance = null;
+        listeners.Remove(this);
+    }
+
+    void OnEnable()
+    {
+        if (instance == null) instance = this;
+        listeners.Add(this);
     }
 }

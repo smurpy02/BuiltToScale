@@ -8,7 +8,6 @@ public class Square : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("trigger " + gameObject.name);
         if(collision.tag == "Breaker")
         {
             transform.parent.parent.GetComponentInChildren<ExpansionManager>().Break(Vector2Int.RoundToInt(transform.localPosition), transform);
