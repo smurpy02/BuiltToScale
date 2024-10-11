@@ -11,12 +11,12 @@ public class RandomiseColours : MonoBehaviour
 
     private void Awake()
     {
-        if(colors.Count < elements.Count)
+        if (colors.Count < elements.Count)
         {
             return;
         }
 
-        foreach(Transform element in elements)
+        foreach (Transform element in elements)
         {
             colorPairs.Add(element, ChooseRandomColour());
         }
@@ -24,17 +24,20 @@ public class RandomiseColours : MonoBehaviour
 
     private void Update()
     {
-        foreach(Transform element in elements)
+        foreach (Transform element in elements)
         {
-            foreach(Renderer renderer in element.GetComponentsInChildren<Renderer>())
+            if (element != null)
             {
-                renderer.material.color = colorPairs[element];
-            }
+                foreach (Renderer renderer in element.GetComponentsInChildren<Renderer>())
+                {
+                    renderer.material.color = colorPairs[element];
+                }
 
-            foreach(Image image in element.GetComponentsInChildren<Image>())
-            {
-                image.color = colorPairs[element];
-                image.material.color = Color.white;
+                foreach (Image image in element.GetComponentsInChildren<Image>())
+                {
+                    image.color = colorPairs[element];
+                    image.material.color = Color.white;
+                }
             }
         }
     }
