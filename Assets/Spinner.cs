@@ -145,7 +145,7 @@ public class Spinner : MonoBehaviour
         foreach (ExpansionManager expansion in FindObjectsOfType<ExpansionManager>())
         {
             expansion.enabled = enable;
-            if (enable) expansion.UpdateAfterSpin();
+            if (enable) expansion.ReconfigureBlocks();
         }
 
         foreach (PatternMatcher pattern in FindObjectsOfType<PatternMatcher>())

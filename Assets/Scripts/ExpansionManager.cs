@@ -100,7 +100,12 @@ public class ExpansionManager : MonoBehaviour
 
             if(hit.collider != null)
             {
-                Debug.Log(hit.collider);
+                TopHat topHat = hit.transform.GetComponentInChildren<TopHat>();
+
+                if(topHat != null)
+                {
+                    topHat.ExpandIntoTophat(this);
+                }
             }
 
             if(validPosition)
@@ -111,7 +116,6 @@ public class ExpansionManager : MonoBehaviour
 
         foreach(Block block in newBlocks)
         {
-            Debug.Log("new block " + block.position);
             blocks.Add(block.position, block);
         }
 
@@ -179,7 +183,7 @@ public class ExpansionManager : MonoBehaviour
         blocks.Remove(position);
     }
 
-    public void UpdateAfterSpin()
+    public void ReconfigureBlocks()
     {
         List<Vector2Int> blockPositions = blocks.Keys.ToList();
         List<Block> newBlocks = new List<Block>();
@@ -206,5 +210,21 @@ public class ExpansionManager : MonoBehaviour
         {
             blocks.Add(block.position, block);
         }
+    }
+
+    public void SpawnBlock(Vector2 worldPosition)
+    {
+        Vector2Int blockPosition = Vector2Int.RoundToInt(worldPosition - (Vector2)transform.position);
+
+        if(blocks.ContainsKey(blockPosition))
+        {
+            return;
+        }
+
+        Block block = CreateNewBlock(blockPosition);
+
+        blocks.Add(block.position, block);
+
+        ReconfigureBlocks();
     }
 }
