@@ -55,6 +55,8 @@ public class PatternMatcher : MonoBehaviour
             matcher.SnapIntoPlace();
         }
 
+        if(!levelSelecter) PlayerPrefs.SetInt(SceneManager.GetActiveScene().buildIndex.ToString(), 1);
+
         TransitionScene();
     }
 
