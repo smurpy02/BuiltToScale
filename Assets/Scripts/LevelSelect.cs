@@ -30,7 +30,6 @@ public class LevelSelect : MonoBehaviour
     {
         foreach (World world in worlds)
         {
-            Debug.Log("world");
             GameObject button = Instantiate(worldButton, worldContainer);
             int worldIndex = worlds.IndexOf(world);
             button.GetComponentInChildren<TextMeshProUGUI>().text = worldIndex.ToString("0");

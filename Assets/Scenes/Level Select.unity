@@ -797,6 +797,9 @@ MonoBehaviour:
   - worldName: Spinner
     firstLevel: 31
     numLevels: 9
+  - worldName: Magic Hat
+    firstLevel: 40
+    numLevels: 1
   patterns:
   - {fileID: 155062589}
   - {fileID: 2072267753}

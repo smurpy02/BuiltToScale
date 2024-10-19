@@ -127,7 +127,6 @@ public class ExpansionManager : MonoBehaviour
 
     Block CreateNewBlock(Vector2Int position)
     {
-        Debug.Log(position);
         Block newBlock = new Block();
         newBlock.transform = Instantiate(blockObject, body).transform;
         newBlock.transform.localPosition = (Vector2)position;

@@ -14,6 +14,7 @@ public class Spinner : MonoBehaviour
     public bool spin;
     public InputActionReference spinInput;
     public GameObject spinPrompt;
+    public AudioSource spinAudio;
 
     //public Movement movement;
     //public ExpansionManager expansionManager;
@@ -101,7 +102,8 @@ public class Spinner : MonoBehaviour
 
         Vector3 rotation = transform.rotation.eulerAngles;
         rotation.z = currentAngle;
-        yield return transform.DORotate(rotation, 1f).WaitForCompletion();
+        spinAudio.Play();
+        yield return transform.DORotate(rotation, 1f).SetEase(Ease.InCubic).WaitForCompletion();
 
         if (stoppedMovement)
         {
