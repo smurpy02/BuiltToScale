@@ -3,12 +3,12 @@ using UnityEngine.InputSystem;
 
 public class PlayerInputs : MonoBehaviour
 {
-    [Header("Movement")]
-    public InputActionReference horizontalMove, jump;
-
-    [Header("Expansion")]
+    [Header("Inputs")]
+    public InputActionReference horizontalMove;
+    public InputActionReference jump;
     public InputActionReference up, down, left, right;
 
+    [Header("Engines")]
     public Movement movement;
     public ExpansionEngine expansion;
 

@@ -1,10 +1,20 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Square : MonoBehaviour
+public class BlockPhysics : MonoBehaviour
 {
     public GameObject softHighlight;
+    public bool shrinkIntoPlace;
+
+    void Start()
+    {
+        if (!shrinkIntoPlace) return;
+
+        transform.localScale = Vector3.one * 1.3f;
+        transform.DOScale(Vector3.one, 0.2f);
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

@@ -10,8 +10,7 @@ public class ExpansionEngine : MonoBehaviour
 {
     public Dictionary<Vector2Int, Block> blocks = new Dictionary<Vector2Int, Block>();
 
-    public Transform body;
-    public Transform sourceBlock;
+    public Transform body, sourceBlock;
 
     public GameObject blockObject;
 
