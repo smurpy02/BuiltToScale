@@ -141,7 +141,7 @@ public class Spinner : MonoBehaviour
         foreach (Movement movement in FindObjectsOfType<Movement>())
         {
             movement.enabled = enable;
-            if (!enable) movement.rb.velocity = Vector3.zero;
+            if (!enable) movement.rb.linearVelocity = Vector3.zero;
         }
 
         foreach (ExpansionManager expansion in FindObjectsOfType<ExpansionManager>())

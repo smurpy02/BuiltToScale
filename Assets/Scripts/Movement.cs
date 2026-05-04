@@ -32,9 +32,9 @@ public class Movement : MonoBehaviour
     {
         float horizontal = horizontalMove.action.ReadValue<float>() * (invert ? -1 : 1);
 
-        Vector2 velocity = rb.velocity;
+        Vector2 velocity = rb.linearVelocity;
         velocity.x = horizontal * speed;
-        rb.velocity = velocity;
+        rb.linearVelocity = velocity;
 
         Jumping();
     }
@@ -56,12 +56,12 @@ public class Movement : MonoBehaviour
             landed = true;
         }
 
-        if (jump.action.IsPressed() && rb.velocity.y <= 0.2f)
+        if (jump.action.IsPressed() && rb.linearVelocity.y <= 0.2f)
         {
             if (grounded)
             {
                 jumpAudio.Play();
-                rb.velocity += Vector2.up * jumpForce;
+                rb.linearVelocity += Vector2.up * jumpForce;
                 return;
             }
         }
