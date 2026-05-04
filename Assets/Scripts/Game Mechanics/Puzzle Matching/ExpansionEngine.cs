@@ -6,23 +6,16 @@ using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 using static Unity.VisualScripting.Member;
 
-public class ExpansionManager : MonoBehaviour
+public class ExpansionEngine : MonoBehaviour
 {
     public Dictionary<Vector2Int, Block> blocks = new Dictionary<Vector2Int, Block>();
 
     public Transform body;
     public Transform sourceBlock;
 
-    public InputActionReference up;
-    public InputActionReference down;
-    public InputActionReference left;
-    public InputActionReference right;
-
     public GameObject blockObject;
 
     public PolygonCollider2D polygonCollider;
-
-    public AudioSource pop;
 
     public GameObject breakBlock;
 
@@ -57,30 +50,7 @@ public class ExpansionManager : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        if (up.action.WasPressedThisFrame())
-        {
-            Expand(Vector2Int.up);
-        }
-
-        if (down.action.WasPressedThisFrame())
-        {
-            Expand(Vector2Int.down);
-        }
-
-        if (left.action.WasPressedThisFrame())
-        {
-            Expand(Vector2Int.left);
-        }
-
-        if (right.action.WasPressedThisFrame())
-        {
-            Expand(Vector2Int.right);
-        }
-    }
-
-    void Expand(Vector2Int direction, bool playSound = true)
+    public void Expand(Vector2Int direction, bool playSound = true)
     {
         if (invert) direction.x *= -1;
 
@@ -121,7 +91,7 @@ public class ExpansionManager : MonoBehaviour
 
         if(newBlocks.Count > 0 && playSound)
         {
-            pop.Play();
+            PlayerAudioManager.instance.Pop();
         }
     }
 

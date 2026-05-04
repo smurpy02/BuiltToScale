@@ -11,7 +11,7 @@ public class TopHat : MonoBehaviour
 
     bool _touchingPlayer { get { return playerSquares.Count > 0; } }
 
-    List<ExpansionManager> expanders = new List<ExpansionManager>();
+    List<ExpansionEngine> expanders = new List<ExpansionEngine>();
 
     void OnTriggerEnter2D(Collider2D collision)
     {
@@ -37,7 +37,7 @@ public class TopHat : MonoBehaviour
         }
     }
 
-    public void ExpandIntoTophat(ExpansionManager expander)
+    public void ExpandIntoTophat(ExpansionEngine expander)
     {
         if (!_touchingPlayer)
         {
@@ -49,7 +49,7 @@ public class TopHat : MonoBehaviour
 
     void Update()
     {
-        foreach (ExpansionManager expander in expanders)
+        foreach (ExpansionEngine expander in expanders)
         {
             expander.SpawnBlock((Vector2)partner.position + outDir);
         }

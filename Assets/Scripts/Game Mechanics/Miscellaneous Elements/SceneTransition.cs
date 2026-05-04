@@ -15,6 +15,9 @@ public class SceneTransition : MonoBehaviour
 
     private void Start()
     {
+        lower.gameObject.SetActive(true);
+        upper.gameObject.SetActive(true);
+
         instance = this;
         lower.DOMoveY(-yValue, 1f).SetEase(Ease.InCubic);
         upper.DOMoveY(yValue, 1f).SetEase(Ease.InCubic);

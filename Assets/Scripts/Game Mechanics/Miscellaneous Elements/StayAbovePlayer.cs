@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class StayAbovePlayer : MonoBehaviour
 {
-    public ExpansionManager expansion;
+    public ExpansionEngine expansion;
 
     private void Update()
     {
