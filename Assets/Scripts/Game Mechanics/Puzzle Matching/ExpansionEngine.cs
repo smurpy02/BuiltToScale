@@ -1,177 +1,105 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
+using UnityEditor.Overlays;
 using UnityEngine;
 
 public class ExpansionEngine : MonoBehaviour
 {
-    public Dictionary<Vector2Int, Block> blocks = new Dictionary<Vector2Int, Block>();
-
-    public Transform body, sourceBlock;
-
+    public Player player;
+    public Transform body;
     public GameObject blockObject, breakBlock;
-
-    public List<Vector2Int> initialExpansions;
-
-    public bool invert = false;
-
     public LayerMask expansionMask;
 
-    static Vector2[] defaultPoints = new Vector2[]
+    Dictionary<Vector2Int, Block> blocks = new Dictionary<Vector2Int, Block>();
+
+    void Start()
     {
-        new Vector2(0.45f, 0.45f),
-        new Vector2(-0.45f, 0.45f),
-        new Vector2(-0.45f, -0.45f),
-        new Vector2(0.45f, -0.45f)
-    };
-
-    private void Start()
-    {
-        Block source = new Block();
-
-        source.transform = sourceBlock;
-        source.position = Vector2Int.zero;
-
-        Movement.groundChecks.Add(source.transform.Find("GroundCheck"));
-
-        blocks.Add(source.position, source);
-
-        foreach(Vector2Int expansion in initialExpansions)
-        {
-            Expand(expansion, false);
-        }
+        InitiateBody();
     }
 
-    public void Expand(Vector2Int direction, bool playSound = true)
+    void InitiateBody()
     {
-        if (invert) direction.x *= -1;
-
-        List<Block> newBlocks = new List<Block>();
-
-        foreach(Block block in blocks.Values)
-        {
-            Vector2Int newPosition = block.position + direction;
-
-            bool validPosition = true;
-
-            validPosition &= !blocks.ContainsKey(newPosition);
-
-            RaycastHit2D hit = Physics2D.BoxCast((Vector2)transform.position + newPosition, Vector2.one * 0.8f, 0, direction, 0f, expansionMask);
-
-            validPosition &= hit.collider == null;
-
-            if(hit.collider != null)
-            {
-                TopHat topHat = hit.transform.GetComponentInChildren<TopHat>();
-
-                if(topHat != null)
-                {
-                    topHat.ExpandIntoTophat(this);
-                }
-            }
-
-            if(validPosition)
-            {
-                newBlocks.Add(CreateNewBlock(newPosition));
-            }
-        }
-
-        foreach(Block block in newBlocks)
-        {
-            blocks.Add(block.position, block);
-        }
-
-        if(newBlocks.Count > 0 && playSound)
-        {
-            PlayerAudioManager.instance.Pop();
-        }
+        SpawnBlockPlayer(Vector2Int.zero);
     }
 
     Block CreateNewBlock(Vector2Int position)
     {
-        Block newBlock = new Block();
-        newBlock.transform = Instantiate(blockObject, body).transform;
-        newBlock.transform.localPosition = (Vector2)position;
-        newBlock.position = position;
+        Transform transform = Instantiate(blockObject, body).transform;
+        transform.localPosition = (Vector2)position;
+        Movement.groundChecks.Add(transform.Find("GroundCheck"));
 
-        Vector2[] colliderPoints = new Vector2[4];
-        defaultPoints.CopyTo(colliderPoints, 0);
+        return Block.Create(transform, position);
+    }
 
-        for (int point = 0; point < colliderPoints.Length; point++)
-        {
-            colliderPoints[point] += position;
-        }
+    //Spawn block relative to player
+    void SpawnBlockPlayer(Vector2Int position) // INPUT: Position relative to Player
+    {
+        if (blocks.ContainsKey(position)) return;
 
-        Movement.groundChecks.Add(newBlock.transform.Find("GroundCheck"));
+        blocks.Add(position, CreateNewBlock(position));
+    }
 
-        return (newBlock);
+    //Spawn block relative to world
+    public void SpawnBlockGlobal(Vector2 position) // INPUT: World Position
+    {
+        SpawnBlockPlayer(Vector2Int.RoundToInt(position - (Vector2)transform.position));
     }
 
     public void Break(Vector2Int position, Transform blockTransform)
     {
-        Debug.Log("break " + blockTransform.name + " in position " + position);
         Block block = blocks[position];
-        Debug.Log("block position " + block.position);
-        Debug.Log("block collider index " + block.colliderIndex);
-
-        Debug.Log("paths reset");
-
-        foreach (Block currentBlock in blocks.Values)
-        {
-            if(currentBlock.colliderIndex > block.colliderIndex)
-            {
-                currentBlock.colliderIndex--;
-            }
-        }
-
-        Debug.Log("path indexes updated");
-
-
 
         Instantiate(breakBlock, blockTransform.position, Quaternion.identity).GetComponentInChildren<Renderer>().material.color = blockTransform.GetComponentInChildren<Renderer>().material.color;
 
         blocks.Remove(position);
     }
 
-    public void ReconfigureBlocks()
+    public void ReconfigBlockPositions()
     {
         List<Vector2Int> blockPositions = blocks.Keys.ToList();
-        List<Block> newBlocks = new List<Block>();
 
-        foreach(Vector2Int blockPosition in blockPositions)
+        foreach (Vector2Int blockPosition in blockPositions)
         {
-            Block block = blocks[blockPosition];
-            block.position = Vector2Int.RoundToInt(block.transform.localPosition);
-            blocks.Remove(blockPosition);
-            newBlocks.Add(block);
-
-            Vector2[] colliderPoints = new Vector2[4];
-            defaultPoints.CopyTo(colliderPoints, 0);
-
-            for (int point = 0; point < colliderPoints.Length; point++)
-            {
-                colliderPoints[point] += block.position;
-            }
-        }
-
-        foreach(Block block in newBlocks)
-        {
-            blocks.Add(block.position, block);
+            blocks[blockPosition].position = Vector2Int.RoundToInt(blocks[blockPosition].transform.localPosition);
         }
     }
 
-    public void SpawnBlock(Vector2 worldPosition)
+    public Vector2 GetHighestBlock()
     {
-        Vector2Int blockPosition = Vector2Int.RoundToInt(worldPosition - (Vector2)transform.position);
+        throw new NotImplementedException();
+    }
 
-        if(blocks.ContainsKey(blockPosition))
+    public void Expand(Vector2Int direction)
+    {
+        if (player.invert) direction.x *= -1;
+
+        Block[] blockCopy = new Block[blocks.Count];
+        blocks.Values.CopyTo(blockCopy, 0);
+
+        bool expansionSuccessful = false;
+
+        foreach (Block block in blockCopy)
         {
-            return;
+            Vector2Int newPosition = block.position + direction;
+
+            if (blocks.ContainsKey(newPosition)) continue;
+
+            RaycastHit2D hit = Physics2D.BoxCast((Vector2)transform.position + newPosition, Vector2.one * 0.8f, 0, direction, 0f, expansionMask);
+
+            if (hit.collider != null)
+            {
+                TopHat topHat = hit.transform.GetComponentInChildren<TopHat>();
+                if (topHat != null) topHat.ExpandIntoTophat(this);
+
+                continue;
+            }
+
+            expansionSuccessful = true;
+            SpawnBlockPlayer(newPosition);
         }
 
-        Block block = CreateNewBlock(blockPosition);
-
-        blocks.Add(block.position, block);
-
-        ReconfigureBlocks();
+        if (expansionSuccessful) PlayerAudioManager.Pop();
     }
 }

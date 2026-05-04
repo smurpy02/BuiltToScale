@@ -18,12 +18,12 @@ public class UIManager : MonoBehaviour
 
     public void MainMenu()
     {
-        SceneTransition.TransitionScene(1);
+        LevelLoader.LoadScene(1);
     }
 
     public void LevelSelect()
     {
-        SceneTransition.TransitionScene(2);
+        LevelLoader.LoadScene(2);
     }
 
     public void Exit()

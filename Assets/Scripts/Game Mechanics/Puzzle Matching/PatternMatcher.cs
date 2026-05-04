@@ -1,110 +1,91 @@
-using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using System;
 
 public class PatternMatcher : MonoBehaviour
 {
-    public static PatternMatcher instance;
-    public static List<PatternMatcher> listeners = new List<PatternMatcher>();
-    public static PatternMatcher selectedLevel;
+    public static PatternMatcher leader;
+    public static List<PatternMatcher> matchers = new List<PatternMatcher>();
 
-    public Transform matchBody;
-    public Transform playerBody;
+    public Player player;
+    public Pattern pattern;
 
     public float matchDistance;
 
-    public AudioSource pop;
-
-    bool sceneLoaded;
-
-    public bool fit = false;
-
-    public bool levelSelecter = false;
-    public int levelToLoad;
-    public TextMeshProUGUI levelText;
+    bool matched;
 
     Transform originBlock;
 
+    void Start()
+    {
+        if (leader == null) leader = this;
+    }
+
     private void Update()
     {
-        if(instance == null) instance = this;
+        if (leader == this) CheckMatch();
+    }
 
-        fit = PositionsMatch();
+    void CheckMatch()
+    {
+        Debug.Log("Checking Matches1");
+        if (matched) return;
 
-        if (!instance == this)
+        Debug.Log("Checking Matches2");
+        foreach(PatternMatcher matcher in matchers)
         {
-            return;
+            if (!PositionsMatch() || matcher.originBlock == null) return;
         }
+        Debug.Log("Checking Matches3");
 
-        if (!ValidMatch())
-        {
-            return;
-        }
+        CompleteMatch();
+    }
 
-        if (levelSelecter)
-        {
-            selectedLevel.SnapIntoPlace();
-            selectedLevel.TransitionScene();
-            return;
-        }
+    void CompleteMatch()
+    {
+        Debug.Log("Completing Match");
+        matched = true;
 
-        foreach (PatternMatcher matcher in listeners)
-        {
-            matcher.SnapIntoPlace();
-        }
+        foreach (PatternMatcher matcher in matchers) matcher.SnapIntoPlace();
 
-        if(!levelSelecter) PlayerPrefs.SetInt(SceneManager.GetActiveScene().buildIndex.ToString(), 1);
+        throw new NotImplementedException();
 
-        TransitionScene();
+        //set scene as complete in PlayerPrefs
+
+        //find the next level to load
+
+        LevelLoader.LoadScene(0);
     }
 
     public void SnapIntoPlace()
     {
-        Vector2 newPosition = playerBody.position + matchBody.GetChild(0).position - originBlock.position;
-        playerBody.position = newPosition;
+        Vector2 newPosition = player.body.position + pattern.body.GetChild(0).position - originBlock.position;
+        player.body.position = newPosition;
 
-        playerBody.GetComponentInParent<Movement>().enabled = false;
+        player.movement.enabled = false;
 
-        foreach (Transform block in matchBody)
+        foreach (Transform block in pattern.body)
         {
             Transform highlight = block.Find("Highlight");
             highlight.gameObject.SetActive(true);
         }
 
-        pop.Play();
-        playerBody.GetComponentInParent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
-    }
-
-    bool ValidMatch()
-    {
-        bool snapIntoPlace = true;
-
-        foreach (PatternMatcher matcher in listeners)
-        {
-            snapIntoPlace &= matcher.fit;
-        }
-
-        snapIntoPlace |= levelSelecter;
-        snapIntoPlace &= !sceneLoaded;
-        snapIntoPlace &= originBlock != null;
-
-        return snapIntoPlace;
+        LevelAudioManager.Match();
+        player.body2D.constraints = RigidbodyConstraints2D.FreezeAll;
     }
 
     bool PositionsMatch()
     {
-        if (matchBody.childCount != playerBody.childCount)
+        if (pattern.body.childCount != player.body.childCount)
         {
             return false;
         }
 
-        foreach (Transform playerPosition in playerBody)
+        foreach (Transform playerPosition in player.body)
         {
             List<Vector2Int> playerOffsets = new List<Vector2Int>();
 
-            foreach (Transform otherPlayerPosition in playerBody)
+            foreach (Transform otherPlayerPosition in player.body)
             {
                 if (otherPlayerPosition != playerPosition)
                 {
@@ -114,13 +95,13 @@ public class PatternMatcher : MonoBehaviour
 
             bool validMatch = true;
 
-            validMatch &= Vector2.Distance(playerPosition.position, matchBody.GetChild(0).position) < matchDistance;
+            validMatch &= Vector2.Distance(playerPosition.position, pattern.body.GetChild(0).position) < matchDistance;
 
-            foreach (Transform child in matchBody)
+            foreach (Transform child in pattern.body)
             {
-                if (child != matchBody.GetChild(0))
+                if (child != pattern.body.GetChild(0))
                 {
-                    Vector2Int offset = Vector2Int.RoundToInt(matchBody.GetChild(0).position - child.position);
+                    Vector2Int offset = Vector2Int.RoundToInt(pattern.body.GetChild(0).position - child.position);
 
                     validMatch &= playerOffsets.Contains(offset);
                 }
@@ -129,7 +110,6 @@ public class PatternMatcher : MonoBehaviour
             if (validMatch)
             {
                 originBlock = playerPosition;
-                if (levelSelecter) selectedLevel = this;
 
                 return true;
             }
@@ -138,22 +118,13 @@ public class PatternMatcher : MonoBehaviour
         return false;
     }
 
-    void TransitionScene()
-    {
-        sceneLoaded = true;
-        int scene = levelSelecter ? levelToLoad : SceneManager.GetActiveScene().buildIndex + 1;
-        SceneTransition.TransitionScene(scene);
-    }
-
     void OnDisable()
     {
-        instance = null;
-        listeners.Remove(this);
+        matchers.Remove(this);
     }
 
     void OnEnable()
     {
-        if (instance == null) instance = this;
-        listeners.Add(this);
+        matchers.Add(this);
     }
 }

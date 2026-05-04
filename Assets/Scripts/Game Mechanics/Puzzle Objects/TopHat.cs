@@ -51,7 +51,7 @@ public class TopHat : MonoBehaviour
     {
         foreach (ExpansionEngine expander in expanders)
         {
-            expander.SpawnBlock((Vector2)partner.position + outDir);
+            expander.SpawnBlockGlobal((Vector2)partner.position + outDir);
         }
 
         spotlight.SetActive(_touchingPlayer || partner.GetComponentInChildren<TopHat>()._touchingPlayer);

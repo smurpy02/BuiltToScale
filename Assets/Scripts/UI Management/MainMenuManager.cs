@@ -5,16 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuManager : MonoBehaviour
 {
-    public static World world;
-
     public void Play()
     {
-        SceneTransition.TransitionScene(3);
+        LevelLoader.LoadScene(3);
     }
 
     public void LevelSelect()
     {
-        SceneTransition.TransitionScene(2);
+        LevelLoader.LoadScene(2);
     }
 
     public void Exit()

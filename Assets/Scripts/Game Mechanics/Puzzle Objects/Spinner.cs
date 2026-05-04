@@ -141,13 +141,13 @@ public class Spinner : MonoBehaviour
         foreach (Movement movement in FindObjectsOfType<Movement>())
         {
             movement.enabled = enable;
-            if (!enable) movement.bodyPhysics.linearVelocity = Vector3.zero;
+            if (!enable) movement.body2D.linearVelocity = Vector3.zero;
         }
 
         foreach (ExpansionEngine expansion in FindObjectsOfType<ExpansionEngine>())
         {
             expansion.enabled = enable;
-            if (enable) expansion.ReconfigureBlocks();
+            if (enable) expansion.ReconfigBlockPositions();
         }
 
         foreach (PatternMatcher pattern in FindObjectsOfType<PatternMatcher>())

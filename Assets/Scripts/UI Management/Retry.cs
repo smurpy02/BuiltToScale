@@ -19,6 +19,6 @@ public class Retry : MonoBehaviour
     void ReloadScene()
     {
         sceneLoaded = true;
-        SceneTransition.TransitionScene(SceneManager.GetActiveScene().buildIndex, 0.8f);
+        LevelLoader.LoadScene(SceneManager.GetActiveScene().buildIndex, 0.8f);
     }
 }

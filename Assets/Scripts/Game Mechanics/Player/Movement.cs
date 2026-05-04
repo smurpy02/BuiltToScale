@@ -5,14 +5,15 @@ using UnityEngine.InputSystem;
 
 public class Movement : MonoBehaviour
 {
+    public Player player;
+
     [Header("Physical Components")]
-    public Rigidbody2D bodyPhysics;
-    public Transform bodyTransform;
+    public Rigidbody2D body2D;
+    public Transform body;
     public static List<Transform> groundChecks = new List<Transform>();
 
     [Header("Physics Parameters")]
     public float speed, jumpForce;
-    public bool invert = false;
 
     [Header("Other")]
     public LayerMask jumpingMask;
@@ -33,27 +34,27 @@ public class Movement : MonoBehaviour
     {
         if (CheckJump())
         {
-            PlayerAudioManager.instance.Jump();
-            Vector2 velocity = bodyPhysics.linearVelocity;
+            PlayerAudioManager.Jump();
+            Vector2 velocity = body2D.linearVelocity;
             velocity.y = jumpForce;
-            bodyPhysics.linearVelocity = velocity;
+            body2D.linearVelocity = velocity;
         }
     }
 
     void HorizontalMovement(float horizontal)
     {
-        if (invert) horizontal *= -1;
+        if (player.invert) horizontal *= -1;
 
-        Vector2 velocity = bodyPhysics.linearVelocity;
+        Vector2 velocity = body2D.linearVelocity;
         velocity.x = horizontal * speed;
-        bodyPhysics.linearVelocity = velocity;
+        body2D.linearVelocity = velocity;
     }
 
     void PhysicsChecks()
     {
         bool groundedCheck = false;
 
-        foreach (Transform square in bodyTransform)
+        foreach (Transform square in body)
         {
             RaycastHit2D hit = Physics2D.BoxCast(square.transform.position, Vector2.one * 0.8f, 0, Vector2.down, 0.1f, jumpingMask);
 
@@ -62,14 +63,14 @@ public class Movement : MonoBehaviour
 
         isGrounded = groundedCheck;
 
-        if (isGrounded && !groundedLastFrame) PlayerAudioManager.instance.Land();
+        if (isGrounded && !groundedLastFrame) PlayerAudioManager.Land();
 
         groundedLastFrame = isGrounded;
     }
 
     bool CheckJump()
     {
-        return isGrounded && bodyPhysics.linearVelocity.y <= .2f;
+        return isGrounded && body2D.linearVelocity.y <= .2f;
     }
 
     private void OnDestroy()
