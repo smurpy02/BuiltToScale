@@ -1,10 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
-using static Unity.VisualScripting.Member;
 
 public class ExpansionEngine : MonoBehaviour
 {
@@ -12,11 +8,7 @@ public class ExpansionEngine : MonoBehaviour
 
     public Transform body, sourceBlock;
 
-    public GameObject blockObject;
-
-    public PolygonCollider2D polygonCollider;
-
-    public GameObject breakBlock;
+    public GameObject blockObject, breakBlock;
 
     public List<Vector2Int> initialExpansions;
 
@@ -109,10 +101,6 @@ public class ExpansionEngine : MonoBehaviour
             colliderPoints[point] += position;
         }
 
-        polygonCollider.pathCount++;
-        polygonCollider.SetPath(polygonCollider.pathCount - 1, colliderPoints);
-        newBlock.colliderIndex = polygonCollider.pathCount - 1;
-
         Movement.groundChecks.Add(newBlock.transform.Find("GroundCheck"));
 
         return (newBlock);
@@ -124,11 +112,6 @@ public class ExpansionEngine : MonoBehaviour
         Block block = blocks[position];
         Debug.Log("block position " + block.position);
         Debug.Log("block collider index " + block.colliderIndex);
-
-        for(int index = block.colliderIndex; index < polygonCollider.pathCount-1; index++)
-        {
-            polygonCollider.SetPath(index, polygonCollider.GetPath(index+1));
-        }
 
         Debug.Log("paths reset");
 
@@ -142,9 +125,7 @@ public class ExpansionEngine : MonoBehaviour
 
         Debug.Log("path indexes updated");
 
-        polygonCollider.pathCount--;
 
-        Debug.Log("lower polygon count " + polygonCollider.pathCount);
 
         Instantiate(breakBlock, blockTransform.position, Quaternion.identity).GetComponentInChildren<Renderer>().material.color = blockTransform.GetComponentInChildren<Renderer>().material.color;
 
@@ -170,8 +151,6 @@ public class ExpansionEngine : MonoBehaviour
             {
                 colliderPoints[point] += block.position;
             }
-
-            polygonCollider.SetPath(block.colliderIndex, colliderPoints);
         }
 
         foreach(Block block in newBlocks)

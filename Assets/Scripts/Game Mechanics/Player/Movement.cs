@@ -34,7 +34,9 @@ public class Movement : MonoBehaviour
         if (CheckJump())
         {
             PlayerAudioManager.instance.Jump();
-            bodyPhysics.linearVelocity += Vector2.up * jumpForce;
+            Vector2 velocity = bodyPhysics.linearVelocity;
+            velocity.y = jumpForce;
+            bodyPhysics.linearVelocity = velocity;
         }
     }
 
