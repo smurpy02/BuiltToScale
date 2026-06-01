@@ -13,6 +13,7 @@ public class ExpansionEngine : MonoBehaviour
     public LayerMask expansionMask;
 
     Dictionary<Vector2Int, Block> blocks = new Dictionary<Vector2Int, Block>();
+    Block highestBlock;
 
     void Start()
     {
@@ -30,9 +31,15 @@ public class ExpansionEngine : MonoBehaviour
         transform.localPosition = (Vector2)position;
         Movement.groundChecks.Add(transform.Find("GroundCheck"));
 
-        return Block.Create(transform, position);
+        Block block = Block.Create(transform, position);
+
+        if (highestBlock == null) highestBlock = block;
+        else if (position.y > highestBlock.position.y) highestBlock = block;
+
+        return block;
     }
 
+    #region Modify Body
     //Spawn block relative to player
     void SpawnBlockPlayer(Vector2Int position) // INPUT: Position relative to Player
     {
@@ -55,6 +62,8 @@ public class ExpansionEngine : MonoBehaviour
         Instantiate(breakBlock, blockTransform.position, Quaternion.identity).GetComponentInChildren<Renderer>().material.color = blockTransform.GetComponentInChildren<Renderer>().material.color;
 
         blocks.Remove(position);
+
+        if (block == highestBlock) ReconfigureHighestBlock();
     }
 
     public void ReconfigBlockPositions()
@@ -65,11 +74,8 @@ public class ExpansionEngine : MonoBehaviour
         {
             blocks[blockPosition].position = Vector2Int.RoundToInt(blocks[blockPosition].transform.localPosition);
         }
-    }
 
-    public Vector2 GetHighestBlock()
-    {
-        throw new NotImplementedException();
+        ReconfigureHighestBlock();
     }
 
     public void Expand(Vector2Int direction)
@@ -102,5 +108,22 @@ public class ExpansionEngine : MonoBehaviour
         }
 
         if (expansionSuccessful) PlayerAudioManager.Pop();
+    }
+
+    void ReconfigureHighestBlock()
+    {
+        highestBlock = null;
+
+        foreach (Block currentBlock in blocks.Values)
+        {
+            if (highestBlock == null) highestBlock = currentBlock;
+            else if (currentBlock.position.y > highestBlock.position.y) highestBlock = currentBlock;
+        }
+    }
+    #endregion
+
+    public Vector2 GetHighestBlock()
+    {
+        return highestBlock.position;
     }
 }

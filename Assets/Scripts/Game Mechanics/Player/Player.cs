@@ -7,5 +7,4 @@ public class Player : MonoBehaviour
     public Movement movement;
     public Rigidbody2D body2D;
     public Transform body;
-    public ExpansionEngine expansion;
 }

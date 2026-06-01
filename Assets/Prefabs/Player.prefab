@@ -828,6 +828,7 @@ MonoBehaviour:
   down: {fileID: -294043559319003782, guid: e67e7aff5410c5f48a91baf94195cb24, type: 3}
   left: {fileID: 6878777719098869976, guid: e67e7aff5410c5f48a91baf94195cb24, type: 3}
   right: {fileID: 3583192521824442128, guid: e67e7aff5410c5f48a91baf94195cb24, type: 3}
+  spin: {fileID: 3881597807303167860, guid: e67e7aff5410c5f48a91baf94195cb24, type: 3}
   movement: {fileID: 5260970673500115120}
   expansion: {fileID: 6455403462905932146}
 --- !u!114 &6567619725321806399

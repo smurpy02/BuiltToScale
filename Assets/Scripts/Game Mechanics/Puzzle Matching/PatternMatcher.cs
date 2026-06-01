@@ -5,8 +5,8 @@ using Unity.VisualScripting;
 
 public class PatternMatcher : MonoBehaviour
 {
-    public static PatternMatcher leader;
-    public static List<PatternMatcher> matchers = new List<PatternMatcher>();
+    static PatternMatcher leader;
+    static List<PatternMatcher> matchers = new List<PatternMatcher>();
 
     public Player player;
     public Pattern pattern;
@@ -14,7 +14,6 @@ public class PatternMatcher : MonoBehaviour
     public float matchDistance;
 
     bool matched;
-
     Transform originBlock;
 
     void Start()
@@ -27,49 +26,17 @@ public class PatternMatcher : MonoBehaviour
         if (leader == this) CheckMatch();
     }
 
+    #region Validate Match
     void CheckMatch()
     {
         if (matched) return;
 
-        foreach(PatternMatcher matcher in matchers)
+        foreach (PatternMatcher matcher in matchers)
         {
             if (!matcher.PositionsMatch() || matcher.originBlock == null) return;
         }
 
         CompleteMatch();
-    }
-
-    void CompleteMatch()
-    {
-        Debug.Log("Completing Match");
-        matched = true;
-
-        foreach (PatternMatcher matcher in matchers) matcher.SnapIntoPlace();
-
-        throw new NotImplementedException();
-
-        //set scene as complete in PlayerPrefs
-
-        //find the next level to load
-
-        LevelLoader.LoadScene(0);
-    }
-
-    public void SnapIntoPlace()
-    {
-        Vector2 newPosition = player.body.position + pattern.body.GetChild(0).position - originBlock.position;
-        player.body.position = newPosition;
-
-        player.movement.enabled = false;
-
-        foreach (Transform block in pattern.body)
-        {
-            Transform highlight = block.Find("Highlight");
-            highlight.gameObject.SetActive(true);
-        }
-
-        LevelAudioManager.Match();
-        player.body2D.constraints = RigidbodyConstraints2D.FreezeAll;
     }
 
     bool PositionsMatch()
@@ -115,6 +82,42 @@ public class PatternMatcher : MonoBehaviour
 
         return false;
     }
+    #endregion
+
+    #region Match Success
+    void CompleteMatch()
+    {
+        Debug.Log("Completing Match");
+        matched = true;
+
+        foreach (PatternMatcher matcher in matchers) matcher.SnapIntoPlace();
+
+        throw new NotImplementedException();
+
+        //set scene as complete in PlayerPrefs
+
+        //find the next level to load
+
+        LevelLoader.LoadScene(0);
+    }
+
+    public void SnapIntoPlace()
+    {
+        Vector2 newPosition = player.body.position + pattern.body.GetChild(0).position - originBlock.position;
+        player.body.position = newPosition;
+
+        player.movement.enabled = false;
+
+        foreach (Transform block in pattern.body)
+        {
+            Transform highlight = block.Find("Highlight");
+            highlight.gameObject.SetActive(true);
+        }
+
+        LevelAudioManager.Match();
+        player.body2D.constraints = RigidbodyConstraints2D.FreezeAll;
+    }
+    #endregion
 
     void OnDisable()
     {
