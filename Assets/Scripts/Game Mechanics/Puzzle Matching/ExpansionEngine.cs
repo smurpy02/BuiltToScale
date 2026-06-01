@@ -47,6 +47,7 @@ public class ExpansionEngine : MonoBehaviour
         SpawnBlockPlayer(Vector2Int.RoundToInt(position - (Vector2)transform.position));
     }
 
+    //Break block relative to player
     public void Break(Vector2Int position, Transform blockTransform)
     {
         Block block = blocks[position];

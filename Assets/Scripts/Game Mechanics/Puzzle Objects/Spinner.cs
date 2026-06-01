@@ -138,19 +138,19 @@ public class Spinner : MonoBehaviour
 
     void ToggleSystems(bool enable)
     {
-        foreach (Movement movement in FindObjectsOfType<Movement>())
+        foreach (Movement movement in FindObjectsByType<Movement>(FindObjectsSortMode.None))
         {
             movement.enabled = enable;
             if (!enable) movement.body2D.linearVelocity = Vector3.zero;
         }
 
-        foreach (ExpansionEngine expansion in FindObjectsOfType<ExpansionEngine>())
+        foreach (ExpansionEngine expansion in FindObjectsByType<ExpansionEngine>(FindObjectsSortMode.None))
         {
             expansion.enabled = enable;
             if (enable) expansion.ReconfigBlockPositions();
         }
 
-        foreach (PatternMatcher pattern in FindObjectsOfType<PatternMatcher>())
+        foreach (PatternMatcher pattern in FindObjectsByType<PatternMatcher>(FindObjectsSortMode.None))
         {
             pattern.enabled = enable;
         }

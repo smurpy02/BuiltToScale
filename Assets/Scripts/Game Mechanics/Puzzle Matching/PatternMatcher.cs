@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Unity.VisualScripting;
 
 public class PatternMatcher : MonoBehaviour
 {
@@ -28,15 +29,12 @@ public class PatternMatcher : MonoBehaviour
 
     void CheckMatch()
     {
-        Debug.Log("Checking Matches1");
         if (matched) return;
 
-        Debug.Log("Checking Matches2");
         foreach(PatternMatcher matcher in matchers)
         {
-            if (!PositionsMatch() || matcher.originBlock == null) return;
+            if (!matcher.PositionsMatch() || matcher.originBlock == null) return;
         }
-        Debug.Log("Checking Matches3");
 
         CompleteMatch();
     }
