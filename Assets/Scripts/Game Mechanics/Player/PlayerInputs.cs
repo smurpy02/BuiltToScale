@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerInputs : MonoBehaviour
 {
@@ -7,14 +8,20 @@ public class PlayerInputs : MonoBehaviour
     public InputActionReference horizontalMove;
     public InputActionReference jump;
     public InputActionReference up, down, left, right;
+    public InputActionReference retry;
     public InputActionReference spin;
 
     [Header("Engines")]
     public Movement movement;
     public ExpansionEngine expansion;
 
+    bool reloadingScene;
+
     void Update()
     {
+        // Retry
+        if (retry.action.WasPressedThisFrame() && !reloadingScene) ReloadScene();
+
         // Horizontal Movement
         float horizontal = horizontalMove.action.ReadValue<float>();
         movement.HorizontalInput(horizontal);
@@ -35,5 +42,11 @@ public class PlayerInputs : MonoBehaviour
     void CheckExpand(InputActionReference input, Vector2Int direction)
     {
         if (input.action.WasPressedThisFrame()) expansion.Expand(direction);
+    }
+
+    void ReloadScene()
+    {
+        reloadingScene = true;
+        LevelLoader.LoadScene(SceneManager.GetActiveScene().buildIndex, 0.8f);
     }
 }

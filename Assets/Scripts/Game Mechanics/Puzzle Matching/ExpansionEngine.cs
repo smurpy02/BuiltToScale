@@ -22,6 +22,7 @@ public class ExpansionEngine : MonoBehaviour
 
     void InitiateBody()
     {
+        Debug.Log("[Expansion Engine] Initiate Body");
         SpawnBlockPlayer(Vector2Int.zero);
     }
 
@@ -41,7 +42,7 @@ public class ExpansionEngine : MonoBehaviour
 
     #region Modify Body
     //Spawn block relative to player
-    void SpawnBlockPlayer(Vector2Int position) // INPUT: Position relative to Player
+    public void SpawnBlockPlayer(Vector2Int position) // INPUT: Position relative to Player
     {
         if (blocks.ContainsKey(position)) return;
 
@@ -125,5 +126,10 @@ public class ExpansionEngine : MonoBehaviour
     public Vector2 GetHighestBlock()
     {
         return highestBlock.position;
+    }
+
+    public bool ContainsBlockPosition(Vector2Int position)
+    {
+        return blocks.ContainsKey(position);
     }
 }

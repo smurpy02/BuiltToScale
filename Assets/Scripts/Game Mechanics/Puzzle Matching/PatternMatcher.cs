@@ -87,7 +87,7 @@ public class PatternMatcher : MonoBehaviour
     #region Match Success
     void CompleteMatch()
     {
-        Debug.Log("Completing Match");
+        Debug.Log("[Pattern Matcher] Completing Match");
         matched = true;
 
         foreach (PatternMatcher matcher in matchers) matcher.SnapIntoPlace();
