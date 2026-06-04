@@ -816,6 +816,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Player
   invert: 0
   movement: {fileID: 5260970673500115120}
+  engine: {fileID: 1064489119654935091}
   body2D: {fileID: 2772013745865256938}
   body: {fileID: 7277275220389091222}
 --- !u!50 &2772013745865256938

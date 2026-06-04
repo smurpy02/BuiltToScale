@@ -4,6 +4,9 @@ using UnityEngine.SceneManagement;
 
 public class PlayerInputs : MonoBehaviour
 {
+    [Header("Settings")]
+    public bool invert;
+
     [Header("Inputs")]
     public InputActionReference horizontalMove;
     public InputActionReference jump;
@@ -41,6 +44,8 @@ public class PlayerInputs : MonoBehaviour
 
     void CheckExpand(InputActionReference input, Vector2Int direction)
     {
+        if (invert) direction.x *= -1;
+
         if (input.action.WasPressedThisFrame()) expansion.Expand(direction);
     }
 

@@ -7,24 +7,12 @@ using UnityEngine;
 
 public class ExpansionEngine : MonoBehaviour
 {
-    public Player player;
     public Transform body;
     public GameObject blockObject, breakBlock;
     public LayerMask expansionMask;
 
     Dictionary<Vector2Int, Block> blocks = new Dictionary<Vector2Int, Block>();
     Block highestBlock;
-
-    void Start()
-    {
-        InitiateBody();
-    }
-
-    void InitiateBody()
-    {
-        Debug.Log("[Expansion Engine] Initiate Body");
-        SpawnBlockPlayer(Vector2Int.zero);
-    }
 
     Block CreateNewBlock(Vector2Int position)
     {
@@ -81,8 +69,6 @@ public class ExpansionEngine : MonoBehaviour
 
     public void Expand(Vector2Int direction)
     {
-        if (player.invert) direction.x *= -1;
-
         Block[] blockCopy = new Block[blocks.Count];
         blocks.Values.CopyTo(blockCopy, 0);
 
@@ -131,5 +117,10 @@ public class ExpansionEngine : MonoBehaviour
     public bool ContainsBlockPosition(Vector2Int position)
     {
         return blocks.ContainsKey(position);
+    }
+
+    public List<Vector2Int> GetPositions()
+    {
+        return blocks.Keys.ToList();
     }
 }
