@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 
 [RequireComponent(typeof(Collider2D))]
-public class IDragable : MonoBehaviour
+public class IDraggable : MonoBehaviour
 {
     private Vector3 screenPoint;
     private Vector3 offset;

@@ -26,6 +26,7 @@ public class GenerateLevelFromSave : MonoBehaviour
         GenerateGrid();
         GeneratePlayer();
         GeneratePattern();
+        GeneratePuzzleComponents();
     }
 
     void LoadLevelData()
@@ -73,6 +74,14 @@ public class GenerateLevelFromSave : MonoBehaviour
         foreach (Vector2Int position in levelData.patternSquares)
         {
             pattern.engine.SpawnBlockPlayer(position);
+        }
+    }
+
+    void GeneratePuzzleComponents()
+    {
+        foreach(var component in levelData.puzzleComponents)
+        {
+            Instantiate(component.prefab, component.position, Quaternion.identity);
         }
     }
 

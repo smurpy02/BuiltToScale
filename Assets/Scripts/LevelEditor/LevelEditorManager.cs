@@ -1,3 +1,5 @@
+using NUnit.Framework;
+using System.Collections.Generic;
 using UnityEditor.ShaderGraph.Serialization;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,13 +9,17 @@ public class LevelEditorManager : MonoBehaviour
 {
     public static LevelEditorManager instance;
 
-    [Header("Save Data")]
+    [Header("Spawn Components")]
+    public Transform spawnComponentsPosition;
+
+    [Header("Player and Pattern")]
     public Transform player;
     public ExpansionEngine playerEngine;
 
     public Transform pattern;
     public ExpansionEngine patternEngine;
 
+    [Header("Grid Layout")]
     public GridEditable grid;
 
     [Header("UI")]
@@ -21,6 +27,9 @@ public class LevelEditorManager : MonoBehaviour
 
     [Header("Values")]
     public bool snapToGrid;
+
+    List<(Transform, GameObject)> puzzleComponents = new List<(Transform, GameObject)>();
+    LevelData levelData;
 
     void OnEnable()
     {
@@ -37,24 +46,19 @@ public class LevelEditorManager : MonoBehaviour
         UpdateSnapToGrid();
     }
 
-    public void SaveLevelData()
+    public void AddPuzzleComponent(Transform component, GameObject prefab)
     {
-        LevelData levelData = new LevelData();
+        puzzleComponents.Add((component, prefab));
+    }
 
-        levelData.playerPosition = player.position;
-        levelData.playerSquares = playerEngine.GetPositions();
+    public void ClearComponents()
+    {
+        foreach (var component in puzzleComponents)
+        {
+            Destroy(component.Item1.gameObject);
+        }
 
-        levelData.patternPosition = pattern.position;
-        levelData.patternSquares = patternEngine.GetPositions();
-
-        levelData.addedTiles = grid.addedTiles;
-        levelData.removedTiles = grid.removedTiles;
-
-        string levelJson = JsonUtility.ToJson(levelData);
-
-        PlayerPrefs.SetString("TestLevelData", levelJson);
-
-        Debug.Log("[Level Editor Manager] Saved Level Data");
+        puzzleComponents.Clear();
     }
 
     public void TestLevel()
@@ -66,4 +70,46 @@ public class LevelEditorManager : MonoBehaviour
     {
         snapToGrid = snapToGridToggle.isOn;
     }
+
+    #region Save Data
+    public void SaveLevelData()
+    {
+        levelData = new LevelData();
+
+        SavePlayerAndPattern();
+        SaveGridTiles();
+        SavePuzzleComponents();
+
+        string levelJson = JsonUtility.ToJson(levelData);
+
+        PlayerPrefs.SetString("TestLevelData", levelJson);
+
+        Debug.Log("[Level Editor Manager] Saved Level Data");
+    }
+
+    void SavePlayerAndPattern()
+    {
+        levelData.playerPosition = player.position;
+        levelData.playerSquares = playerEngine.GetPositions();
+
+        levelData.patternPosition = pattern.position;
+        levelData.patternSquares = patternEngine.GetPositions();
+    }
+
+    void SaveGridTiles()
+    {
+        levelData.addedTiles = grid.addedTiles;
+        levelData.removedTiles = grid.removedTiles;
+    }
+
+    void SavePuzzleComponents()
+    {
+        levelData.puzzleComponents = new List<PuzzleComponentData>();
+
+        foreach(var component in puzzleComponents)
+        {
+            levelData.puzzleComponents.Add(PuzzleComponentData.New(component.Item1.position, component.Item2));
+        }
+    }
+    #endregion
 }
