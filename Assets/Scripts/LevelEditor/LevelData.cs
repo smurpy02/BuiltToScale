@@ -7,6 +7,11 @@ using UnityEngine.Tilemaps;
 
 public class LevelData
 {
+    public LevelData(string levelName) => this.levelName = levelName;
+
+    // General Info
+    public string levelName;
+
     // Player Info
     public Vector2 playerPosition;
     public List<Vector2Int> playerSquares;
