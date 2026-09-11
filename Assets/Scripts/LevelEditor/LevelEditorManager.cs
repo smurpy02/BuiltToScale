@@ -27,12 +27,15 @@ public class LevelEditorManager : MonoBehaviour
     [Header("UI")]
     public Toggle snapToGridToggle;
     public TMP_InputField levelNameInput;
+    public GameObject levelInfoBlock;
+    public Transform levelInfoBlockContainer;
 
     [Header("Values")]
     public bool snapToGrid;
 
     const string levelNameListLocation = "ListOfLevelNames", levelNamePrefix = "CustomLevel_";
 
+    List<GameObject> levelInfoBlocks = new List<GameObject>();
     List<(Transform, GameObject)> puzzleComponents = new List<(Transform, GameObject)>();
     LevelData levelData;
 
@@ -49,14 +52,7 @@ public class LevelEditorManager : MonoBehaviour
     void Start()
     {
         UpdateSnapToGrid();
-
-        if (!PlayerPrefs.HasKey(levelNameListLocation)) return;
-        var jsonList = PlayerPrefs.GetString(levelNameListLocation);
-        var saveData = JsonUtility.FromJson<LevelSaveLocationData>(jsonList);
-
-        Debug.Log(saveData.SaveLocations.Count);
-
-        saveData.SaveLocations.ForEach(level => Debug.Log($"{levelNamePrefix}{level}"));
+        RefreshLevelList();
     }
 
     public void AddPuzzleComponent(Transform component, GameObject prefab)
@@ -74,7 +70,7 @@ public class LevelEditorManager : MonoBehaviour
         puzzleComponents.Clear();
     }
 
-    public void TestLevel()
+    public void OpenGameLevelScene()
     {
         SceneManager.LoadScene("GameLevel");
     }
@@ -83,6 +79,51 @@ public class LevelEditorManager : MonoBehaviour
     {
         snapToGrid = snapToGridToggle.isOn;
     }
+
+    #region Level Data Util
+    static LevelSaveLocationData GetLocationData()
+    {
+        var jsonList = PlayerPrefs.GetString(levelNameListLocation);
+        var levelSaveData = JsonUtility.FromJson<LevelSaveLocationData>(jsonList.ToString());
+
+        return levelSaveData;
+    }
+
+    static void SetLocationData(LevelSaveLocationData locationData)
+    {
+        var newJsonList = JsonUtility.ToJson(locationData);
+
+        PlayerPrefs.SetString(levelNameListLocation, newJsonList.ToString());
+    }
+
+    void InitLevelList()
+    {
+        var levelList = new LevelSaveLocationData();
+        var jsonList = JsonUtility.ToJson(levelList);
+
+        PlayerPrefs.SetString(levelNameListLocation, jsonList.ToString());
+    }
+    #endregion
+
+    #region Edit Data
+    public void ClearLevelData()
+    {
+        InitLevelList();
+        RefreshLevelList();
+    }
+
+    public void DeleteLevel(int levelNumber)
+    {
+        var levelSaveData = GetLocationData();
+
+        if (!levelSaveData.SaveLocations.Contains(levelNumber)) return;
+
+        levelSaveData.SaveLocations.Remove(levelNumber);
+
+        SetLocationData(levelSaveData);
+        RefreshLevelList();
+    }
+    #endregion
 
     #region Save Data
     public void SaveLevelData()
@@ -96,6 +137,7 @@ public class LevelEditorManager : MonoBehaviour
         }
 
         RegisterLevel(levelName);
+        RefreshLevelList();
     }
 
     void RegisterLevel(string levelName)
@@ -105,32 +147,16 @@ public class LevelEditorManager : MonoBehaviour
             InitLevelList();
         }
 
-        var jsonList = PlayerPrefs.GetString(levelNameListLocation);
-        var levelSaveData = JsonUtility.FromJson<LevelSaveLocationData>(jsonList.ToString());
+        var levelSaveData = GetLocationData();
 
         var levelNumber = 0;
         while (levelSaveData.SaveLocations.Contains(levelNumber)) levelNumber++;
         levelSaveData.SaveLocations.Add(levelNumber);
 
-        string levelLocation = levelNamePrefix + levelNumber;
-        var newJsonList = JsonUtility.ToJson(levelSaveData);
+        string levelLocation = $"{levelNamePrefix}{levelNumber}";
 
-        PlayerPrefs.SetString(levelNameListLocation, newJsonList.ToString());
-
+        SetLocationData(levelSaveData);
         SaveLevelData(levelLocation, levelName);
-    }
-
-    public void ClearLevelData()
-    {
-        InitLevelList();
-    }
-
-    void InitLevelList()
-    {
-        var levelList = new LevelSaveLocationData();
-        var jsonList = JsonUtility.ToJson(levelList);
-
-        PlayerPrefs.SetString(levelNameListLocation, jsonList.ToString());
     }
 
     void SaveLevelData(string location, string levelName)
@@ -143,9 +169,7 @@ public class LevelEditorManager : MonoBehaviour
 
         string levelJson = JsonUtility.ToJson(levelData);
 
-        PlayerPrefs.SetString("TestLevelData", levelJson);
-
-        Debug.Log("[Level Editor Manager] Saved Level Data");
+        PlayerPrefs.SetString(location, levelJson);
     }
 
     void SavePlayerAndPattern()
@@ -167,10 +191,54 @@ public class LevelEditorManager : MonoBehaviour
     {
         levelData.puzzleComponents = new List<PuzzleComponentData>();
 
-        foreach(var component in puzzleComponents)
+        foreach (var component in puzzleComponents)
         {
             levelData.puzzleComponents.Add(PuzzleComponentData.New(component.Item1.position, component.Item2));
         }
+    }
+    #endregion
+
+    #region Load Data
+    void RefreshLevelList()
+    {
+        levelInfoBlocks.ForEach(block => Destroy(block));
+        levelInfoBlocks.Clear();
+
+        if (!PlayerPrefs.HasKey(levelNameListLocation)) return;
+        var saveData = GetLocationData();
+
+        saveData.SaveLocations.ForEach(levelNumber => SpawnLevelInfoBlock(levelNumber));
+    }
+
+    void SpawnLevelInfoBlock(int levelNumber)
+    {
+        var levelLocation = $"{levelNamePrefix}{levelNumber}";
+
+        if (!PlayerPrefs.HasKey(levelLocation))
+        {
+            Debug.LogWarning("Level Data does not exist in this location");
+            return;
+        }
+
+        var levelData = JsonUtility.FromJson<LevelData>(PlayerPrefs.GetString(levelLocation));
+
+        if(levelData == null)
+        {
+            Debug.LogWarning("Level Data was null or unreadable");
+            return;
+        }
+
+        var infoBlock = Instantiate(levelInfoBlock, levelInfoBlockContainer);
+        var infoBlockUI = infoBlock.GetComponent<LevelInfoBlock>();
+        levelInfoBlocks.Add(infoBlock);
+
+        if(infoBlockUI == null)
+        {
+            Debug.LogWarning("Level Info Block does not contain LevelInfoBlock component");
+            return;
+        }
+
+        infoBlockUI.Initiate(levelData, levelLocation, levelNumber);
     }
     #endregion
 }
