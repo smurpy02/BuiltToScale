@@ -11,9 +11,7 @@ public class GenerateLevelFromSave : MonoBehaviour
 
     public GridEditable grid;
 
-    public static string levelToLoadLocation;
-
-    LevelData levelData;
+    public static LevelData levelData;
 
     void Start()
     {
@@ -22,26 +20,12 @@ public class GenerateLevelFromSave : MonoBehaviour
 
     void GenerateLevel()
     {
-        LoadLevelData();
         if (levelData == null) return;
 
         GenerateGrid();
         GeneratePlayer();
         GeneratePattern();
         GeneratePuzzleComponents();
-    }
-
-    void LoadLevelData()
-    {
-        if (!PlayerPrefs.HasKey(levelToLoadLocation))
-        {
-            Debug.LogError("No Level Data");
-            return;
-        }
-
-        string levelJson = PlayerPrefs.GetString(levelToLoadLocation);
-
-        levelData = JsonUtility.FromJson<LevelData>(levelJson);
     }
 
     void GenerateGrid()

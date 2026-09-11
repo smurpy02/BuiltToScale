@@ -28,6 +28,12 @@ public class LevelLoader : MonoBehaviour
         instance.TransitionScenes(scene, transitionTime);
     }
 
+    public static void LoadLevel(LevelData data)
+    {
+        GenerateLevelFromSave.levelData = data;
+        SceneManager.LoadSceneAsync("GameLevel");
+    }
+
     public void TransitionScenes(int scene, float transitionTime)
     {
         StartCoroutine(ITransitionScenes(scene, transitionTime));

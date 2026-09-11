@@ -7,12 +7,12 @@ public class MainMenuManager : MonoBehaviour
 {
     public void Play()
     {
-        LevelLoader.LoadScene(3);
+        LevelLoader.LoadScene(2);
     }
 
-    public void LevelSelect()
+    public void LevelEditor()
     {
-        LevelLoader.LoadScene(2);
+        LevelLoader.LoadScene(3);
     }
 
     public void Exit()

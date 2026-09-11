@@ -33,8 +33,6 @@ public class LevelEditorManager : MonoBehaviour
     [Header("Values")]
     public bool snapToGrid;
 
-    const string levelNameListLocation = "ListOfLevelNames", levelNamePrefix = "CustomLevel_";
-
     List<GameObject> levelInfoBlocks = new List<GameObject>();
     List<(Transform, GameObject)> puzzleComponents = new List<(Transform, GameObject)>();
     LevelData levelData;
@@ -70,57 +68,29 @@ public class LevelEditorManager : MonoBehaviour
         puzzleComponents.Clear();
     }
 
-    public void OpenGameLevelScene()
-    {
-        SceneManager.LoadScene("GameLevel");
-    }
-
     public void UpdateSnapToGrid()
     {
         snapToGrid = snapToGridToggle.isOn;
     }
 
-    #region Level Data Util
-    static LevelSaveLocationData GetLocationData()
-    {
-        var jsonList = PlayerPrefs.GetString(levelNameListLocation);
-        var levelSaveData = JsonUtility.FromJson<LevelSaveLocationData>(jsonList.ToString());
-
-        return levelSaveData;
-    }
-
-    static void SetLocationData(LevelSaveLocationData locationData)
-    {
-        var newJsonList = JsonUtility.ToJson(locationData);
-
-        PlayerPrefs.SetString(levelNameListLocation, newJsonList.ToString());
-    }
-
-    void InitLevelList()
-    {
-        var levelList = new LevelSaveLocationData();
-        var jsonList = JsonUtility.ToJson(levelList);
-
-        PlayerPrefs.SetString(levelNameListLocation, jsonList.ToString());
-    }
-    #endregion
-
     #region Edit Data
     public void ClearLevelData()
     {
-        InitLevelList();
+        LevelMemoryManager.InitLevelList();
         RefreshLevelList();
     }
 
     public void DeleteLevel(int levelNumber)
     {
-        var levelSaveData = GetLocationData();
+        var levelSaveData = LevelMemoryManager.GetLocationData();
 
         if (!levelSaveData.SaveLocations.Contains(levelNumber)) return;
 
         levelSaveData.SaveLocations.Remove(levelNumber);
 
-        SetLocationData(levelSaveData);
+        LevelMemoryManager.SetLocationData(levelSaveData);
+        LevelMemoryManager.DeleteLevel(levelNumber);
+
         RefreshLevelList();
     }
     #endregion
@@ -136,27 +106,10 @@ public class LevelEditorManager : MonoBehaviour
             return;
         }
 
-        RegisterLevel(levelName);
-        RefreshLevelList();
-    }
+        var levelLocation = LevelMemoryManager.RegisterLevel(levelName);
 
-    void RegisterLevel(string levelName)
-    {
-        if (!PlayerPrefs.HasKey(levelNameListLocation))
-        {
-            InitLevelList();
-        }
-
-        var levelSaveData = GetLocationData();
-
-        var levelNumber = 0;
-        while (levelSaveData.SaveLocations.Contains(levelNumber)) levelNumber++;
-        levelSaveData.SaveLocations.Add(levelNumber);
-
-        string levelLocation = $"{levelNamePrefix}{levelNumber}";
-
-        SetLocationData(levelSaveData);
         SaveLevelData(levelLocation, levelName);
+        RefreshLevelList();
     }
 
     void SaveLevelData(string location, string levelName)
@@ -204,29 +157,15 @@ public class LevelEditorManager : MonoBehaviour
         levelInfoBlocks.ForEach(block => Destroy(block));
         levelInfoBlocks.Clear();
 
-        if (!PlayerPrefs.HasKey(levelNameListLocation)) return;
-        var saveData = GetLocationData();
+        var saveData = LevelMemoryManager.GetLocationData();
+        if (saveData == null) return;
 
         saveData.SaveLocations.ForEach(levelNumber => SpawnLevelInfoBlock(levelNumber));
     }
 
     void SpawnLevelInfoBlock(int levelNumber)
     {
-        var levelLocation = $"{levelNamePrefix}{levelNumber}";
-
-        if (!PlayerPrefs.HasKey(levelLocation))
-        {
-            Debug.LogWarning("Level Data does not exist in this location");
-            return;
-        }
-
-        var levelData = JsonUtility.FromJson<LevelData>(PlayerPrefs.GetString(levelLocation));
-
-        if(levelData == null)
-        {
-            Debug.LogWarning("Level Data was null or unreadable");
-            return;
-        }
+        var levelData = LevelMemoryManager.GetLevelData(levelNumber);
 
         var infoBlock = Instantiate(levelInfoBlock, levelInfoBlockContainer);
         var infoBlockUI = infoBlock.GetComponent<LevelInfoBlock>();
@@ -238,7 +177,7 @@ public class LevelEditorManager : MonoBehaviour
             return;
         }
 
-        infoBlockUI.Initiate(levelData, levelLocation, levelNumber);
+        infoBlockUI.Initiate(levelData, levelNumber);
     }
     #endregion
 }
