@@ -23,6 +23,8 @@ public class PlayerAudioManager : MonoBehaviour
 
     public static void Pop()
     {
+        instance.popAudio.pitch = Random.Range(0.8f, 1.3f);
+
         instance.popAudio.Play();
     }
 }
