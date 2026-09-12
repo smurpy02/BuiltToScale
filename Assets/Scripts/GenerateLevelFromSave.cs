@@ -43,36 +43,47 @@ public class GenerateLevelFromSave : MonoBehaviour
 
     void GeneratePlayer()
     {
-        if (levelData == null) return;
-
-        player.transform.position = levelData.playerPosition;
-
-        foreach (Vector2Int position in levelData.playerSquares)
-        {
-            player.engine.SpawnBlockPlayer(position);
-        }
+        ConfigureExpansionEngine(player.transform, levelData.playerPosition, levelData.playerSquares, player.engine);
     }
 
     void GeneratePattern()
     {
-        pattern.transform.position = levelData.patternPosition;
-
-        foreach (Vector2Int position in levelData.patternSquares)
-        {
-            pattern.engine.SpawnBlockPlayer(position);
-        }
+        ConfigureExpansionEngine(pattern.transform, levelData.patternPosition, levelData.patternSquares, pattern.engine);
     }
 
     void GeneratePuzzleComponents()
     {
         foreach(var component in levelData.puzzleComponents)
         {
-            Instantiate(component.prefab, component.position, Quaternion.identity);
+            var componentObject = Instantiate(component.prefab, component.position, Quaternion.identity);
+
+            if(component is CloneComponentData) GenerateClone(componentObject, component as CloneComponentData);
         }
     }
 
     public void GoToEditor()
     {
         SceneManager.LoadScene("LevelEditor");
+    }
+
+    void ConfigureExpansionEngine(Transform target, Vector3 position, List<Vector2Int> squares, ExpansionEngine engine)
+    {
+        target.position = position;
+
+        squares.ForEach(squarePosition => engine.SpawnBlockPlayer(squarePosition));
+    }
+
+    void GenerateClone(GameObject cloneInstance, CloneComponentData data)
+    {
+        var matcher = cloneInstance.GetComponent<PatternMatcher>();
+
+        if(matcher == null)
+        {
+            Debug.Log("Couldn't find Clone's pattern matcher");
+            return;
+        }
+
+        ConfigureExpansionEngine(matcher.player.transform, data.clonePosition, data.cloneSquares, matcher.player.engine);
+        ConfigureExpansionEngine(matcher.pattern.transform, data.clonePatternPosition, data.clonePatternSquares, matcher.pattern.engine);
     }
 }

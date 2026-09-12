@@ -34,7 +34,7 @@ public class LevelEditorManager : MonoBehaviour
     public bool snapToGrid;
 
     List<GameObject> levelInfoBlocks = new List<GameObject>();
-    List<(Transform, GameObject)> puzzleComponents = new List<(Transform, GameObject)>();
+    List<PuzzleComponentInstance> puzzleComponents = new List<PuzzleComponentInstance>();
     LevelData levelData;
 
     void OnEnable()
@@ -53,16 +53,16 @@ public class LevelEditorManager : MonoBehaviour
         RefreshLevelList();
     }
 
-    public void AddPuzzleComponent(Transform component, GameObject prefab)
+    public void AddPuzzleComponent(PuzzleComponentInstance puzzleComponent)
     {
-        puzzleComponents.Add((component, prefab));
+        puzzleComponents.Add(puzzleComponent);
     }
 
     public void ClearComponents()
     {
         foreach (var component in puzzleComponents)
         {
-            Destroy(component.Item1.gameObject);
+            Destroy(component.transform.gameObject);
         }
 
         puzzleComponents.Clear();
@@ -146,7 +146,9 @@ public class LevelEditorManager : MonoBehaviour
 
         foreach (var component in puzzleComponents)
         {
-            levelData.puzzleComponents.Add(PuzzleComponentData.New(component.Item1.position, component.Item2));
+            levelData.puzzleComponents.Add(component.GetPuzzleComponent());
+
+            Debug.Log("puzzle is clone " + (levelData.puzzleComponents[0] is CloneComponentData));
         }
     }
     #endregion

@@ -24,34 +24,30 @@ public class LevelData
     public List<Vector3Int> removedTiles;
 
     // Puzzle Components
+    [SerializeReference]
     public List<PuzzleComponentData> puzzleComponents;
 }
 
 [Serializable]
-public struct CloneComponentData
+public class CloneComponentData : PuzzleComponentData
 {
-    public GameObject prefab;
-
     public Vector2 clonePosition;
     public List<Vector2Int> cloneSquares;
 
     public Vector2 clonePatternPosition;
     public List<Vector2Int> clonePatternSquares;
+
+    public CloneComponentData(GameObject prefab) : base(prefab) { }
 }
 
 [Serializable]
-public struct PuzzleComponentData
+public class PuzzleComponentData
 {
     public Vector2 position;
     public GameObject prefab;
 
-    public static PuzzleComponentData New(Vector2 position, GameObject prefab)
+    public PuzzleComponentData(GameObject prefab)
     {
-        PuzzleComponentData data = new PuzzleComponentData();
-
-        data.position = position;
-        data.prefab = prefab;
-
-        return data;
+        this.prefab = prefab;
     }
 }

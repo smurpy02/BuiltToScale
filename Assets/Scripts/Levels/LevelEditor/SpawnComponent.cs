@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -11,6 +13,8 @@ public class SpawnComponent : MonoBehaviour
 
         Transform newComponent = Instantiate(editableComponent, spawnPosition, Quaternion.identity).transform;
 
-        LevelEditorManager.instance.AddPuzzleComponent(newComponent, puzzleComponent);
+        LevelEditorManager.instance.AddPuzzleComponent(new PuzzleComponentInstance(GetPuzzleComponent(), newComponent));
     }
+
+    public virtual PuzzleComponentData GetPuzzleComponent() => new PuzzleComponentData(puzzleComponent);
 }

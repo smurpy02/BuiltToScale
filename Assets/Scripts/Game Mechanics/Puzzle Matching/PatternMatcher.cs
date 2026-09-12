@@ -21,7 +21,7 @@ public class PatternMatcher : MonoBehaviour
         if (leader == null) leader = this;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (leader == this) CheckMatch();
     }
@@ -87,7 +87,6 @@ public class PatternMatcher : MonoBehaviour
     #region Match Success
     void CompleteMatch()
     {
-        Debug.Log("[Pattern Matcher] Completing Match");
         matched = true;
 
         foreach (PatternMatcher matcher in matchers) matcher.SnapIntoPlace();
