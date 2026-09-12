@@ -6,6 +6,7 @@ using UnityEngine;
 public class BlockPhysics : MonoBehaviour
 {
     public GameObject softHighlight;
+    public PlayerVisualElements elements;
     public bool shrinkIntoPlace;
 
     void Start()
@@ -39,4 +40,7 @@ public class BlockPhysics : MonoBehaviour
             collision.GetComponent<Spinner>().RemoveSquare(transform);
         }
     }
+
+    public void BlockRemoved(Vector2Int myPosition, Vector2Int blockPosition) => elements?.BlockRemoved(myPosition, blockPosition);
+    public void BlockAdded(Vector2Int myPosition, Vector2Int blockPosition) => elements?.BlockAdded(myPosition, blockPosition);
 }

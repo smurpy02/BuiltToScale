@@ -35,6 +35,17 @@ public class ExpansionEngine : MonoBehaviour
         if (blocks.ContainsKey(position)) return;
 
         blocks.Add(position, CreateNewBlock(position));
+
+        foreach (var otherBlock in blocks.Values)
+        {
+            var otherPhysics = otherBlock.transform.GetComponent<BlockPhysics>();
+
+            if (otherPhysics != null) otherPhysics.BlockAdded(otherBlock.position, position);
+
+            var blockPhysics = blocks[position].transform.GetComponent<BlockPhysics>();
+
+            if (blockPhysics != null) blockPhysics.BlockAdded(position, otherBlock.position);
+        }
     }
 
     //Spawn block relative to world
@@ -51,6 +62,13 @@ public class ExpansionEngine : MonoBehaviour
         Instantiate(breakBlock, blockTransform.position, Quaternion.identity).GetComponentInChildren<Renderer>().material.color = blockTransform.GetComponentInChildren<Renderer>().material.color;
 
         blocks.Remove(position);
+
+        foreach(var otherBlock in blocks.Values)
+        {
+            var physics = otherBlock.transform.GetComponent<BlockPhysics>();
+
+            if (physics != null) physics.BlockRemoved(otherBlock.position, position);
+        }
 
         if (block == highestBlock) ReconfigureHighestBlock();
     }
