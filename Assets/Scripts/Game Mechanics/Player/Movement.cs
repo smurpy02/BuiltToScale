@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,6 +19,9 @@ public class Movement : MonoBehaviour
     [Header("Other")]
     public LayerMask jumpingMask;
 
+    [Header("Events")]
+    public Action jump, land;
+
     bool groundedLastFrame = true, isGrounded;
 
     private void Update()
@@ -34,6 +38,7 @@ public class Movement : MonoBehaviour
     {
         if (CheckJump())
         {
+            jump.Invoke();
             PlayerAudioManager.Jump();
             Vector2 velocity = body2D.linearVelocity;
             velocity.y = jumpForce;
@@ -63,7 +68,11 @@ public class Movement : MonoBehaviour
 
         isGrounded = groundedCheck;
 
-        if (isGrounded && !groundedLastFrame) PlayerAudioManager.Land();
+        if (isGrounded && !groundedLastFrame)
+        {
+            land.Invoke();
+            PlayerAudioManager.Land();
+        }
 
         groundedLastFrame = isGrounded;
     }

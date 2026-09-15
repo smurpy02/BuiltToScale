@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,15 +7,17 @@ using UnityEngine;
 using UnityEngine.U2D;
 using Random = UnityEngine.Random;
 
-public class PlayerVisualElements : MonoBehaviour
+public class SquareVisualManager : MonoBehaviour
 {
     public Sprite defaultSprite, surroundedSprite;
-    public SpriteRenderer playerRenderer, speckRenderer;
+    public SpriteRenderer playerRenderer, backdropRenderer, speckRenderer;
     public SpriteAtlas playerAtlas, speckAtlas;
     public Texture2D playerTexture;
 
-    [SerializeField] List<SquareSprite> squareSprites = new List<SquareSprite>();
+    List<SquareSprite> squareSprites = new List<SquareSprite>();
     List<Vector2Int> blockDirections = new List<Vector2Int>();
+
+    static Dictionary<SpriteAtlas, List<SquareSprite>> processedSquareSprites = new();
 
     private List<Vector2Int> directions = new List<Vector2Int>
     {
@@ -29,6 +32,8 @@ public class PlayerVisualElements : MonoBehaviour
         CreateSpawnSprites();
         RandomiseSpeck();
         UpdateSprite();
+
+        playerRenderer.transform.DOShakeScale(10, 0.08f, 2, 80, false, ShakeRandomnessMode.Harmonic).SetLoops(-1);
     }
 
     void RandomiseSpeck()
@@ -42,6 +47,12 @@ public class PlayerVisualElements : MonoBehaviour
 
     void CreateSpawnSprites()
     {
+        if (processedSquareSprites.ContainsKey(playerAtlas))
+        {
+            squareSprites = processedSquareSprites[playerAtlas];
+            return;
+        }
+
         var sprites = GetSprites(playerAtlas);
 
         if (sprites.Count == 0) return;
@@ -49,16 +60,9 @@ public class PlayerVisualElements : MonoBehaviour
         squareSprites.Clear();
         var jointColour = GetJointColor();
 
-        Debug.Log("===" + gameObject.GetEntityId());
-        Debug.Log(jointColour.ToString());
-        Debug.Log("-----");
-
         foreach(var sprite in sprites)
         {
             var squareSprite = new SquareSprite(sprite);
-
-            Debug.Log(sprite.name);
-            Debug.Log("..........");
 
             foreach(var direction in directions)
             {
@@ -69,6 +73,8 @@ public class PlayerVisualElements : MonoBehaviour
 
             squareSprites.Add(squareSprite);
         }
+
+        processedSquareSprites.Add(playerAtlas, squareSprites);
     }
 
     Color GetPixelColor(Sprite sprite, Vector2Int direction)
@@ -81,9 +87,6 @@ public class PlayerVisualElements : MonoBehaviour
 
         if (direction.y < 0) rect.y -= 8;
         if (direction.y > 0) rect.y += 7;
-
-        Debug.Log(texture.Size());
-        Debug.Log("rect " + rect.x + " " + rect.y);
 
         return texture.GetPixel((int)rect.x, (int)rect.y);
     }
@@ -125,11 +128,13 @@ public class PlayerVisualElements : MonoBehaviour
             if (SpriteStrictlyPasses(squareSprite))
             {
                 playerRenderer.sprite = squareSprite.sprite;
+                backdropRenderer.sprite = squareSprite.sprite;
                 return;
             }
         }
 
         playerRenderer.sprite = defaultSprite;
+        backdropRenderer.sprite = defaultSprite;
     }
 
     bool SpriteStrictlyPasses(SquareSprite sprite)

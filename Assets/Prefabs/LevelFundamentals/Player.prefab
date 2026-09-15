@@ -639,6 +639,7 @@ GameObject:
   - component: {fileID: 4538759211743964976}
   - component: {fileID: 1064489119654935091}
   - component: {fileID: 7527864026909703381}
+  - component: {fileID: 6620012674634825723}
   - component: {fileID: 8791651625970951173}
   m_Layer: 3
   m_Name: Systems
@@ -674,7 +675,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 533963000de61d24eb4a473390a0737d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ExpansionEngine
-  player: {fileID: 4891825260739037230}
   body: {fileID: 7277275220389091222}
   blockObject: {fileID: 5531879387261924823, guid: 24c0ea8e1885eb84f98a2361f748500e, type: 3}
   breakBlock: {fileID: 7893191256850455672, guid: 6e3770027bbb4fe4da323ea522ad87af, type: 3}
@@ -693,6 +693,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75b5cac3dd8f87f41ad75d9ac8a2ca29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInputs
+  invert: 0
   horizontalMove: {fileID: -2704571887790145155, guid: e67e7aff5410c5f48a91baf94195cb24, type: 3}
   jump: {fileID: -6782701231079889086, guid: e67e7aff5410c5f48a91baf94195cb24, type: 3}
   up: {fileID: -6652394714475713265, guid: e67e7aff5410c5f48a91baf94195cb24, type: 3}
@@ -703,6 +704,20 @@ MonoBehaviour:
   spin: {fileID: 3881597807303167860, guid: e67e7aff5410c5f48a91baf94195cb24, type: 3}
   movement: {fileID: 5260970673500115120}
   expansion: {fileID: 1064489119654935091}
+--- !u!114 &6620012674634825723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6168261514748130937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df8f6d831c8a1e64ba6bdb0e6493930d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  body: {fileID: 7277275220389091222}
+  movement: {fileID: 5260970673500115120}
 --- !u!114 &8791651625970951173
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -6,7 +6,7 @@ using UnityEngine;
 public class BlockPhysics : MonoBehaviour
 {
     public GameObject softHighlight;
-    public PlayerVisualElements elements;
+    public SquareVisualManager elements;
     public bool shrinkIntoPlace;
 
     void Start()
