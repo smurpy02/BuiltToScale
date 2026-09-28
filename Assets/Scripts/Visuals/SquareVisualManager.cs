@@ -9,10 +9,14 @@ using Random = UnityEngine.Random;
 
 public class SquareVisualManager : MonoBehaviour
 {
-    public Sprite defaultSprite, surroundedSprite;
-    public SpriteRenderer playerRenderer, backdropRenderer, speckRenderer;
-    public SpriteAtlas playerAtlas, speckAtlas;
+    [Header("Texture References")]
     public Texture2D playerTexture;
+    public Sprite defaultSprite, surroundedSprite;
+    public SpriteAtlas playerAtlas, speckAtlas;
+    public SpriteRenderer playerRenderer, backdropRenderer, speckRenderer;
+
+    [Header("Object References")]
+    public Transform visuals;
 
     List<SquareSprite> squareSprites = new List<SquareSprite>();
     List<Vector2Int> blockDirections = new List<Vector2Int>();
@@ -36,6 +40,7 @@ public class SquareVisualManager : MonoBehaviour
         playerRenderer.transform.DOShakeScale(10, 0.08f, 2, 80, false, ShakeRandomnessMode.Harmonic).SetLoops(-1);
     }
 
+    #region Sprite Management
     void RandomiseSpeck()
     {
         var sprites = GetSprites(speckAtlas);
@@ -149,6 +154,7 @@ public class SquareVisualManager : MonoBehaviour
 
         return false;
     }
+    #endregion
 }
 
 [Serializable]

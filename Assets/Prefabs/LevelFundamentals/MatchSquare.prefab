@@ -4985,12 +4985,24 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2774578416015241389, guid: 24c0ea8e1885eb84f98a2361f748500e, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f244b4ff91a406649b87a02f36f1e926, type: 3}
+    - target: {fileID: 2774578416015241389, guid: 24c0ea8e1885eb84f98a2361f748500e, type: 3}
+      propertyPath: m_SortingOrder
+      value: -4
+      objectReference: {fileID: 0}
     - target: {fileID: 3437925835937517702, guid: 24c0ea8e1885eb84f98a2361f748500e, type: 3}
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3765179812504779918, guid: 24c0ea8e1885eb84f98a2361f748500e, type: 3}
       propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4250204521243677196, guid: 24c0ea8e1885eb84f98a2361f748500e, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4737324094147082127, guid: 24c0ea8e1885eb84f98a2361f748500e, type: 3}
@@ -5013,8 +5025,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: MatchSquare
       objectReference: {fileID: 0}
+    - target: {fileID: 7947724040341496080, guid: 24c0ea8e1885eb84f98a2361f748500e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8282870701759713922, guid: 24c0ea8e1885eb84f98a2361f748500e, type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8711594836392206684, guid: 24c0ea8e1885eb84f98a2361f748500e, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:

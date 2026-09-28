@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class Movement : MonoBehaviour
 {
@@ -11,7 +12,6 @@ public class Movement : MonoBehaviour
     [Header("Physical Components")]
     public Rigidbody2D body2D;
     public Transform body;
-    public static List<Transform> groundChecks = new List<Transform>();
 
     [Header("Physics Parameters")]
     public float speed, jumpForce;
@@ -22,12 +22,17 @@ public class Movement : MonoBehaviour
     [Header("Events")]
     public Action jump, land;
 
+    List<Transform> groundChecks = new List<Transform>();
     bool groundedLastFrame = true, isGrounded;
+    float notGrounded = 0;
 
     private void Update()
     {
         PhysicsChecks();
     }
+
+    public void AddGroundCheck(Transform groundCheck) => groundChecks.Add(groundCheck);
+    public void RemoveGroundCheck(Transform groundCheck) => groundChecks.Remove(groundCheck);
 
     public void HorizontalInput(float horizontal)
     {
@@ -59,7 +64,7 @@ public class Movement : MonoBehaviour
     {
         bool groundedCheck = false;
 
-        foreach (Transform square in body)
+        foreach (var square in groundChecks)
         {
             RaycastHit2D hit = Physics2D.BoxCast(square.transform.position, Vector2.one * 0.8f, 0, Vector2.down, 0.1f, jumpingMask);
 
@@ -68,7 +73,10 @@ public class Movement : MonoBehaviour
 
         isGrounded = groundedCheck;
 
-        if (isGrounded && !groundedLastFrame)
+        if (!isGrounded && groundedLastFrame) notGrounded = 0;
+        if (!isGrounded) notGrounded += Time.deltaTime;
+
+        if (isGrounded && !groundedLastFrame && notGrounded > .1f)
         {
             land.Invoke();
             PlayerAudioManager.Land();

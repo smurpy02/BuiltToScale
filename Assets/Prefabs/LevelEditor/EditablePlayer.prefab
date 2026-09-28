@@ -16,6 +16,10 @@ PrefabInstance:
       propertyPath: blockObject
       value: 
       objectReference: {fileID: 3427650042405553387, guid: d42e39c07a775a74f88adb4500faa5e9, type: 3}
+    - target: {fileID: 2222509528129264688, guid: ed8be186798d43746b9a867fbcb0650e, type: 3}
+      propertyPath: blockObject
+      value: 
+      objectReference: {fileID: 3427650042405553387, guid: d42e39c07a775a74f88adb4500faa5e9, type: 3}
     - target: {fileID: 2471817155005225214, guid: ed8be186798d43746b9a867fbcb0650e, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1
@@ -26,7 +30,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3205588721886884546, guid: ed8be186798d43746b9a867fbcb0650e, type: 3}
       propertyPath: m_Name
-      value: EditablePlayer Variant
+      value: EditablePlayer
       objectReference: {fileID: 0}
     - target: {fileID: 3431316202469376664, guid: ed8be186798d43746b9a867fbcb0650e, type: 3}
       propertyPath: m_LocalPosition.x

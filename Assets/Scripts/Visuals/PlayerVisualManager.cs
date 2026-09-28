@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlayerVisualManager : MonoBehaviour
 {
-    public Transform body;
+    public Transform scaleParent;
     public Movement movement;
 
     void Start()
@@ -14,11 +14,11 @@ public class PlayerVisualManager : MonoBehaviour
 
     void Jump()
     {
-        //body.DOPunchScale(new Vector3(0.2f, 1, 1), 0.45f, 5, 1);
+        scaleParent.DOPunchScale(new Vector3(-0.2f, .2f), 0.3f, 2, 1).OnComplete(() => scaleParent.localScale = Vector3.one);
     }
 
     void Land()
     {
-        //body.DOPunchScale(new Vector3(1.3f, .4f, 1), 0.4f, 10, 0.1f);
+        scaleParent.DOPunchScale(new Vector3(.25f, -.3f), 0.3f, 2, 1).OnComplete(() => scaleParent.localScale = Vector3.one);
     }
 }

@@ -3775,9 +3775,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LevelEditorManager
   spawnComponentsPosition: {fileID: 649422196}
   player: {fileID: 9200792566878006744}
-  playerEngine: {fileID: 1225006075}
+  playerEngine: {fileID: 1534836939}
   pattern: {fileID: 9200792566878006743}
-  patternEngine: {fileID: 1225006075}
+  patternEngine: {fileID: 1290037210}
   grid: {fileID: 701078855}
   snapToGridToggle: {fileID: 1440090973}
   levelNameInput: {fileID: 1384267870}
@@ -4300,9 +4300,9 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1159722912}
   m_CullTransparentMesh: 1
---- !u!114 &1225006075 stripped
+--- !u!114 &1290037210 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 9004526189199909095, guid: d3a08c749fad0c040a1d85e41894856c, type: 3}
+  m_CorrespondingSourceObject: {fileID: 86539317828109469, guid: d3a08c749fad0c040a1d85e41894856c, type: 3}
   m_PrefabInstance: {fileID: 9200792566878006741}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
@@ -5214,6 +5214,17 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &1534836939 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 121306409390221629, guid: d3a08c749fad0c040a1d85e41894856c, type: 3}
+  m_PrefabInstance: {fileID: 9200792566878006741}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57021db870a8d7b4c88789d0fa7d0529, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
 --- !u!1 &1585950080
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,9 @@ using UnityEngine;
 public class BlockPhysics : MonoBehaviour
 {
     public GameObject softHighlight;
+    public Transform groundCheck;
     public SquareVisualManager elements;
+    public ExpansionEngine engine;
     public bool shrinkIntoPlace;
 
     void Start()
@@ -21,7 +24,7 @@ public class BlockPhysics : MonoBehaviour
     {
         if(collision.tag == "Breaker")
         {
-            transform.parent.parent.GetComponentInChildren<ExpansionEngine>().Break(Vector2Int.RoundToInt(transform.localPosition), transform);
+            engine.Break(Vector2Int.RoundToInt(transform.localPosition), transform);
             Destroy(gameObject);
         }
 

@@ -20,7 +20,11 @@ public class GenerateLevelFromSave : MonoBehaviour
 
     void GenerateLevel()
     {
-        if (levelData == null) return;
+        if (levelData == null)
+        {
+            levelData = LevelMemoryManager.GetLevelData(0);
+            if (levelData == null) return;
+        }
 
         GenerateGrid();
         GeneratePlayer();

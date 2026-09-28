@@ -4,10 +4,11 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEditor.Overlays;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class ExpansionEngine : MonoBehaviour
 {
-    public Transform body;
+    public Transform body, pivot;
     public GameObject blockObject, breakBlock;
     public LayerMask expansionMask;
 
@@ -16,9 +17,10 @@ public class ExpansionEngine : MonoBehaviour
 
     Block CreateNewBlock(Vector2Int position)
     {
-        Transform transform = Instantiate(blockObject, body).transform;
+        Transform transform = Instantiate(blockObject, pivot).transform;
         transform.localPosition = (Vector2)position;
-        Movement.groundChecks.Add(transform.Find("GroundCheck"));
+
+        HandleNewBlock(transform);
 
         Block block = Block.Create(transform, position);
 
@@ -28,24 +30,61 @@ public class ExpansionEngine : MonoBehaviour
         return block;
     }
 
+    #region Virtual Functions
+    protected virtual void HandleNewBlock(Transform blockTransform) { }
+    protected virtual void HandleRemovedBlock(Transform blockTransform) { }
+    #endregion
+
     #region Modify Body
+    void OffsetPivot(Vector2 direction)
+    {
+        pivot.parent = null;
+
+        body.position += (Vector3)(direction / 2);
+
+        pivot.parent = body;
+    }
+
+    void ProcessNewBlock(Block block, Block newBlock)
+    {
+        var blockPhysics = block.transform.GetComponent<BlockPhysics>();
+
+        if (blockPhysics != null) blockPhysics.BlockAdded(block.position, newBlock.position);
+
+        var newBlockPhysics = newBlock.transform.GetComponent<BlockPhysics>();
+
+        if (newBlockPhysics != null) newBlockPhysics.BlockAdded(newBlock.position, block.position);
+    }
+
     //Spawn block relative to player
     public void SpawnBlockPlayer(Vector2Int position) // INPUT: Position relative to Player
     {
         if (blocks.ContainsKey(position)) return;
 
-        blocks.Add(position, CreateNewBlock(position));
+        var newBlock = CreateNewBlock(position);
+
+        blocks.Add(position, newBlock);
+
+        bool blockIncrementsX = true, blockIncrementsY = true, blockDecrementsX = true, blockDecrementsY = true;
 
         foreach (var otherBlock in blocks.Values)
         {
-            var otherPhysics = otherBlock.transform.GetComponent<BlockPhysics>();
+            ProcessNewBlock(otherBlock, newBlock);
 
-            if (otherPhysics != null) otherPhysics.BlockAdded(otherBlock.position, position);
+            if (otherBlock != newBlock)
+            {
+                if (newBlock.position.x <= otherBlock.position.x) blockIncrementsX = false;
+                if (newBlock.position.y <= otherBlock.position.y) blockIncrementsY = false;
 
-            var blockPhysics = blocks[position].transform.GetComponent<BlockPhysics>();
-
-            if (blockPhysics != null) blockPhysics.BlockAdded(position, otherBlock.position);
+                if (newBlock.position.x >= otherBlock.position.x) blockDecrementsX = false;
+                if (newBlock.position.y >= otherBlock.position.y) blockDecrementsY = false;
+            }
         }
+
+        if (blockIncrementsX) OffsetPivot(Vector2Int.right);
+        if (blockIncrementsY) OffsetPivot(Vector2Int.up);
+        if (blockDecrementsX) OffsetPivot(Vector2Int.left);
+        if (blockDecrementsY) OffsetPivot(Vector2Int.down);
     }
 
     //Spawn block relative to world
@@ -62,15 +101,32 @@ public class ExpansionEngine : MonoBehaviour
         Instantiate(breakBlock, blockTransform.position, Quaternion.identity).GetComponentInChildren<Renderer>().material.color = blockTransform.GetComponentInChildren<Renderer>().material.color;
 
         blocks.Remove(position);
+        HandleRemovedBlock(blockTransform);
 
-        foreach(var otherBlock in blocks.Values)
+        bool blockIncrementsX = true, blockIncrementsY = true, blockDecrementsX = true, blockDecrementsY = true;
+
+        foreach (var otherBlock in blocks.Values)
         {
             var physics = otherBlock.transform.GetComponent<BlockPhysics>();
 
             if (physics != null) physics.BlockRemoved(otherBlock.position, position);
+
+            if (otherBlock != block)
+            {
+                if (block.position.x <= otherBlock.position.x) blockIncrementsX = false;
+                if (block.position.y <= otherBlock.position.y) blockIncrementsY = false;
+
+                if (block.position.x >= otherBlock.position.x) blockDecrementsX = false;
+                if (block.position.y >= otherBlock.position.y) blockDecrementsY = false;
+            }
         }
 
         if (block == highestBlock) ReconfigureHighestBlock();
+
+        if (blockIncrementsX) OffsetPivot(Vector2Int.left);
+        if (blockIncrementsY) OffsetPivot(Vector2Int.down);
+        if (blockDecrementsX) OffsetPivot(Vector2Int.right);
+        if (blockDecrementsY) OffsetPivot(Vector2Int.up);
     }
 
     public void ReconfigBlockPositions()
@@ -98,7 +154,7 @@ public class ExpansionEngine : MonoBehaviour
 
             if (blocks.ContainsKey(newPosition)) continue;
 
-            RaycastHit2D hit = Physics2D.BoxCast((Vector2)transform.position + newPosition, Vector2.one * 0.8f, 0, direction, 0f, expansionMask);
+            RaycastHit2D hit = Physics2D.BoxCast((Vector2)pivot.position + newPosition, Vector2.one * 0.8f, 0, direction, 0f, expansionMask);
 
             if (hit.collider != null)
             {
@@ -127,6 +183,7 @@ public class ExpansionEngine : MonoBehaviour
     }
     #endregion
 
+    #region External Functions
     public Vector2 GetHighestBlock()
     {
         return highestBlock.position;
@@ -141,4 +198,5 @@ public class ExpansionEngine : MonoBehaviour
     {
         return blocks.Keys.ToList();
     }
+    #endregion
 }

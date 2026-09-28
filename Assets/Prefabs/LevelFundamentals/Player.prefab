@@ -637,7 +637,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4538759211743964976}
-  - component: {fileID: 1064489119654935091}
+  - component: {fileID: 8330995634724418537}
   - component: {fileID: 7527864026909703381}
   - component: {fileID: 6620012674634825723}
   - component: {fileID: 8791651625970951173}
@@ -663,7 +663,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4815525750935268673}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1064489119654935091
+--- !u!114 &8330995634724418537
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -672,15 +672,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 6168261514748130937}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 533963000de61d24eb4a473390a0737d, type: 3}
+  m_Script: {fileID: 11500000, guid: 57021db870a8d7b4c88789d0fa7d0529, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ExpansionEngine
+  m_EditorClassIdentifier: '::'
   body: {fileID: 7277275220389091222}
+  pivot: {fileID: 8148558230776816961}
   blockObject: {fileID: 5531879387261924823, guid: 24c0ea8e1885eb84f98a2361f748500e, type: 3}
   breakBlock: {fileID: 7893191256850455672, guid: 6e3770027bbb4fe4da323ea522ad87af, type: 3}
   expansionMask:
     serializedVersion: 2
     m_Bits: 247
+  playerMovement: {fileID: 5260970673500115120}
 --- !u!114 &7527864026909703381
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -703,7 +705,7 @@ MonoBehaviour:
   retry: {fileID: -6700800870649951276, guid: e67e7aff5410c5f48a91baf94195cb24, type: 3}
   spin: {fileID: 3881597807303167860, guid: e67e7aff5410c5f48a91baf94195cb24, type: 3}
   movement: {fileID: 5260970673500115120}
-  expansion: {fileID: 1064489119654935091}
+  expansion: {fileID: 8330995634724418537}
 --- !u!114 &6620012674634825723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -716,7 +718,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df8f6d831c8a1e64ba6bdb0e6493930d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  body: {fileID: 7277275220389091222}
+  scaleParent: {fileID: 7277275220389091222}
   movement: {fileID: 5260970673500115120}
 --- !u!114 &8791651625970951173
 MonoBehaviour:
@@ -776,7 +778,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 8148558230776816961}
   m_Father: {fileID: 4815525750935268673}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7290090351349989405
@@ -831,7 +834,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Player
   invert: 0
   movement: {fileID: 5260970673500115120}
-  engine: {fileID: 1064489119654935091}
+  engine: {fileID: 8330995634724418537}
   body2D: {fileID: 2772013745865256938}
   body: {fileID: 7277275220389091222}
 --- !u!50 &2772013745865256938
@@ -881,3 +884,34 @@ MonoBehaviour:
   jumpingMask:
     serializedVersion: 2
     m_Bits: 55
+--- !u!1 &8628299353030483584
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8148558230776816961}
+  m_Layer: 0
+  m_Name: Pivot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8148558230776816961
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8628299353030483584}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7277275220389091222}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
