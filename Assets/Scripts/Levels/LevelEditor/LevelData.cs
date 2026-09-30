@@ -37,17 +37,17 @@ public class CloneComponentData : PuzzleComponentData
     public Vector2 clonePatternPosition;
     public List<Vector2Int> clonePatternSquares;
 
-    public CloneComponentData(GameObject prefab) : base(prefab) { }
+    public CloneComponentData(int id) : base(id) { }
 }
 
 [Serializable]
 public class PuzzleComponentData
 {
     public Vector2 position;
-    public GameObject prefab;
+    public int id;
 
-    public PuzzleComponentData(GameObject prefab)
+    public PuzzleComponentData(int id)
     {
-        this.prefab = prefab;
+        this.id = id;
     }
 }

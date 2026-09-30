@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bcc3bd46c72eb64f9626d4a30a16ae3, type: 3}
+  m_Name: CloneReference
+  m_EditorClassIdentifier: Assembly-CSharp::PuzzleComponentPrefabReference
+  id: 2
+  prefab: {fileID: 5913546417317509861, guid: a0ca65fd22678b445af85da19091ccd4, type: 3}
+  editablePrefab: {fileID: 3676501763519580111, guid: d3a08c749fad0c040a1d85e41894856c, type: 3}

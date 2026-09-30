@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor.ShaderGraph.Serialization;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -10,6 +11,8 @@ public class GenerateLevelFromSave : MonoBehaviour
     public Pattern pattern;
 
     public GridEditable grid;
+
+    public List<PuzzleComponentPrefabReference> puzzleComponents;
 
     public static LevelData levelData;
 
@@ -59,10 +62,25 @@ public class GenerateLevelFromSave : MonoBehaviour
     {
         foreach(var component in levelData.puzzleComponents)
         {
-            var componentObject = Instantiate(component.prefab, component.position, Quaternion.identity);
+            var prefab = GetPrefabFromID(component.id);
+
+            if (prefab.IsUnityNull())
+            {
+                Debug.LogWarning($"Puzzle Component with ID {component.id} cannot be found or is null");
+                return;
+            }
+
+            var componentObject = Instantiate(prefab, component.position, Quaternion.identity);
 
             if(component is CloneComponentData) GenerateClone(componentObject, component as CloneComponentData);
         }
+    }
+
+    GameObject GetPrefabFromID(int id)
+    {
+        foreach (var prefab in puzzleComponents) if (prefab.id == id) return prefab.prefab;
+
+        return null;
     }
 
     public void GoToEditor()

@@ -66,7 +66,7 @@ public class Movement : MonoBehaviour
 
         foreach (var square in groundChecks)
         {
-            RaycastHit2D hit = Physics2D.BoxCast(square.transform.position, Vector2.one * 0.8f, 0, Vector2.down, 0.1f, jumpingMask);
+            var hit = Physics2D.BoxCast(square.transform.position, Vector2.one * .8f, 0, Vector2.down, .1f, jumpingMask);
 
             groundedCheck |= hit.collider != null;
         }

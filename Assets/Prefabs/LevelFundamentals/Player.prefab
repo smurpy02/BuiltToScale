@@ -836,7 +836,7 @@ MonoBehaviour:
   movement: {fileID: 5260970673500115120}
   engine: {fileID: 8330995634724418537}
   body2D: {fileID: 2772013745865256938}
-  body: {fileID: 7277275220389091222}
+  body: {fileID: 8148558230776816961}
 --- !u!50 &2772013745865256938
 Rigidbody2D:
   serializedVersion: 5

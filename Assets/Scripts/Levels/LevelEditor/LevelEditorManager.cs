@@ -147,8 +147,6 @@ public class LevelEditorManager : MonoBehaviour
         foreach (var component in puzzleComponents)
         {
             levelData.puzzleComponents.Add(component.GetPuzzleComponent());
-
-            Debug.Log("puzzle is clone " + (levelData.puzzleComponents[0] is CloneComponentData));
         }
     }
     #endregion

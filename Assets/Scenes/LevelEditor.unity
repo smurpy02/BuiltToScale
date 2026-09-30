@@ -819,8 +819,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d3a41939dd89c04bbd3f12cc28a87b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ComponentDraggable
-  puzzleComponent: {fileID: 4163507166342494656, guid: 47b0690f01163d140aa0890e6360804f, type: 3}
-  editableComponent: {fileID: 5707782735887711896, guid: 1596656f88ad79b4a93483b1aa3c8c79, type: 3}
+  prefabReference: {fileID: 11400000, guid: bf6f0e34593571b4aba9cad3ad279c97, type: 2}
 --- !u!114 &247168207
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1634,8 +1633,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c83d064854291fb47b637d69a5501386, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpawnCloneComponent
-  puzzleComponent: {fileID: 5913546417317509861, guid: a0ca65fd22678b445af85da19091ccd4, type: 3}
-  editableComponent: {fileID: 3676501763519580111, guid: d3a08c749fad0c040a1d85e41894856c, type: 3}
+  prefabReference: {fileID: 11400000, guid: 55675450f00296d4a8719ac1529fb43e, type: 2}
 --- !u!1 &649422195
 GameObject:
   m_ObjectHideFlags: 0
@@ -3276,8 +3274,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d3a41939dd89c04bbd3f12cc28a87b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ComponentDraggable
-  puzzleComponent: {fileID: 382050799210611043, guid: dfa709097f2cf5c46a6d4d152d547167, type: 3}
-  editableComponent: {fileID: 8429482431098432163, guid: 186cfb41bb88ec3499d6c5ff18146a86, type: 3}
+  prefabReference: {fileID: 11400000, guid: 53c9638d21d8cc04bbccc4fbcfdc47ae, type: 2}
 --- !u!114 &833057360
 MonoBehaviour:
   m_ObjectHideFlags: 0

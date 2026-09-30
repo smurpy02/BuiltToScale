@@ -110,7 +110,7 @@ public class PatternMatcher : MonoBehaviour
         foreach (Transform block in pattern.body)
         {
             Transform highlight = block.Find("Highlight");
-            highlight.gameObject.SetActive(true);
+            if(highlight != null) highlight.gameObject.SetActive(true);
         }
 
         LevelAudioManager.Match();
