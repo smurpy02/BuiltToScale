@@ -1,11 +1,7 @@
-using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.ShaderGraph.Serialization;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LevelEditorManager : MonoBehaviour
