@@ -1,0 +1,35 @@
+{
+    "version": 1,
+    "name": "UIActions",
+    "maps": [
+        {
+            "name": "UI",
+            "id": "1f8c33cb-c15f-4212-a876-8573a281e29d",
+            "actions": [
+                {
+                    "name": "Toggle",
+                    "type": "Button",
+                    "id": "8a5d35d7-e85d-4502-abee-ecd102e8b8a5",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "e61269d5-428b-4e1a-8abf-b4a0cc1e530f",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Toggle",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

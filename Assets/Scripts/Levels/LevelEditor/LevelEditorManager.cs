@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEditor.ShaderGraph.Serialization;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -25,9 +26,10 @@ public class LevelEditorManager : MonoBehaviour
     public GridEditable grid;
 
     [Header("UI")]
+    public InputActionReference toggleCanvas;
     public Toggle snapToGridToggle;
     public TMP_InputField levelNameInput;
-    public GameObject levelInfoBlock;
+    public GameObject levelInfoBlock, levelEditorCanvas;
     public Transform levelInfoBlockContainer;
 
     [Header("Values")]
@@ -51,6 +53,11 @@ public class LevelEditorManager : MonoBehaviour
     {
         UpdateSnapToGrid();
         RefreshLevelList();
+    }
+
+    void Update()
+    {
+        if (toggleCanvas.action.WasPressedThisFrame()) levelEditorCanvas.SetActive(!levelEditorCanvas.activeSelf);
     }
 
     public void AddPuzzleComponent(PuzzleComponentInstance puzzleComponent)

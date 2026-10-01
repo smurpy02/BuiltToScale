@@ -42,7 +42,7 @@ public class BlockBodyEditor : MonoBehaviour
         if (plusBlocks.ContainsKey(newPosition)) return;
         if (engine.ContainsBlockPosition(newPosition)) return;
 
-        GameObject newPlusBlock = Instantiate(plusBlock, engine.body);
+        GameObject newPlusBlock = Instantiate(plusBlock, engine.pivot);
         newPlusBlock.transform.localPosition = (Vector2)newPosition;
 
         plusBlocks.Add(newPosition, newPlusBlock);
