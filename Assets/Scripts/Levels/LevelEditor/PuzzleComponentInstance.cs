@@ -1,4 +1,6 @@
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PuzzleComponentInstance
 {
@@ -17,6 +19,7 @@ public class PuzzleComponentInstance
         puzzleComponent.position = transform.position;
 
         if (puzzleComponent is CloneComponentData) ConfigureCloneData();
+        if (puzzleComponent is TextComponentData) ConfigureTextData();
 
         return puzzleComponent;
     }
@@ -29,7 +32,7 @@ public class PuzzleComponentInstance
 
         if (matcher == null)
         {
-            Debug.Log("Couldn't find Clone's pattern matcher");
+            Debug.LogWarning("Couldn't find Clone's pattern matcher");
             return;
         }
 
@@ -40,5 +43,22 @@ public class PuzzleComponentInstance
         cloneComponent.clonePatternSquares = matcher.pattern.engine.GetPositions();
 
         puzzleComponent = cloneComponent;
+    }
+
+    void ConfigureTextData()
+    {
+        var textComponent = puzzleComponent as TextComponentData;
+
+        var inputField = transform.GetComponentInChildren<TMP_InputField>();
+
+        if(inputField == null)
+        {
+            Debug.LogWarning("Couldn't find Input Field");
+            return;
+        }
+
+        textComponent.text = inputField.text;
+
+        puzzleComponent = textComponent;
     }
 }

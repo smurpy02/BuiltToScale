@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -71,6 +72,7 @@ public class GenerateLevelFromSave : MonoBehaviour
             var componentObject = Instantiate(prefab, component.position, Quaternion.identity);
 
             if(component is CloneComponentData) GenerateClone(componentObject, component as CloneComponentData);
+            if(component is TextComponentData) GenerateText(componentObject, component as TextComponentData);
         }
     }
 
@@ -99,11 +101,24 @@ public class GenerateLevelFromSave : MonoBehaviour
 
         if(matcher == null)
         {
-            Debug.Log("Couldn't find Clone's pattern matcher");
+            Debug.LogWarning("Couldn't find Clone's pattern matcher");
             return;
         }
 
         ConfigureExpansionEngine(matcher.player.transform, data.clonePosition, data.cloneSquares, matcher.player.engine);
         ConfigureExpansionEngine(matcher.pattern.transform, data.clonePatternPosition, data.clonePatternSquares, matcher.pattern.engine);
+    }
+
+    void GenerateText(GameObject textInstance, TextComponentData textComponentData)
+    {
+        var text = textInstance.GetComponentInChildren<TextMeshProUGUI>();
+
+        if(text == null)
+        {
+            Debug.LogWarning("Couldn't find Text Component");
+            return;
+        }
+
+        text.text = textComponentData.text;
     }
 }

@@ -41,6 +41,17 @@ public class CloneComponentData : PuzzleComponentData
 }
 
 [Serializable]
+public class TextComponentData : PuzzleComponentData
+{
+    public string text;
+
+    public TextComponentData(int id, string text) : base(id)
+    {
+        this.text = text;
+    }
+}
+
+[Serializable]
 public class PuzzleComponentData
 {
     public Vector2 position;
