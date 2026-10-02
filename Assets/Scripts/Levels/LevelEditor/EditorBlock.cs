@@ -3,19 +3,17 @@ using UnityEngine.EventSystems;
 
 public class EditorBlock : MonoBehaviour
 {
-    public GameObject block;
-    public BlockBodyEditor editor;
+    [HideInInspector] public BlockBodyEditor editor;
+    public GameObject cross;
 
-    void OnEnable()
+    public void OnCross()
     {
-        editor = BlockBodyEditor.spawnedLastBlock;
-
-        if (editor == null) Destroy(gameObject);
+        editor.RemoveBlock(Vector2Int.RoundToInt(transform.localPosition), transform);
+        Destroy(gameObject);
     }
 
-    void OnMouseDown()
+    public void RemoveCross()
     {
-        editor.RemoveBlock(Vector2Int.RoundToInt(block.transform.localPosition), block.transform);
-        Destroy(block);
+        cross.SetActive(false);
     }
 }

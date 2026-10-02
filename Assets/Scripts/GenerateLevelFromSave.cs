@@ -11,16 +11,16 @@ public class GenerateLevelFromSave : MonoBehaviour
 
     public GridEditable grid;
 
-    public List<PuzzleComponentPrefabReference> puzzleComponents;
+    public ListOfComponentReferences components;
 
     public static LevelData levelData;
 
-    void Start()
+    protected virtual void Start()
     {
         GenerateLevel();
     }
 
-    void GenerateLevel()
+    public void GenerateLevel()
     {
         if (levelData == null)
         {
@@ -59,7 +59,7 @@ public class GenerateLevelFromSave : MonoBehaviour
 
     void GeneratePuzzleComponents()
     {
-        foreach(var component in levelData.puzzleComponents)
+        foreach (var component in levelData.puzzleComponents)
         {
             var prefab = GetPrefabFromID(component.id);
 
@@ -71,17 +71,23 @@ public class GenerateLevelFromSave : MonoBehaviour
 
             var componentObject = Instantiate(prefab, component.position, Quaternion.identity);
 
-            if(component is CloneComponentData) GenerateClone(componentObject, component as CloneComponentData);
-            if(component is TextComponentData) GenerateText(componentObject, component as TextComponentData);
+            OnComponentSpawned(component, componentObject);
+
+            if (component is CloneComponentData) GenerateClone(componentObject, component as CloneComponentData);
+            if (component is TextComponentData) GenerateText(componentObject, component as TextComponentData);
         }
     }
 
+    protected virtual void OnComponentSpawned(PuzzleComponentData component, GameObject componenetObject) { }
+
     GameObject GetPrefabFromID(int id)
     {
-        foreach (var prefab in puzzleComponents) if (prefab.id == id) return prefab.prefab;
+        foreach (var prefab in components.components) if (prefab.id == id) return GetPrefabFromReference(prefab);
 
         return null;
     }
+
+    protected virtual GameObject GetPrefabFromReference(PuzzleComponentPrefabReference prefab) => prefab.prefab;
 
     public void GoToEditor()
     {
@@ -99,7 +105,7 @@ public class GenerateLevelFromSave : MonoBehaviour
     {
         var matcher = cloneInstance.GetComponent<PatternMatcher>();
 
-        if(matcher == null)
+        if (matcher == null)
         {
             Debug.LogWarning("Couldn't find Clone's pattern matcher");
             return;
@@ -113,7 +119,7 @@ public class GenerateLevelFromSave : MonoBehaviour
     {
         var text = textInstance.GetComponentInChildren<TextMeshProUGUI>();
 
-        if(text == null)
+        if (text == null)
         {
             Debug.LogWarning("Couldn't find Text Component");
             return;

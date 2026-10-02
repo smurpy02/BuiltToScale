@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1903b488cf12a9e4d95e9cdabd833682, type: 3}
+  m_Name: _PuzzleComponents
+  m_EditorClassIdentifier: Assembly-CSharp::ListOfComponentReferences
+  components:
+  - {fileID: 11400000, guid: bf6f0e34593571b4aba9cad3ad279c97, type: 2}
+  - {fileID: 11400000, guid: 55675450f00296d4a8719ac1529fb43e, type: 2}
+  - {fileID: 11400000, guid: 53c9638d21d8cc04bbccc4fbcfdc47ae, type: 2}
+  - {fileID: 11400000, guid: 7b8682de8da14c747b0e374a446f74bb, type: 2}

@@ -25,8 +25,12 @@ public class LevelEditorManager : MonoBehaviour
     public InputActionReference toggleCanvas;
     public Toggle snapToGridToggle;
     public TMP_InputField levelNameInput;
-    public GameObject levelInfoBlock, levelEditorCanvas;
+    public GameObject levelInfoBlock, levelEditorCanvas, confirmOverwrite;
     public Transform levelInfoBlockContainer;
+    public TextMeshProUGUI overwriteText;
+
+    [Header("Generation")]
+    public GenerateEditableLevel generateEditable;
 
     [Header("Values")]
     public bool snapToGrid;
@@ -34,6 +38,8 @@ public class LevelEditorManager : MonoBehaviour
     List<GameObject> levelInfoBlocks = new List<GameObject>();
     List<PuzzleComponentInstance> puzzleComponents = new List<PuzzleComponentInstance>();
     LevelData levelData;
+
+    string overwriteLevelLocation, overwriteLevelName;
 
     void OnEnable()
     {
@@ -93,6 +99,26 @@ public class LevelEditorManager : MonoBehaviour
 
         LevelMemoryManager.SetLocationData(levelSaveData);
         LevelMemoryManager.DeleteLevel(levelNumber);
+
+        RefreshLevelList();
+    }
+
+    public void Overwrite(int levelNumber)
+    {
+        var data = LevelMemoryManager.GetLevelData(levelNumber);
+
+        overwriteLevelLocation = LevelMemoryManager.GetLevelName(levelNumber);
+        overwriteLevelName = data.levelName;
+
+        overwriteText.text = $"Are you sure you'd like to Overwrite {overwriteLevelName}?";
+        confirmOverwrite.SetActive(true);
+    }
+
+    public void ConfirmOverwrite()
+    {
+        confirmOverwrite.SetActive(false);
+
+        SaveLevelData(overwriteLevelLocation, overwriteLevelName);
 
         RefreshLevelList();
     }
@@ -180,7 +206,7 @@ public class LevelEditorManager : MonoBehaviour
             return;
         }
 
-        infoBlockUI.Initiate(levelData, levelNumber);
+        infoBlockUI.Initiate(levelData, levelNumber, this);
     }
     #endregion
 }

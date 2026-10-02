@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ExpansionEngine : MonoBehaviour
@@ -8,6 +10,7 @@ public class ExpansionEngine : MonoBehaviour
     public GameObject blockObject, breakBlock;
     public LayerMask expansionMask;
 
+    [HideInInspector] public Action<Vector2Int, Transform> SpawnBlock;
     Dictionary<Vector2Int, Block> blocks = new Dictionary<Vector2Int, Block>();
     Block highestBlock;
 
@@ -17,8 +20,8 @@ public class ExpansionEngine : MonoBehaviour
         transform.localPosition = (Vector2)position;
 
         HandleNewBlock(transform);
-
-        Block block = Block.Create(transform, position);
+         
+        Block block = new Block(transform, position);
 
         if (highestBlock == null) highestBlock = block;
         else if (position.y > highestBlock.position.y) highestBlock = block;
@@ -58,6 +61,8 @@ public class ExpansionEngine : MonoBehaviour
         if (blocks.ContainsKey(position)) return;
 
         var newBlock = CreateNewBlock(position);
+
+        SpawnBlock?.Invoke(position, newBlock.transform);
 
         blocks.Add(position, newBlock);
 

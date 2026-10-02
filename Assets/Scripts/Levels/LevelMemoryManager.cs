@@ -6,7 +6,7 @@ public class LevelMemoryManager
 
     public static LevelData GetLevelData(int levelNumber)
     {
-        var levelLocation = $"{levelNamePrefix}{levelNumber}";
+        var levelLocation = GetLevelName(levelNumber);
 
         if (!PlayerPrefs.HasKey(levelLocation))
         {
@@ -67,16 +67,14 @@ public class LevelMemoryManager
         while (levelSaveData.SaveLocations.Contains(levelNumber)) levelNumber++;
         levelSaveData.SaveLocations.Add(levelNumber);
 
-        string levelLocation = $"{levelNamePrefix}{levelNumber}";
-
         SetLocationData(levelSaveData);
-        return levelLocation;
+        return GetLevelName(levelNumber);
     }
 
     public static void DeleteLevel(int levelNumber)
     {
-        var levelLocation = $"{levelNamePrefix}{levelNumber}";
-
-        PlayerPrefs.DeleteKey(levelLocation);
+        PlayerPrefs.DeleteKey(GetLevelName(levelNumber));
     }
+
+    public static string GetLevelName(int levelNumber) => $"{levelNamePrefix}{levelNumber}";
 }

@@ -8,7 +8,5 @@ public class PlusBlock : MonoBehaviour
     public void Plus()
     {
         if (engine != null) engine.SpawnNewBlock(position);
-
-        Destroy(gameObject);
     }
 }

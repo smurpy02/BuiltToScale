@@ -9,32 +9,53 @@ public class BlockBodyEditor : MonoBehaviour
 
     Dictionary<Vector2Int, GameObject> plusBlocks = new Dictionary<Vector2Int, GameObject>();
     ExpansionEngine engine;
+    int blocksSpawned;
 
     public GameObject plusBlock;
 
-    void Start()
+    void OnEnable()
     {
         engine = GetComponent<ExpansionEngine>();
 
+        engine.SpawnBlock += (position, block) => SpawnAround(position, block);
         engine.SpawnBlockPlayer(Vector2Int.zero);
+    }
 
-        SpawnPlus(Vector2Int.up);
-        SpawnPlus(Vector2Int.down);
-        SpawnPlus(Vector2Int.left);
-        SpawnPlus(Vector2Int.right);
+    void OnDisable()
+    {
+        if (engine != null) engine.SpawnBlock -= (position, block) => SpawnAround(position, block);
     }
 
     public void SpawnNewBlock(Vector2Int plusBlockPosition)
     {
-        if(plusBlocks.ContainsKey(plusBlockPosition)) plusBlocks.Remove(plusBlockPosition);
-
         spawnedLastBlock = this;
         engine.SpawnBlockPlayer(plusBlockPosition);
+    }
 
-        SpawnPlus(plusBlockPosition + Vector2Int.up);
-        SpawnPlus(plusBlockPosition + Vector2Int.down);
-        SpawnPlus(plusBlockPosition + Vector2Int.left);
-        SpawnPlus(plusBlockPosition + Vector2Int.right);
+    void SpawnAround(Vector2Int position, Transform block)
+    {
+        blocksSpawned++;
+
+        var editorBlock = block.GetComponent<EditorBlock>();
+
+        if (editorBlock != null)
+        {
+            editorBlock.editor = this;
+            if (blocksSpawned == 1) editorBlock.RemoveCross();
+        }
+
+        if (plusBlocks.ContainsKey(position)) RemovePlusBlock(position);
+
+        SpawnPlus(position + Vector2Int.up);
+        SpawnPlus(position + Vector2Int.down);
+        SpawnPlus(position + Vector2Int.left);
+        SpawnPlus(position + Vector2Int.right);
+    }
+
+    void RemovePlusBlock(Vector2Int position)
+    {
+        Destroy(plusBlocks[position]);
+        plusBlocks.Remove(position);
     }
 
     void SpawnPlus(Vector2Int newPosition)
