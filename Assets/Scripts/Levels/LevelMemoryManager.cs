@@ -1,20 +1,15 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-public class LevelMemoryManager
+public static class LevelMemoryManager
 {
-    const string levelNameListLocation = "ListOfLevelNames", levelNamePrefix = "CustomLevel_";
+    const string levelNameListLocation = "ListOfLevelNames", levelNamePrefix = "CustomLevel_", chapterLevelHolderPath = "ChapterAndLevelDetails";
+
+    static ChapterLevelHolder chapterLevelHolder;
 
     public static LevelData GetLevelData(int levelNumber)
     {
-        var levelLocation = GetLevelName(levelNumber);
-
-        if (!PlayerPrefs.HasKey(levelLocation))
-        {
-            Debug.LogWarning("Level Data does not exist in this location");
-            return null;
-        }
-
-        var levelData = JsonUtility.FromJson<LevelData>(PlayerPrefs.GetString(levelLocation));
+        var levelData = JsonUtility.FromJson<LevelData>(GetLevelJson(levelNumber));
 
         if (levelData == null)
         {
@@ -23,6 +18,19 @@ public class LevelMemoryManager
         }
 
         return levelData;
+    }
+
+    public static string GetLevelJson(int levelNumber)
+    {
+        var levelLocation = GetLevelLocation(levelNumber);
+
+        if (!PlayerPrefs.HasKey(levelLocation))
+        {
+            Debug.LogWarning("Level Data does not exist in this location");
+            return null;
+        }
+
+        return PlayerPrefs.GetString(levelLocation);
     }
 
     public static LevelSaveLocationData GetLocationData()
@@ -68,13 +76,38 @@ public class LevelMemoryManager
         levelSaveData.SaveLocations.Add(levelNumber);
 
         SetLocationData(levelSaveData);
-        return GetLevelName(levelNumber);
+        return GetLevelLocation(levelNumber);
     }
 
     public static void DeleteLevel(int levelNumber)
     {
-        PlayerPrefs.DeleteKey(GetLevelName(levelNumber));
+        PlayerPrefs.DeleteKey(GetLevelLocation(levelNumber));
     }
 
-    public static string GetLevelName(int levelNumber) => $"{levelNamePrefix}{levelNumber}";
+    public static string GetLevelLocation(int levelNumber) => $"{levelNamePrefix}{levelNumber}";
+
+    static void LoadChapterLevelHolder()
+    {
+        if (chapterLevelHolder == null) chapterLevelHolder = Resources.Load<ChapterLevelHolder>(chapterLevelHolderPath);
+    }
+
+    public static void SaveLevelToPersistentPath(int levelNumber)
+    {
+        LoadChapterLevelHolder();
+
+        var levelJson = GetLevelJson(levelNumber);
+
+        chapterLevelHolder.AddLevel(1, levelJson);
+    }
+
+    public static List<string> GetSavedPersistentLevels()
+    {
+        LoadChapterLevelHolder();
+
+        var levels = new List<string>();
+
+        chapterLevelHolder.levels.ForEach(level => levels.Add(level.json));
+
+        return levels;
+    }
 }

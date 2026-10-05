@@ -16,6 +16,7 @@ public class LevelLoader : MonoBehaviour
     {
         instance = this;
 
+        return;
         lower.gameObject.SetActive(true);
         upper.gameObject.SetActive(true);
 

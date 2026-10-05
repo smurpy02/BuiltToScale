@@ -107,7 +107,7 @@ public class LevelEditorManager : MonoBehaviour
     {
         var data = LevelMemoryManager.GetLevelData(levelNumber);
 
-        overwriteLevelLocation = LevelMemoryManager.GetLevelName(levelNumber);
+        overwriteLevelLocation = LevelMemoryManager.GetLevelLocation(levelNumber);
         overwriteLevelName = data.levelName;
 
         overwriteText.text = $"Are you sure you'd like to Overwrite {overwriteLevelName}?";

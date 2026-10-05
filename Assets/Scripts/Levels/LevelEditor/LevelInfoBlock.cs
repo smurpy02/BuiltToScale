@@ -38,4 +38,9 @@ public class LevelInfoBlock : MonoBehaviour
     {
         LevelEditorManager.instance.Overwrite(levelNumber);
     }
+
+    public void AddToChapterLevelHolder()
+    {
+        LevelMemoryManager.SaveLevelToPersistentPath(levelNumber);
+    }
 }

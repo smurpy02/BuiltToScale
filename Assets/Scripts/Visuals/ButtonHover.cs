@@ -17,7 +17,7 @@ public class ButtonHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     {
         transform.DOKill();
         transform.localPosition = awakePosition;
-        transform.DOShakePosition(.3f, 3);
+        transform.DOShakePosition(.2f, 3);
         transform.DOScale(1.1f, .25f);
 
         otherButtons.ForEach(button => button.transform.DOLocalMoveX(button.awakePosition.x + ((button.transform.localPosition.x > transform.localPosition.x) ? 10 : -10), .25f));
