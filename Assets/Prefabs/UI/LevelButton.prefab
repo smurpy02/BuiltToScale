@@ -284,7 +284,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1ad91e764b5e4b4aa8fec8a70ff17d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelButtonHandler
-  levelNumberText: {fileID: 275836961042259789}
+  displayText: {fileID: 275836961042259789}
 --- !u!114 &1959551815097566725
 MonoBehaviour:
   m_ObjectHideFlags: 0

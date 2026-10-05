@@ -24,6 +24,7 @@ public class GenerateLevelFromSave : MonoBehaviour
     {
         if (levelData == null)
         {
+            Debug.LogError("LevelData is Null. Grabbing Default");
             levelData = LevelMemoryManager.GetLevelData(0);
             if (levelData == null) return;
         }

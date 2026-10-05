@@ -7,16 +7,20 @@ public class ChapterLevelHolder : ScriptableObject
 {
     public List<LevelDetails> levels = new List<LevelDetails>();
 
-    public void AddLevel(int chapter, string json) => levels.Add(new LevelDetails(chapter, json));
+    public void AddLevel(string chapter, string json)
+    {
+        var levelDetails = new LevelDetails(chapter, json);
+
+        levels.Add(levelDetails);
+    }
 }
 
 [Serializable]
 public class LevelDetails
 {
-    public int chapter;
-    public string json;
+    public string chapter, json;
 
-    public LevelDetails(int chapter, string json)
+    public LevelDetails(string chapter, string json)
     {
         this.chapter = chapter;
         this.json = json;

@@ -4,18 +4,18 @@ using UnityEngine.EventSystems;
 
 public class LevelButtonHandler : MonoBehaviour
 {
-    public TextMeshProUGUI levelNumberText;
+    public TextMeshProUGUI displayText;
 
-    int levelNumber;
+    string levelJson;
 
-    public void Initiate(int levelNumber)
+    public void Initiate(int displayNumber, string levelJson)
     {
-        this.levelNumber = levelNumber;
-        levelNumberText.text = $"{levelNumber}";
+        this.levelJson = levelJson;
+        displayText.text = $"{displayNumber}";
     }
 
     public void LoadLevel()
     {
-        LevelLoader.LoadLevel(LevelMemoryManager.GetLevelData(levelNumber));
+        LevelLoader.LoadLevel(LevelMemoryManager.GetLevelData(levelJson));
     }
 }

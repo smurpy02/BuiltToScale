@@ -9,11 +9,16 @@ public static class LevelMemoryManager
 
     public static LevelData GetLevelData(int levelNumber)
     {
-        var levelData = JsonUtility.FromJson<LevelData>(GetLevelJson(levelNumber));
+        return GetLevelData(GetLevelJson(levelNumber));
+    }
+
+    public static LevelData GetLevelData(string levelJson)
+    {
+        var levelData = JsonUtility.FromJson<LevelData>(levelJson);
 
         if (levelData == null)
         {
-            Debug.LogWarning("Level Data was null or unreadable");
+            Debug.LogWarning("Level Data was Null or Unreadable");
             return null;
         }
 
@@ -97,7 +102,7 @@ public static class LevelMemoryManager
 
         var levelJson = GetLevelJson(levelNumber);
 
-        chapterLevelHolder.AddLevel(1, levelJson);
+        chapterLevelHolder.AddLevel("", levelJson);
     }
 
     public static List<string> GetSavedPersistentLevels()
@@ -109,5 +114,12 @@ public static class LevelMemoryManager
         chapterLevelHolder.levels.ForEach(level => levels.Add(level.json));
 
         return levels;
+    }
+
+    public static ChapterLevelHolder GetChapterLevelHolder()
+    {
+        LoadChapterLevelHolder();
+
+        return chapterLevelHolder;
     }
 }
