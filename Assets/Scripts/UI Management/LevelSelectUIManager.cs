@@ -16,7 +16,7 @@ public class LevelSelectUIManager : MonoBehaviour
 
     const float rotateTheta = 17;
 
-    public void SpawnButton(string levelJson)
+    public void SpawnButton(LevelDetails level)
     {
         if (levelNumber != 0) rotation.z += rotateTheta;
         pivot.rotation = Quaternion.Euler(rotation);
@@ -27,7 +27,7 @@ public class LevelSelectUIManager : MonoBehaviour
 
         var buttonHandler = newButton.GetComponent<LevelButtonHandler>();
 
-        if (buttonHandler != null) buttonHandler.Initiate(++levelNumber, levelJson);
+        if (buttonHandler != null) buttonHandler.Initiate(++levelNumber, level);
     }
 
     public void ResetRotation()

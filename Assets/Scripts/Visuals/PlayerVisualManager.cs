@@ -21,6 +21,6 @@ public class PlayerVisualManager : MonoBehaviour
     void Land()
     {
         scaleParent.localScale = Vector3.one;
-        scaleParent.DOPunchScale(new Vector3(.1f, -.15f), 0.3f, 2, 1).OnComplete(() => scaleParent.DOScale(Vector3.one, .1f));
+        scaleParent.DOPunchScale(new Vector3(.1f, -.1f), 0.3f, 2, 1).OnComplete(() => scaleParent.DOScale(Vector3.one, .1f));
     }
 }

@@ -5,22 +5,25 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "chapter and level manager", menuName = "Chapter&Level Holder")]
 public class ChapterLevelHolder : ScriptableObject
 {
-    public List<LevelDetails> levels = new List<LevelDetails>();
+    public List<ChapterDetails> chapters = new List<ChapterDetails>();
 
-    public void AddLevel(string chapter, string json)
+    public void AddLevel(ChapterDetails chapter, string json)
     {
+        if(!chapters.Contains(chapter)) chapters.Add(chapter);
+
         var levelDetails = new LevelDetails(chapter, json);
 
-        levels.Add(levelDetails);
+        chapter.levels.Add(levelDetails);
     }
 }
 
 [Serializable]
 public class LevelDetails
 {
-    public string chapter, json;
+    public ChapterDetails chapter;
+    public string json;
 
-    public LevelDetails(string chapter, string json)
+    public LevelDetails(ChapterDetails chapter, string json)
     {
         this.chapter = chapter;
         this.json = json;

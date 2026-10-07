@@ -9,7 +9,7 @@ public class ChapterUIManager : MonoBehaviour
     public LevelSelectUIManager levelUIManager;
     public Transform pivot;
 
-    Dictionary<string, List<LevelDetails>> chapters = new();
+    List<ChapterDetails> chapters = new List<ChapterDetails> ();
     int currentChapterIndex = 0;
     Vector3 rotation = Vector3.zero;
 
@@ -19,40 +19,41 @@ public class ChapterUIManager : MonoBehaviour
     {
         var levelHolder = LevelMemoryManager.GetChapterLevelHolder();
 
-        foreach(var level in levelHolder.levels)
+        chapters = levelHolder.chapters;
+
+        foreach(var chapter in chapters)
         {
-            if(string.IsNullOrEmpty(level.chapter)) continue;
+            Debug.Log("Chapter " + chapter.chapterName);
 
-            if (!chapters.ContainsKey(level.chapter))
+            int i = 0;
+
+            foreach(var level in chapter.levels)
             {
-                chapters.Add(level.chapter, new List<LevelDetails>());
+                Debug.Log("Level " + i++);
+                level.chapter = chapter;
             }
-
-            chapters[level.chapter].Add(level);
         }
 
-        if (chapters.Count > 0) SetChapter(chapters.First().Key);
+        if (chapters.Count > 0) SetChapter(0);
     }
 
     void SetChapter(int index)
     {
-        var chapterKeys = chapters.Keys.ToList();
-
-        if (chapterKeys.Count > index && index >= 0)
+        if (chapters.Count > index && index >= 0)
         {
             currentChapterIndex = index;
-            SetChapter(chapterKeys[index]);
+            SetChapter(chapters[index]);
         }
     }
 
-    void SetChapter(string chapter)
+    void SetChapter(ChapterDetails chapter)
     {
         rotation.z = rotateTheta * currentChapterIndex;
         pivot.DORotate(rotation, .25f).SetEase(Ease.InOutQuad);
 
         levelUIManager.Clear();
 
-        chapters[chapter].ForEach(level => levelUIManager.SpawnButton(level.json));
+        chapter.levels.ForEach(level => levelUIManager.SpawnButton(level));
 
         levelUIManager.ResetRotation();
     }

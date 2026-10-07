@@ -6,16 +6,19 @@ public class LevelButtonHandler : MonoBehaviour
 {
     public TextMeshProUGUI displayText;
 
-    string levelJson;
+    LevelDetails level;
 
-    public void Initiate(int displayNumber, string levelJson)
+    public void Initiate(int levelNumber, LevelDetails level)
     {
-        this.levelJson = levelJson;
-        displayText.text = $"{displayNumber}";
+        this.level = level;
+        displayText.text = $"{level.chapter.chapterName}-{levelNumber}";
     }
 
     public void LoadLevel()
     {
-        LevelLoader.LoadLevel(LevelMemoryManager.GetLevelData(levelJson));
+        LevelLoader.currentChapter = level.chapter;
+        LevelLoader.currentLevel = level;
+
+        LevelLoader.LoadLevel(LevelMemoryManager.GetLevelData(level.json));
     }
 }

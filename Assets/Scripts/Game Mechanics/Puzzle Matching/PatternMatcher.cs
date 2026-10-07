@@ -91,13 +91,9 @@ public class PatternMatcher : MonoBehaviour
 
         foreach (PatternMatcher matcher in matchers) matcher.SnapIntoPlace();
 
-        throw new NotImplementedException();
-
         //set scene as complete in PlayerPrefs
 
-        //find the next level to load
-
-        LevelLoader.LoadScene(0);
+        LevelLoader.LoadNextLevel();
     }
 
     public void SnapIntoPlace()

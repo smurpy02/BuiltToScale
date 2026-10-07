@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public static class LevelMemoryManager
@@ -96,24 +97,27 @@ public static class LevelMemoryManager
         if (chapterLevelHolder == null) chapterLevelHolder = Resources.Load<ChapterLevelHolder>(chapterLevelHolderPath);
     }
 
-    public static void SaveLevelToPersistentPath(int levelNumber)
+    static ChapterDetails LoadChapterDetails(int chapterNumber)
+    {
+        var chapter = Resources.Load<ChapterDetails>($"chapter {chapterNumber}");
+
+        return chapter;
+    }
+
+    public static void SaveLevelToPersistentPath(int chapterNumber, int levelNumber)
     {
         LoadChapterLevelHolder();
 
         var levelJson = GetLevelJson(levelNumber);
+        var chapter = LoadChapterDetails(chapterNumber);
 
-        chapterLevelHolder.AddLevel("", levelJson);
-    }
+        if (chapter.IsUnityNull())
+        {
+            Debug.LogError($"Cannot find Chapter with chapter number {chapterNumber}");
+            return;
+        }
 
-    public static List<string> GetSavedPersistentLevels()
-    {
-        LoadChapterLevelHolder();
-
-        var levels = new List<string>();
-
-        chapterLevelHolder.levels.ForEach(level => levels.Add(level.json));
-
-        return levels;
+        chapterLevelHolder.AddLevel(chapter, levelJson);
     }
 
     public static ChapterLevelHolder GetChapterLevelHolder()

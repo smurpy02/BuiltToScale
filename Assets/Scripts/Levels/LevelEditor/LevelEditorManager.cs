@@ -125,7 +125,7 @@ public class LevelEditorManager : MonoBehaviour
     #endregion
 
     #region Save Data
-    public void SaveLevelData()
+    void SaveLevelData()
     {
         string levelName = levelNameInput.text;
 
@@ -152,6 +152,13 @@ public class LevelEditorManager : MonoBehaviour
         string levelJson = JsonUtility.ToJson(levelData);
 
         PlayerPrefs.SetString(location, levelJson);
+    }
+
+    public void SaveLevelToChapter()
+    {
+        SaveLevelData(LevelMemoryManager.GetLevelLocation(-1), levelNameInput.text);
+
+        LevelMemoryManager.SaveLevelToPersistentPath(1, -1);
     }
 
     void SavePlayerAndPattern()

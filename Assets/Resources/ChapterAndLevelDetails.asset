@@ -12,14 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab085257bd4720b4091b9c340db1f223, type: 3}
   m_Name: ChapterAndLevelDetails
   m_EditorClassIdentifier: Assembly-CSharp::ChapterLevelHolder
-  levels:
-  - chapter: Chapter 1
-    json: 
-  - chapter: Chapter 1
-    json: 
-  - chapter: Chapter 2
-    json: 
-  - chapter: Chapter 2
-    json: 
-  - chapter: Chapter 2
-    json: 
+  chapters:
+  - {fileID: 11400000, guid: 78b2b01475a5d0040bad974417e6ea31, type: 2}
+  - {fileID: 11400000, guid: 4f3352e07a82e7045a23a8d76cb4c3a2, type: 2}
