@@ -7,34 +7,27 @@ using UnityEngine.UIElements;
 
 public class LevelSelectUIManager : MonoBehaviour
 {
-    public Transform pivot, spawnLocation;
+    public Transform spawnLocation;
     public GameObject button;
+    public ClockScrollUI clockScroll;
 
     List<GameObject> buttons = new();
-    Vector3 rotation = Vector3.zero;
-    int levelNumber = 0;
-
-    const float rotateTheta = 17;
+    int levelNumber = 0, chapterNumber = 1;
 
     public void SpawnButton(LevelDetails level)
     {
-        if (levelNumber != 0) rotation.z += rotateTheta;
-        pivot.rotation = Quaternion.Euler(rotation);
+        clockScroll.AddPoint();
 
-        var newButton = Instantiate(button, spawnLocation.position, Quaternion.identity, pivot);
+        var newButton = Instantiate(button, spawnLocation.position, Quaternion.identity, clockScroll.pivot);
 
         buttons.Add(newButton);
 
         var buttonHandler = newButton.GetComponent<LevelButtonHandler>();
 
-        if (buttonHandler != null) buttonHandler.Initiate(++levelNumber, level);
+        if (buttonHandler != null) buttonHandler.Initiate(++levelNumber, chapterNumber, level);
     }
 
-    public void ResetRotation()
-    {
-        rotation.z = 0;
-        pivot.rotation = Quaternion.Euler(rotation);
-    }
+    public void SetChapterNumber(int chapterNumber) => this.chapterNumber = chapterNumber;
 
     public void Clear()
     {
@@ -46,23 +39,7 @@ public class LevelSelectUIManager : MonoBehaviour
         });
 
         buttons.Clear();
-        ResetRotation();
-    }
-
-    public void ShiftLeft()
-    {
-        rotation.z -= 17;
-        RotatePivot();
-    }
-
-    public void ShiftRight()
-    {
-        rotation.z += 17;
-        RotatePivot();
-    }
-
-    void RotatePivot()
-    {
-        pivot.DORotate(rotation, .35f).SetEase(Ease.InOutQuad);
+        clockScroll.ResetRotation();
+        clockScroll.ClearPoints();
     }
 }

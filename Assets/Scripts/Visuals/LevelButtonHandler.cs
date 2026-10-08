@@ -8,10 +8,10 @@ public class LevelButtonHandler : MonoBehaviour
 
     LevelDetails level;
 
-    public void Initiate(int levelNumber, LevelDetails level)
+    public void Initiate(int levelNumber, int chapterNumber, LevelDetails level)
     {
         this.level = level;
-        displayText.text = $"{level.chapter.chapterName}-{levelNumber}";
+        displayText.text = $"{chapterNumber}.{levelNumber}";
     }
 
     public void LoadLevel()

@@ -221,14 +221,14 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 19854492}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1531227325}
   - {fileID: 237201158}
-  m_Father: {fileID: 1180014240}
+  m_Father: {fileID: 904179926}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1520,6 +1520,76 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 903086599}
   m_CullTransparentMesh: 1
+--- !u!1 &904179925
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 904179926}
+  - component: {fileID: 904179927}
+  - component: {fileID: 904179928}
+  m_Layer: 5
+  m_Name: LevelSelect
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &904179926
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 904179925}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 19854493}
+  - {fileID: 1353295547}
+  m_Father: {fileID: 1180014240}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &904179927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 904179925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffd9863e27e78fe449e7fa79ce48680a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ClockScrollUI
+  leftArrow: {fileID: 976317466}
+  rightArrow: {fileID: 1039384268}
+  pivot: {fileID: 1531227325}
+  incrementAmount: 17
+--- !u!114 &904179928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 904179925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48cf6d596840d1e4bbf8adc193450f0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  spawnLocation: {fileID: 237201158}
+  button: {fileID: 5706068198325214488, guid: e6f2a6843a79e094396512eda7b8a0d2, type: 3}
+  clockScroll: {fileID: 904179927}
 --- !u!1 &959540271
 GameObject:
   m_ObjectHideFlags: 0
@@ -1692,8 +1762,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1531227326}
-        m_TargetAssemblyTypeName: LevelSelectUIManager, Assembly-CSharp
+      - m_Target: {fileID: 904179927}
+        m_TargetAssemblyTypeName: ClockScrollUI, Assembly-CSharp
         m_MethodName: ShiftLeft
         m_Mode: 1
         m_Arguments:
@@ -1824,8 +1894,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1531227326}
-        m_TargetAssemblyTypeName: LevelSelectUIManager, Assembly-CSharp
+      - m_Target: {fileID: 904179927}
+        m_TargetAssemblyTypeName: ClockScrollUI, Assembly-CSharp
         m_MethodName: ShiftRight
         m_Mode: 1
         m_Arguments:
@@ -2107,14 +2177,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1180014240}
-  - component: {fileID: 1180014241}
   m_Layer: 5
-  m_Name: LevelSelect
+  m_Name: LevelSelectPage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1180014240
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2127,10 +2196,9 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 19854493}
-  - {fileID: 1353295547}
-  - {fileID: 495761533}
+  - {fileID: 904179926}
   - {fileID: 1842799974}
+  - {fileID: 495761533}
   - {fileID: 1873548551}
   m_Father: {fileID: 712070538}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2139,20 +2207,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1180014241
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1180014239}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4347a203b0d0b864aaabb65c1410aac1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ChapterUIManager
-  levelUIManager: {fileID: 1531227326}
-  pivot: {fileID: 47967119}
 --- !u!1 &1285686039
 GameObject:
   m_ObjectHideFlags: 0
@@ -2235,8 +2289,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1180014241}
-        m_TargetAssemblyTypeName: ChapterUIManager, Assembly-CSharp
+      - m_Target: {fileID: 1842799976}
+        m_TargetAssemblyTypeName: ClockScrollUI, Assembly-CSharp
         m_MethodName: ShiftRight
         m_Mode: 1
         m_Arguments:
@@ -2308,7 +2362,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1353295546}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2316,7 +2370,7 @@ RectTransform:
   - {fileID: 976317467}
   - {fileID: 1039384269}
   - {fileID: 1483325553}
-  m_Father: {fileID: 1180014240}
+  m_Father: {fileID: 904179926}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2631,7 +2685,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1531227325}
-  - component: {fileID: 1531227326}
   m_Layer: 5
   m_Name: Pivot
   m_TagString: Untagged
@@ -2658,21 +2711,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -400}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1531227326
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1531227324}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48cf6d596840d1e4bbf8adc193450f0d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  pivot: {fileID: 1531227325}
-  spawnLocation: {fileID: 237201158}
-  button: {fileID: 5706068198325214488, guid: e6f2a6843a79e094396512eda7b8a0d2, type: 3}
 --- !u!1 &1591895744
 GameObject:
   m_ObjectHideFlags: 0
@@ -2809,7 +2847,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1727022408
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2841,6 +2879,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1842799974}
   - component: {fileID: 1842799975}
+  - component: {fileID: 1842799976}
+  - component: {fileID: 1842799977}
   m_Layer: 5
   m_Name: ChapterSelect
   m_TagString: Untagged
@@ -2878,6 +2918,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1842799973}
   m_CullTransparentMesh: 1
+--- !u!114 &1842799976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1842799973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffd9863e27e78fe449e7fa79ce48680a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ClockScrollUI
+  leftArrow: {fileID: 1893996466}
+  rightArrow: {fileID: 1285686039}
+  pivot: {fileID: 47967119}
+  incrementAmount: 45
+--- !u!114 &1842799977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1842799973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4347a203b0d0b864aaabb65c1410aac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ChapterUIManager
+  levelUIManager: {fileID: 904179928}
+  clockScroll: {fileID: 1842799976}
 --- !u!1 &1873548550
 GameObject:
   m_ObjectHideFlags: 0
@@ -3092,8 +3162,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1180014241}
-        m_TargetAssemblyTypeName: ChapterUIManager, Assembly-CSharp
+      - m_Target: {fileID: 1842799976}
+        m_TargetAssemblyTypeName: ClockScrollUI, Assembly-CSharp
         m_MethodName: ShiftLeft
         m_Mode: 1
         m_Arguments:
