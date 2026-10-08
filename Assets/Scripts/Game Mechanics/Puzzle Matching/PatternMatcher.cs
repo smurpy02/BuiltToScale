@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Unity.VisualScripting;
+using DG.Tweening;
 
 public class PatternMatcher : MonoBehaviour
 {
@@ -88,6 +89,13 @@ public class PatternMatcher : MonoBehaviour
     void CompleteMatch()
     {
         matched = true;
+
+        var playerPosition = player.engine.body.position;
+        var cameraTransform = Camera.main.transform;
+
+        cameraTransform.DOMove(new Vector3(playerPosition.x, playerPosition.y, cameraTransform.position.z), .6f).SetEase(Ease.OutBack);
+
+        Camera.main.DOOrthoSize(3.5f, 1f).SetEase(Ease.InOutSine);
 
         foreach (PatternMatcher matcher in matchers) matcher.SnapIntoPlace();
 

@@ -82,7 +82,7 @@ public class LevelLoader : MonoBehaviour
 
     static IEnumerator ILoadLevel(string json)
     {
-        yield return new WaitForSeconds(.8f);
+        yield return new WaitForSeconds(2.4f);
 
         LoadLevel(json);
     }
