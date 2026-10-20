@@ -51,7 +51,7 @@ public class ClockScrollUI : MonoBehaviour
     {
         if (animate)
         {
-            pivot.DORotate(Vector3.forward * zRotation, .15f).SetEase(Ease.InOutSine);
+            pivot.DORotate(Vector3.forward * zRotation, .5f).SetEase(Ease.OutCirc);
         }
         else
         {
