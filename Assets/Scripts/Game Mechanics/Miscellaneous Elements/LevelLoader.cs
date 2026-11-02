@@ -13,24 +13,18 @@ public class LevelLoader : MonoBehaviour
     public static LevelDetails currentLevel;
 
     [Header("Transition")]
-    public int yValue = 15;
-    public Transform lower, upper;
+    public Transform transition;
 
     private void Start()
     {
         instance = this;
 
-        return;
-        lower.gameObject.SetActive(true);
-        upper.gameObject.SetActive(true);
-
-        lower.DOMoveY(-yValue, 1f).SetEase(Ease.InCubic);
-        upper.DOMoveY(yValue, 1f).SetEase(Ease.InCubic);
+        transition.DOScale(0, .4f).SetEase(Ease.InExpo);
     }
 
-    public static void LoadScene(int scene, float transitionTime = 1)
+    public static void LoadScene(int scene)
     {
-        instance.TransitionScenes(scene, transitionTime);
+        instance.ExitTransition(SceneManager.GetSceneAt(scene).name);
     }
 
     public static void LoadLevel(string json)
@@ -47,7 +41,7 @@ public class LevelLoader : MonoBehaviour
     public static void LoadLevel(LevelData data)
     {
         GenerateLevelFromSave.levelData = data;
-        SceneManager.LoadSceneAsync("GameLevel");
+        instance.ExitTransition("GameLevel");
     }
 
     public static void LoadNextLevel()
@@ -87,17 +81,8 @@ public class LevelLoader : MonoBehaviour
         LoadLevel(json);
     }
 
-    public void TransitionScenes(int scene, float transitionTime)
+    void ExitTransition(string scene)
     {
-        StartCoroutine(ITransitionScenes(scene, transitionTime));
-    }
-
-    IEnumerator ITransitionScenes(int scene, float transitionTime)
-    {
-        lower.DOMoveY(0, transitionTime).SetEase(Ease.InCubic);
-        yield return upper.DOMoveY(0, transitionTime).SetEase(Ease.InCubic).WaitForCompletion();
-
-        // Generate Level
         SceneManager.LoadSceneAsync(scene);
     }
 }

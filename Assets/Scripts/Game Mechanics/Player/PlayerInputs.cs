@@ -52,6 +52,6 @@ public class PlayerInputs : MonoBehaviour
     void ReloadScene()
     {
         reloadingScene = true;
-        LevelLoader.LoadScene(SceneManager.GetActiveScene().buildIndex, 0.8f);
+        LevelLoader.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
