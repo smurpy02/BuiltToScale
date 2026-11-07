@@ -30,6 +30,6 @@ public class GenerateEditableLevel : GenerateLevelFromSave
         levelData = data;
         generatePresetLevel = true;
 
-        LevelLoader.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        LevelLoader.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

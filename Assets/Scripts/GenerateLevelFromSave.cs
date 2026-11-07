@@ -40,21 +40,19 @@ public class GenerateLevelFromSave : MonoBehaviour
     {
         var holder = LevelMemoryManager.GetChapterLevelHolder();
 
-        if (holder.IsUnityNull()) return;
-        if (holder.chapters.IsUnityNull()) return;
-        if (holder.chapters.Count == 0) return;
+        if (holder.IsUnityNull()) return; if (holder.chapters.IsUnityNull()) return; if (holder.chapters.Count == 0) return;
 
         var chapter1 = holder.chapters[0];
 
-        if (chapter1.IsUnityNull()) return;
-        if (chapter1.levels.IsUnityNull()) return;
-        if (chapter1.levels.Count == 0) return;
+        if (chapter1.IsUnityNull()) return; if (chapter1.levels.IsUnityNull()) return; if (chapter1.levels.Count == 0) return;
 
         var level1 = chapter1.levels[0];
 
         if (level1.IsUnityNull()) return;
 
         levelData = LevelMemoryManager.GetLevelData(level1.json);
+        LevelLoader.currentChapter = chapter1;
+        LevelLoader.currentLevel = level1;
     }
 
     void GenerateGrid()

@@ -12,19 +12,19 @@ public class LevelLoader : MonoBehaviour
     public static ChapterDetails currentChapter;
     public static LevelDetails currentLevel;
 
-    [Header("Transition")]
-    public Transform transition;
-
     private void Start()
     {
         instance = this;
-
-        transition.DOScale(0, .4f).SetEase(Ease.InExpo);
     }
 
-    public static void LoadScene(int scene)
+    public static void LoadScene(int sceneIndex)
     {
-        instance.ExitTransition(SceneManager.GetSceneAt(scene).name);
+        LoadScene(SceneManager.GetSceneAt(sceneIndex).name);
+    }
+
+    public static void LoadScene(string sceneName)
+    {
+        instance.StartCoroutine(instance.ExitTransition(sceneName));
     }
 
     public static void LoadLevel(string json)
@@ -41,7 +41,7 @@ public class LevelLoader : MonoBehaviour
     public static void LoadLevel(LevelData data)
     {
         GenerateLevelFromSave.levelData = data;
-        instance.ExitTransition("GameLevel");
+        LoadScene("GameLevel");
     }
 
     public static void LoadNextLevel()
@@ -81,8 +81,10 @@ public class LevelLoader : MonoBehaviour
         LoadLevel(json);
     }
 
-    void ExitTransition(string scene)
+    IEnumerator ExitTransition(string scene)
     {
+        yield return new WaitForSeconds(.5f);
+
         SceneManager.LoadSceneAsync(scene);
     }
 }
