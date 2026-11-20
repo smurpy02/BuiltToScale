@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.Overlays;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -25,6 +26,7 @@ public class LevelEditorManager : MonoBehaviour
     public InputActionReference toggleCanvas;
     public Toggle snapToGridToggle;
     public TMP_InputField levelNameInput;
+    public TMP_Dropdown chapterDropdown;
     public GameObject levelInfoBlock, levelEditorCanvas, confirmOverwrite;
     public Transform levelInfoBlockContainer;
     public TextMeshProUGUI overwriteText;
@@ -39,7 +41,8 @@ public class LevelEditorManager : MonoBehaviour
     List<PuzzleComponentInstance> puzzleComponents = new List<PuzzleComponentInstance>();
     LevelData levelData;
 
-    string overwriteLevelLocation, overwriteLevelName;
+    int overwriteChapter, overwriteLevel;
+    string overwriteLevelName;
 
     void OnEnable()
     {
@@ -55,6 +58,7 @@ public class LevelEditorManager : MonoBehaviour
     {
         UpdateSnapToGrid();
         RefreshLevelList();
+        SetupChapterDropdown();
     }
 
     void Update()
@@ -89,26 +93,24 @@ public class LevelEditorManager : MonoBehaviour
         RefreshLevelList();
     }
 
-    public void DeleteLevel(int levelNumber)
+    public void DeleteLevel(int chapterNumber, int levelNumber)
     {
-        var levelSaveData = LevelMemoryManager.GetLocationData();
+        var holder = LevelMemoryManager.GetChapterLevelHolder();
 
-        if (!levelSaveData.SaveLocations.Contains(levelNumber)) return;
+        if (holder.chapters.Count <= chapterNumber) return;
+        if (holder.chapters[chapterNumber].levels.Count <= levelNumber) return;
 
-        levelSaveData.SaveLocations.Remove(levelNumber);
-
-        LevelMemoryManager.SetLocationData(levelSaveData);
-        LevelMemoryManager.DeleteLevel(levelNumber);
+        holder.chapters[chapterNumber].levels.RemoveAt(levelNumber);
 
         RefreshLevelList();
+        SelectChapter(chapterNumber);
     }
 
-    public void Overwrite(int levelNumber)
+    public void Overwrite(LevelData levelData, int chapter, int level)
     {
-        var data = LevelMemoryManager.GetLevelData(levelNumber);
-
-        overwriteLevelLocation = LevelMemoryManager.GetLevelLocation(levelNumber);
-        overwriteLevelName = data.levelName;
+        overwriteLevelName = levelData.levelName;
+        overwriteChapter = chapter;
+        overwriteLevel = level;
 
         overwriteText.text = $"Are you sure you'd like to Overwrite {overwriteLevelName}?";
         confirmOverwrite.SetActive(true);
@@ -118,14 +120,16 @@ public class LevelEditorManager : MonoBehaviour
     {
         confirmOverwrite.SetActive(false);
 
-        SaveLevelData(overwriteLevelLocation, overwriteLevelName);
+        DeleteLevel(overwriteChapter, overwriteLevel);
+
+        SaveLevelData(chapterDropdown.value, overwriteLevelName, overwriteLevel);
 
         RefreshLevelList();
     }
     #endregion
 
     #region Save Data
-    void SaveLevelData()
+    public void SaveLevelData()
     {
         string levelName = levelNameInput.text;
 
@@ -135,13 +139,11 @@ public class LevelEditorManager : MonoBehaviour
             return;
         }
 
-        var levelLocation = LevelMemoryManager.RegisterLevel(levelName);
-
-        SaveLevelData(levelLocation, levelName);
+        SaveLevelData(chapterDropdown.value, levelName);
         RefreshLevelList();
     }
 
-    void SaveLevelData(string location, string levelName)
+    void SaveLevelData(int chapter, string levelName, int insertLevel = -1)
     {
         levelData = new LevelData(levelName);
 
@@ -151,14 +153,13 @@ public class LevelEditorManager : MonoBehaviour
 
         string levelJson = JsonUtility.ToJson(levelData);
 
-        PlayerPrefs.SetString(location, levelJson);
-    }
+        var holder = LevelMemoryManager.GetChapterLevelHolder();
+        var chapterDetails = holder.chapters[chapter];
 
-    public void SaveLevelToChapter()
-    {
-        SaveLevelData(LevelMemoryManager.GetLevelLocation(-1), levelNameInput.text);
+        var levelDetails = new LevelDetails(chapterDetails, levelJson);
 
-        LevelMemoryManager.SaveLevelToPersistentPath(1, -1);
+        if (insertLevel < 0) chapterDetails.levels.Add(levelDetails);
+        else chapterDetails.levels.Insert(insertLevel, levelDetails);
     }
 
     void SavePlayerAndPattern()
@@ -190,18 +191,47 @@ public class LevelEditorManager : MonoBehaviour
     #region Load Data
     void RefreshLevelList()
     {
+        chapterDropdown.ClearOptions();
+
+        var saveData = LevelMemoryManager.GetChapterLevelHolder();
+
+        List<string> chapters = new List<string>();
+
+        foreach(var chapter in saveData.chapters)
+        {
+            chapters.Add(chapter.chapterName);
+        }
+
+        chapterDropdown.AddOptions(chapters);
+        chapterDropdown.value = 0;
+
+        SelectChapter(0);
+    }
+
+    void SelectChapter(int chapter)
+    {
+        var saveData = LevelMemoryManager.GetChapterLevelHolder();
+
         levelInfoBlocks.ForEach(block => Destroy(block));
         levelInfoBlocks.Clear();
 
-        var saveData = LevelMemoryManager.GetLocationData();
-        if (saveData == null) return;
+        var levels = saveData.chapters[chapter].levels;
 
-        saveData.SaveLocations.ForEach(levelNumber => SpawnLevelInfoBlock(levelNumber));
+        int levelNumber = 0;
+        foreach(var level in levels)
+        {
+            SpawnLevelInfoBlock(level, chapter, levelNumber);
+            levelNumber++;
+        }
     }
 
-    void SpawnLevelInfoBlock(int levelNumber)
+    void SetupChapterDropdown()
     {
-        var levelData = LevelMemoryManager.GetLevelData(levelNumber);
+        chapterDropdown.onValueChanged.AddListener(SelectChapter);
+    }
+    void SpawnLevelInfoBlock(LevelDetails level, int chapterNumber, int levelNumber)
+    {
+        var levelData = LevelMemoryManager.GetLevelData(level.json);
 
         var infoBlock = Instantiate(levelInfoBlock, levelInfoBlockContainer);
         var infoBlockUI = infoBlock.GetComponent<LevelInfoBlock>();
@@ -213,7 +243,7 @@ public class LevelEditorManager : MonoBehaviour
             return;
         }
 
-        infoBlockUI.Initiate(levelData, levelNumber, this);
+        infoBlockUI.Initiate(levelData, this, chapterNumber, levelNumber);
     }
     #endregion
 }

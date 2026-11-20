@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,13 +9,14 @@ public class LevelInfoBlock : MonoBehaviour
 
     LevelEditorManager manager;
     LevelData data;
-    int levelNumber;
+    int chapter, level;
 
-    public void Initiate(LevelData data, int levelNumber, LevelEditorManager manager)
+    public void Initiate(LevelData data, LevelEditorManager manager, int chapter, int level)
     {
         this.data = data;
-        this.levelNumber = levelNumber;
         this.manager = manager;
+        this.chapter = chapter;
+        this.level = level;
 
         levelName.text = data.levelName;
     }
@@ -31,11 +33,11 @@ public class LevelInfoBlock : MonoBehaviour
 
     public void DeleteLevel()
     {
-        LevelEditorManager.instance.DeleteLevel(levelNumber);
+        manager.DeleteLevel(chapter, level);
     }
 
     public void Overwrite()
     {
-        LevelEditorManager.instance.Overwrite(levelNumber);
+        manager.Overwrite(data, chapter, level);
     }
 }
