@@ -1,31 +1,34 @@
 fileFormatVersion: 2
-guid: 5135d2e901374894cb80f3acc9d1f39b
+guid: 652654d765569cd48b7849522613243d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7758401829961999940
-    second: PlayerElements_0
+      213: 1446298872468849279
+    second: CloneSpecks_0
   - first:
-      213: -9157090544460670967
-    second: PlayerElements_1
+      213: 29349983363701163
+    second: CloneSpecks_1
   - first:
-      213: 3443641984462388820
-    second: PlayerElements_2
+      213: 221457135634060799
+    second: CloneSpecks_2
   - first:
-      213: -7933518761194103083
-    second: PlayerElements_3
+      213: 2846099244817865050
+    second: CloneSpecks_3
   - first:
-      213: 2494173914280441884
-    second: PlayerElements_4
+      213: 4184774408433017008
+    second: CloneSpecks_4
   - first:
-      213: -2672974849847176877
-    second: PlayerElements_5
+      213: 1845228402677790206
+    second: CloneSpecks_5
   - first:
-      213: 8000795309523346484
-    second: PlayerElements_6
+      213: -2517420342882318230
+    second: CloneSpecks_6
   - first:
-      213: 8031198904121024697
-    second: PlayerElements_7
+      213: -2023005998165503764
+    second: CloneSpecks_7
+  - first:
+      213: -24228655809247603
+    second: CloneSpecks_8
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -147,99 +150,11 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PlayerElements_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 16
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 44620abcb516bab60800000000000000
-      internalID: 7758401829961999940
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PlayerElements_1
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 16
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 90855598aaa7be080800000000000000
-      internalID: -9157090544460670967
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PlayerElements_2
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 16
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 45e7081c3264acf20800000000000000
-      internalID: 3443641984462388820
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PlayerElements_3
-      rect:
-        serializedVersion: 2
-        x: 48
-        y: 16
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 5ded02468ba76e190800000000000000
-      internalID: -7933518761194103083
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PlayerElements_4
+      name: CloneSpecks_0
       rect:
         serializedVersion: 2
         x: 64
-        y: 16
+        y: 80
         width: 16
         height: 16
       alignment: 0
@@ -250,18 +165,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c183bb8d5f51d9220800000000000000
-      internalID: 2494173914280441884
+      spriteID: f72cd846929421410800000000000000
+      internalID: 1446298872468849279
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerElements_5
+      name: CloneSpecks_1
       rect:
         serializedVersion: 2
-        x: 16
-        y: 0
+        x: 80
+        y: 80
         width: 16
         height: 16
       alignment: 0
@@ -272,62 +187,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3515e4d398fa7ead0800000000000000
-      internalID: -2672974849847176877
+      spriteID: ba99e8487a5486000800000000000000
+      internalID: 29349983363701163
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerElements_6
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 43420c8a1f8880f60800000000000000
-      internalID: 8000795309523346484
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PlayerElements_7
-      rect:
-        serializedVersion: 2
-        x: 48
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 9b0e3a82adc847f60800000000000000
-      internalID: 8031198904121024697
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PlayerElements_8
+      name: CloneSpecks_2
       rect:
         serializedVersion: 2
         x: 64
-        y: 0
+        y: 64
         width: 16
         height: 16
       alignment: 0
@@ -336,10 +207,142 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 8d9848a7094162b42bf0cac30133d10f
-      internalID: 1692539298
+      spriteID: ff5917e6716c21300800000000000000
+      internalID: 221457135634060799
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CloneSpecks_3
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 64
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a5950e21f206f7720800000000000000
+      internalID: 2846099244817865050
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CloneSpecks_4
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0b0abcf072e431a30800000000000000
+      internalID: 4184774408433017008
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CloneSpecks_5
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef5321fa4719b9910800000000000000
+      internalID: 1845228402677790206
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CloneSpecks_6
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a6848283983501dd0800000000000000
+      internalID: -2517420342882318230
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CloneSpecks_7
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ce05cd453c6dce3e0800000000000000
+      internalID: -2023005998165503764
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CloneSpecks_8
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d86ca197a2ce9aff0800000000000000
+      internalID: -24228655809247603
       vertices: []
       indices: 
       edges: []
@@ -348,7 +351,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 04d4473996825b8448891f643067470d
+    spriteID: fc4ebc9d84c87f548a9b949ae336f87d
     internalID: 0
     vertices: []
     indices: 
@@ -360,15 +363,15 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":16.0,"y":16.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      PlayerElements_0: 7758401829961999940
-      PlayerElements_1: -9157090544460670967
-      PlayerElements_2: 3443641984462388820
-      PlayerElements_3: -7933518761194103083
-      PlayerElements_4: 2494173914280441884
-      PlayerElements_5: -2672974849847176877
-      PlayerElements_6: 8000795309523346484
-      PlayerElements_7: 8031198904121024697
-      PlayerElements_8: 1692539298
+      CloneSpecks_0: 1446298872468849279
+      CloneSpecks_1: 29349983363701163
+      CloneSpecks_2: 221457135634060799
+      CloneSpecks_3: 2846099244817865050
+      CloneSpecks_4: 4184774408433017008
+      CloneSpecks_5: 1845228402677790206
+      CloneSpecks_6: -2517420342882318230
+      CloneSpecks_7: -2023005998165503764
+      CloneSpecks_8: -24228655809247603
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

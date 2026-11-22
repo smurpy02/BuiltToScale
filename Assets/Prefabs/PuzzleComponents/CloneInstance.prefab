@@ -12,6 +12,14 @@ PrefabInstance:
       propertyPath: invert
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2182684682490065296, guid: ed8be186798d43746b9a867fbcb0650e, type: 3}
+      propertyPath: blockObject
+      value: 
+      objectReference: {fileID: 7736906649967862285, guid: 74ea6673e291e8744b569b53d18ff1b9, type: 3}
+    - target: {fileID: 2222509528129264688, guid: ed8be186798d43746b9a867fbcb0650e, type: 3}
+      propertyPath: blockObject
+      value: 
+      objectReference: {fileID: 3977310822559962809, guid: 946f5493619389442a17f2443b0db4b8, type: 3}
     - target: {fileID: 3205588721886884546, guid: ed8be186798d43746b9a867fbcb0650e, type: 3}
       propertyPath: m_Name
       value: CloneInstance

@@ -122,9 +122,11 @@ public class LevelEditorManager : MonoBehaviour
 
         DeleteLevel(overwriteChapter, overwriteLevel);
 
-        SaveLevelData(chapterDropdown.value, overwriteLevelName, overwriteLevel);
+        SaveLevelData(overwriteChapter, overwriteLevelName, overwriteLevel);
 
         RefreshLevelList();
+
+        SelectChapter(overwriteChapter);
     }
     #endregion
 
@@ -139,8 +141,11 @@ public class LevelEditorManager : MonoBehaviour
             return;
         }
 
-        SaveLevelData(chapterDropdown.value, levelName);
+        int chapter = chapterDropdown.value;
+
+        SaveLevelData(chapter, levelName);
         RefreshLevelList();
+        SelectChapter(chapter);
     }
 
     void SaveLevelData(int chapter, string levelName, int insertLevel = -1)
