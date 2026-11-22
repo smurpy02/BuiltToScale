@@ -17,9 +17,11 @@ public class SquareVisualManager : MonoBehaviour
 
     [Header("Object References")]
     public Transform visuals;
+    public GameObject petrified;
 
     List<SquareSprite> squareSprites = new List<SquareSprite>();
     List<Vector2Int> blockDirections = new List<Vector2Int>();
+    Tweener wobble;
 
     static Dictionary<SpriteAtlas, List<SquareSprite>> processedSquareSprites = new();
 
@@ -37,7 +39,7 @@ public class SquareVisualManager : MonoBehaviour
         RandomiseSpeck();
         UpdateSprite();
 
-        playerRenderer.transform.DOShakeScale(10, 0.08f, 2, 80, false, ShakeRandomnessMode.Harmonic).SetLoops(-1);
+        wobble = playerRenderer.transform.DOShakeScale(10, 0.08f, 2, 80, false, ShakeRandomnessMode.Harmonic).SetLoops(-1);
     }
 
     #region Sprite Management
@@ -153,6 +155,19 @@ public class SquareVisualManager : MonoBehaviour
         }
 
         return false;
+    }
+    #endregion
+
+    #region External Functions
+    public void Petrify()
+    {
+        playerRenderer.enabled = false;
+        backdropRenderer.enabled = false;
+        speckRenderer.enabled = false;
+
+        wobble.Kill();
+
+        petrified.SetActive(true);
     }
     #endregion
 }

@@ -24,8 +24,7 @@ public class BlockPhysics : MonoBehaviour
     {
         if(collision.tag == "Breaker")
         {
-            engine.Break(Vector2Int.RoundToInt(transform.localPosition), transform);
-            Destroy(gameObject);
+            if(engine.Break(Vector2Int.RoundToInt(transform.localPosition), transform)) Destroy(gameObject);
         }
 
         if(collision.tag == "Spinner")

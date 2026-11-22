@@ -10,7 +10,10 @@ public class ExpansionEngine : MonoBehaviour
     public GameObject blockObject, breakBlock;
     public LayerMask expansionMask;
 
+    // Events
     [HideInInspector] public Action<Vector2Int, Transform> SpawnBlock;
+    [HideInInspector] public Action<List<Vector2Int>> ExpandBody;
+
     Dictionary<Vector2Int, Block> blocks = new Dictionary<Vector2Int, Block>();
     Block highestBlock;
 
@@ -20,7 +23,7 @@ public class ExpansionEngine : MonoBehaviour
         transform.localPosition = (Vector2)position;
 
         HandleNewBlock(transform);
-         
+
         Block block = new Block(transform, position);
 
         if (highestBlock == null) highestBlock = block;
@@ -95,9 +98,11 @@ public class ExpansionEngine : MonoBehaviour
     }
 
     //Break block relative to player
-    public void Break(Vector2Int position, Transform blockTransform)
+    public bool Break(Vector2Int position, Transform blockTransform)
     {
         Block block = blocks[position];
+
+        if (block.petrified) return false;
 
         Instantiate(breakBlock, blockTransform.position, Quaternion.identity).GetComponentInChildren<Renderer>().material.color = blockTransform.GetComponentInChildren<Renderer>().material.color;
 
@@ -128,6 +133,8 @@ public class ExpansionEngine : MonoBehaviour
         if (blockIncrementsY) OffsetPivot(Vector2Int.down);
         if (blockDecrementsX) OffsetPivot(Vector2Int.right);
         if (blockDecrementsY) OffsetPivot(Vector2Int.up);
+
+        return true;
     }
 
     public void ReconfigBlockPositions()
@@ -149,8 +156,12 @@ public class ExpansionEngine : MonoBehaviour
 
         bool expansionSuccessful = false;
 
+        List<Vector2Int> newPositions = new();
+
         foreach (Block block in blockCopy)
         {
+            if (block.petrified) continue;
+
             Vector2Int newPosition = block.position + direction;
 
             if (blocks.ContainsKey(newPosition)) continue;
@@ -161,15 +172,21 @@ public class ExpansionEngine : MonoBehaviour
             {
                 TopHat topHat = hit.transform.GetComponentInChildren<TopHat>();
                 if (topHat != null) topHat.ExpandIntoTophat(this);
+                newPositions.Add(newPosition);
 
                 continue;
             }
 
             expansionSuccessful = true;
             SpawnBlockPlayer(newPosition);
+            newPositions.Add(newPosition);
         }
 
-        if (expansionSuccessful) PlayerAudioManager.Pop();
+        if (expansionSuccessful)
+        {
+            PlayerAudioManager.Pop();
+            ExpandBody?.Invoke(newPositions);
+        }
     }
 
     void ReconfigureHighestBlock()
@@ -198,6 +215,18 @@ public class ExpansionEngine : MonoBehaviour
     public List<Vector2Int> GetPositions()
     {
         return blocks.Keys.ToList();
+    }
+
+    public Block GetBlock(Vector2Int position)
+    {
+        if(blocks.ContainsKey(position)) return blocks[position];
+
+        return null;
+    }
+
+    public void SetBlock(Vector2Int position, Block block)
+    {
+        if(blocks.ContainsKey(position)) blocks[position] = block;
     }
     #endregion
 }

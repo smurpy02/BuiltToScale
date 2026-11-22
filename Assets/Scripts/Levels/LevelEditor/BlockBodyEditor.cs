@@ -102,7 +102,7 @@ public class BlockBodyEditor : MonoBehaviour
 
     public void RemoveBlock(Vector2Int position, Transform transform)
     {
-        engine.Break(position, transform);
+        if (!engine.Break(position, transform)) return;
 
         ValidatePlusBlock(position + Vector2Int.up);
         ValidatePlusBlock(position + Vector2Int.down);

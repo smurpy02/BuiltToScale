@@ -883,7 +883,7 @@ MonoBehaviour:
   jumpForce: 12
   jumpingMask:
     serializedVersion: 2
-    m_Bits: 55
+    m_Bits: 183
 --- !u!1 &8628299353030483584
 GameObject:
   m_ObjectHideFlags: 0
