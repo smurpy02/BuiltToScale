@@ -96,6 +96,7 @@ public class GenerateLevelFromSave : MonoBehaviour
 
             if (component is CloneComponentData) GenerateClone(componentObject, component as CloneComponentData);
             if (component is TextComponentData) GenerateText(componentObject, component as TextComponentData);
+            if (component is SnakeComponentData) GenerateSnake(componentObject);
         }
     }
 
@@ -147,5 +148,18 @@ public class GenerateLevelFromSave : MonoBehaviour
         }
 
         text.text = textComponentData.text;
+    }
+
+    void GenerateSnake(GameObject snake)
+    {
+        var petrification = snake.GetComponent<Petrification>();
+
+        if (petrification == null)
+        {
+            Debug.LogWarning("Couldn't find Petrification Component");
+            return;
+        }
+
+        petrification.Initiate(player);
     }
 }

@@ -59,7 +59,9 @@ public class Petrification : MonoBehaviour
 
         if (block == null) return;
 
-        block.petrified = true;
+        if (block.state != 0) return;
+
+        block.state = BlockState.Petrified;
 
         player.engine.SetBlock(position, block);
 

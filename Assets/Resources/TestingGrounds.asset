@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 926007bd34822b94fbbf9dbd87af899b, type: 3}
   m_Name: TestingGrounds
   m_EditorClassIdentifier: Assembly-CSharp::ChapterDetails
-  chapterName: 
-  levels: []
+  chapterName: TestingGrounds
+  levels:
+  - chapter: {fileID: 11400000}
+    json: '{"levelName":"SnakeExample","playerPosition":{"x":-1.5,"y":-0.5},"playerSquares":[{"x":0,"y":0}],"patternPosition":{"x":4.5,"y":0.5},"patternSquares":[{"x":0,"y":0},{"x":-1,"y":0},{"x":-2,"y":0},{"x":-2,"y":-1},{"x":-3,"y":0}],"addedTiles":[{"x":-3,"y":-2,"z":0},{"x":-2,"y":-2,"z":0},{"x":-1,"y":-2,"z":0},{"x":0,"y":-2,"z":0},{"x":1,"y":-2,"z":0},{"x":2,"y":-2,"z":0},{"x":3,"y":-2,"z":0},{"x":4,"y":-2,"z":0},{"x":5,"y":-2,"z":0},{"x":6,"y":-2,"z":0}],"removedTiles":[{"x":-4,"y":-2,"z":0},{"x":-5,"y":-2,"z":0},{"x":-6,"y":-2,"z":0},{"x":-7,"y":-2,"z":0},{"x":-7,"y":-1,"z":0},{"x":-7,"y":0,"z":0}],"puzzleComponents":[{"rid":1000}],"references":{"version":2,"RefIds":[{"rid":1000,"type":{"class":"SnakeComponentData","ns":"","asm":"Assembly-CSharp"},"data":{"position":{"x":0.2874000072479248,"y":1.3860900402069092},"id":4}}]}}'

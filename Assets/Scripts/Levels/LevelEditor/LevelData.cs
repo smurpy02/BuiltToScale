@@ -52,6 +52,12 @@ public class TextComponentData : PuzzleComponentData
 }
 
 [Serializable]
+public class SnakeComponentData : PuzzleComponentData
+{
+    public SnakeComponentData(int id) : base(id) { }
+}
+
+[Serializable]
 public class PuzzleComponentData
 {
     public Vector2 position;

@@ -17,7 +17,7 @@ public class SquareVisualManager : MonoBehaviour
 
     [Header("Object References")]
     public Transform visuals;
-    public GameObject petrified;
+    public GameObject petrified, gold;
 
     List<SquareSprite> squareSprites = new List<SquareSprite>();
     List<Vector2Int> blockDirections = new List<Vector2Int>();
@@ -156,18 +156,30 @@ public class SquareVisualManager : MonoBehaviour
 
         return false;
     }
-    #endregion
 
-    #region External Functions
-    public void Petrify()
+    void DisableRenderers()
     {
         playerRenderer.enabled = false;
         backdropRenderer.enabled = false;
         speckRenderer.enabled = false;
 
         wobble.Kill();
+    }
+    #endregion
+
+    #region External Functions
+    public void Petrify()
+    {
+        DisableRenderers();
 
         petrified.SetActive(true);
+    }
+
+    public void Gold()
+    {
+        DisableRenderers();
+
+        gold.SetActive(true);
     }
     #endregion
 }

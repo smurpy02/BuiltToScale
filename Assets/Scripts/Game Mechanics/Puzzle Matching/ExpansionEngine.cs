@@ -102,7 +102,7 @@ public class ExpansionEngine : MonoBehaviour
     {
         Block block = blocks[position];
 
-        if (block.petrified) return false;
+        if (block.state == BlockState.Petrified) return false;
 
         Instantiate(breakBlock, blockTransform.position, Quaternion.identity).GetComponentInChildren<Renderer>().material.color = blockTransform.GetComponentInChildren<Renderer>().material.color;
 
@@ -160,7 +160,7 @@ public class ExpansionEngine : MonoBehaviour
 
         foreach (Block block in blockCopy)
         {
-            if (block.petrified) continue;
+            if (block.state == BlockState.Petrified) continue;
 
             Vector2Int newPosition = block.position + direction;
 
