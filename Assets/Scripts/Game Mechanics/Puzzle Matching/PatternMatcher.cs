@@ -34,54 +34,44 @@ public class PatternMatcher : MonoBehaviour
 
         foreach (PatternMatcher matcher in matchers)
         {
-            if (!matcher.PositionsMatch() || matcher.originBlock == null) return;
+            if (!matcher.CheckPositions() || matcher.originBlock == null) return;
         }
 
         CompleteMatch();
     }
 
-    bool PositionsMatch()
+    bool CheckPositions()
     {
-        if (pattern.body.childCount != player.body.childCount)
+        if(pattern.body.childCount != player.body.childCount) return false;
+
+        foreach(Transform playerOrigin in player.body)
         {
-            return false;
-        }
-
-        foreach (Transform playerPosition in player.body)
-        {
-            List<Vector2Int> playerOffsets = new List<Vector2Int>();
-
-            foreach (Transform otherPlayerPosition in player.body)
+            if (CheckPlayerOrigin(playerOrigin))
             {
-                if (otherPlayerPosition != playerPosition)
-                {
-                    playerOffsets.Add(Vector2Int.RoundToInt(playerPosition.position - otherPlayerPosition.position));
-                }
-            }
-
-            bool validMatch = true;
-
-            validMatch &= Vector2.Distance(playerPosition.position, pattern.body.GetChild(0).position) < matchDistance;
-
-            foreach (Transform child in pattern.body)
-            {
-                if (child != pattern.body.GetChild(0))
-                {
-                    Vector2Int offset = Vector2Int.RoundToInt(pattern.body.GetChild(0).position - child.position);
-
-                    validMatch &= playerOffsets.Contains(offset);
-                }
-            }
-
-            if (validMatch)
-            {
-                originBlock = playerPosition;
-
+                originBlock = playerOrigin;
                 return true;
             }
         }
 
         return false;
+    }
+
+    bool CheckPlayerOrigin(Transform playerOrigin)
+    {
+        Vector2 patternOrigin = pattern.body.GetChild(0).position;
+
+        if (Vector3.Distance(patternOrigin, playerOrigin.position) > matchDistance) return false;
+
+        foreach(Transform patternBlock in pattern.body)
+        {
+            var offset = (Vector2)patternBlock.position - patternOrigin;
+
+            Vector2Int playerSquare = Vector2Int.RoundToInt((Vector2)playerOrigin.localPosition + offset);
+
+            if(!player.engine.ContainsBlockPosition(playerSquare)) return false;
+        }
+
+        return true;
     }
     #endregion
 
