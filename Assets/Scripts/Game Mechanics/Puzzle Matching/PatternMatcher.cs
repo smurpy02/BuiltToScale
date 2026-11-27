@@ -69,6 +69,17 @@ public class PatternMatcher : MonoBehaviour
             Vector2Int playerSquare = Vector2Int.RoundToInt((Vector2)playerOrigin.localPosition + offset);
 
             if(!player.engine.ContainsBlockPosition(playerSquare)) return false;
+
+            var patternSquare = patternBlock.GetComponent<PatternSquare>();
+
+            if (patternSquare == null) continue;
+
+            if(patternSquare.state == BlockState.Gold)
+            {
+                var block = player.engine.GetBlock(playerSquare);
+
+                if (block.state != BlockState.Gold) return false;
+            }
         }
 
         return true;

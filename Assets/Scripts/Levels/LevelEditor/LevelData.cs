@@ -19,6 +19,8 @@ public class LevelData
     public Vector2 patternPosition;
     public List<Vector2Int> patternSquares;
 
+    public List<Vector2Int> goldBlocks;
+
     // Grid Info
     public List<Vector3Int> addedTiles;
     public List<Vector3Int> removedTiles;
@@ -55,6 +57,17 @@ public class TextComponentData : PuzzleComponentData
 public class SnakeComponentData : PuzzleComponentData
 {
     public SnakeComponentData(int id) : base(id) { }
+}
+
+[Serializable]
+public class MidasComponentData : PuzzleComponentData
+{
+    public List<Vector2Int> goldBlocks;
+
+    public MidasComponentData(int id, List<Vector2Int> goldBlocks) : base(id)
+    {
+        this.goldBlocks = goldBlocks;
+    }
 }
 
 [Serializable]

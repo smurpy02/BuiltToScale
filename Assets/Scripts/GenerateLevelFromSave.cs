@@ -97,6 +97,7 @@ public class GenerateLevelFromSave : MonoBehaviour
             if (component is CloneComponentData) GenerateClone(componentObject, component as CloneComponentData);
             if (component is TextComponentData) GenerateText(componentObject, component as TextComponentData);
             if (component is SnakeComponentData) GenerateSnake(componentObject);
+            if (component is MidasComponentData) GenerateMidas(component as MidasComponentData);
         }
     }
 
@@ -123,6 +124,7 @@ public class GenerateLevelFromSave : MonoBehaviour
         squares.ForEach(squarePosition => engine.SpawnBlockPlayer(squarePosition));
     }
 
+    #region Custom Generation
     void GenerateClone(GameObject cloneInstance, CloneComponentData data)
     {
         var matcher = cloneInstance.GetComponent<PatternMatcher>();
@@ -162,4 +164,20 @@ public class GenerateLevelFromSave : MonoBehaviour
 
         petrification.Initiate(player);
     }
+
+    void GenerateMidas(MidasComponentData componentData)
+    {
+        foreach (Transform block in pattern.body)
+        {
+            if (componentData.goldBlocks.Contains(Vector2Int.RoundToInt(block.localPosition)))
+            {
+                var patternSquare = block.GetComponent<PatternSquare>();
+
+                if (patternSquare == null) continue;
+
+                patternSquare.Gold();
+            }
+        }
+    }
+    #endregion
 }
