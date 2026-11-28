@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.Rendering.DebugUI;
 
 public class PuzzleComponentInstance
 {
@@ -20,6 +21,7 @@ public class PuzzleComponentInstance
 
         if (puzzleComponent is CloneComponentData) ConfigureCloneData();
         if (puzzleComponent is TextComponentData) ConfigureTextData();
+        if(puzzleComponent is SnakeComponentData) ConfigureSnakeData();
 
         return puzzleComponent;
     }
@@ -60,5 +62,25 @@ public class PuzzleComponentInstance
         textComponent.text = inputField.text;
 
         puzzleComponent = textComponent;
+    }
+
+    void ConfigureSnakeData()
+    {
+        var snakeComponent = puzzleComponent as SnakeComponentData;
+
+        var inputField = transform.GetComponentInChildren<TMP_InputField>();
+
+        if (inputField == null)
+        {
+            Debug.LogWarning("Couldn't find Input Field");
+            return;
+        }
+
+        if(!int.TryParse(inputField.text, out snakeComponent.countdown))
+        {
+            snakeComponent.countdown = 3;
+        }
+
+        puzzleComponent = snakeComponent;
     }
 }

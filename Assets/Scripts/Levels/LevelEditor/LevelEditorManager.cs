@@ -122,7 +122,7 @@ public class LevelEditorManager : MonoBehaviour
 
         DeleteLevel(overwriteChapter, overwriteLevel);
 
-        SaveLevelData(overwriteChapter, overwriteLevelName, overwriteLevel);
+        SaveLevelData(overwriteChapter, levelNameInput.text, overwriteLevel);
 
         RefreshLevelList();
 

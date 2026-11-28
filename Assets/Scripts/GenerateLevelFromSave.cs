@@ -96,7 +96,7 @@ public class GenerateLevelFromSave : MonoBehaviour
 
             if (component is CloneComponentData) GenerateClone(componentObject, component as CloneComponentData);
             if (component is TextComponentData) GenerateText(componentObject, component as TextComponentData);
-            if (component is SnakeComponentData) GenerateSnake(componentObject);
+            if (component is SnakeComponentData) GenerateSnake(componentObject, component as SnakeComponentData);
             if (component is MidasComponentData) GenerateMidas(component as MidasComponentData);
         }
     }
@@ -152,9 +152,9 @@ public class GenerateLevelFromSave : MonoBehaviour
         text.text = textComponentData.text;
     }
 
-    void GenerateSnake(GameObject snake)
+    void GenerateSnake(GameObject snakeInstance, SnakeComponentData snakeComponentData)
     {
-        var petrification = snake.GetComponent<Petrification>();
+        var petrification = snakeInstance.GetComponent<Petrification>();
 
         if (petrification == null)
         {
@@ -162,7 +162,7 @@ public class GenerateLevelFromSave : MonoBehaviour
             return;
         }
 
-        petrification.Initiate(player);
+        petrification.Initiate(player, snakeComponentData.countdown);
     }
 
     void GenerateMidas(MidasComponentData componentData)

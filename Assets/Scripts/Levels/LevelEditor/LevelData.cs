@@ -56,6 +56,8 @@ public class TextComponentData : PuzzleComponentData
 [Serializable]
 public class SnakeComponentData : PuzzleComponentData
 {
+    public int countdown;
+
     public SnakeComponentData(int id) : base(id) { }
 }
 

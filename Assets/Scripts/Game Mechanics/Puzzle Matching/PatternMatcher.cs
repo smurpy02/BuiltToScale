@@ -42,9 +42,9 @@ public class PatternMatcher : MonoBehaviour
 
     bool CheckPositions()
     {
-        if(pattern.body.childCount != player.body.childCount) return false;
+        if (pattern.body.childCount != player.body.childCount) return false;
 
-        foreach(Transform playerOrigin in player.body)
+        foreach (Transform playerOrigin in player.body)
         {
             if (CheckPlayerOrigin(playerOrigin))
             {
@@ -62,24 +62,22 @@ public class PatternMatcher : MonoBehaviour
 
         if (Vector3.Distance(patternOrigin, playerOrigin.position) > matchDistance) return false;
 
-        foreach(Transform patternBlock in pattern.body)
+        foreach (Transform patternBlock in pattern.body)
         {
             var offset = (Vector2)patternBlock.position - patternOrigin;
 
             Vector2Int playerSquare = Vector2Int.RoundToInt((Vector2)playerOrigin.localPosition + offset);
 
-            if(!player.engine.ContainsBlockPosition(playerSquare)) return false;
+            if (!player.engine.ContainsBlockPosition(playerSquare)) return false;
 
             var patternSquare = patternBlock.GetComponent<PatternSquare>();
 
             if (patternSquare == null) continue;
 
-            if(patternSquare.state == BlockState.Gold)
-            {
-                var block = player.engine.GetBlock(playerSquare);
+            var block = player.engine.GetBlock(playerSquare);
 
-                if (block.state != BlockState.Gold) return false;
-            }
+            if (patternSquare.state == BlockState.Gold && block.state != BlockState.Gold) return false;
+            if (patternSquare.state != BlockState.Gold && block.state == BlockState.Gold) return false;
         }
 
         return true;
@@ -115,7 +113,7 @@ public class PatternMatcher : MonoBehaviour
         foreach (Transform block in pattern.body)
         {
             Transform highlight = block.Find("Highlight");
-            if(highlight != null) highlight.gameObject.SetActive(true);
+            if (highlight != null) highlight.gameObject.SetActive(true);
         }
 
         LevelAudioManager.Match();

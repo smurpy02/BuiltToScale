@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PuzzleComponentPrefabReference
   id: 4
   prefab: {fileID: 6183639641235692438, guid: b359c65f27db6df439deeca6f0e63a5f, type: 3}
-  editablePrefab: {fileID: 6183639641235692438, guid: b359c65f27db6df439deeca6f0e63a5f, type: 3}
+  editablePrefab: {fileID: 5367618029314855301, guid: 0e0cc271866cb98459867b226ceff6ad, type: 3}

@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4077166226596267248, guid: 7399e2fc1432d9b45918246d9d1cfb84, type: 3}
       propertyPath: m_Name
-      value: MidasFinger Variant
+      value: MidasFingerEditable
       objectReference: {fileID: 0}
     - target: {fileID: 8374014654263718387, guid: 7399e2fc1432d9b45918246d9d1cfb84, type: 3}
       propertyPath: m_LocalPosition.x
@@ -50,6 +50,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8374014654263718387, guid: 7399e2fc1432d9b45918246d9d1cfb84, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8881327366616678835, guid: 7399e2fc1432d9b45918246d9d1cfb84, type: 3}
+      propertyPath: m_Size.x
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8881327366616678835, guid: 7399e2fc1432d9b45918246d9d1cfb84, type: 3}
+      propertyPath: m_Size.y
+      value: 2.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 8881327366616678835, guid: 7399e2fc1432d9b45918246d9d1cfb84, type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8881327366616678835, guid: 7399e2fc1432d9b45918246d9d1cfb84, type: 3}
+      propertyPath: m_Offset.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

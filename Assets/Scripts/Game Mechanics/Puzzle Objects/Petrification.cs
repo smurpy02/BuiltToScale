@@ -10,16 +10,17 @@ public class Petrification : MonoBehaviour
     public Transform tablet, snake;
     public GameObject glowyEyes;
     public TextMeshProUGUI countdownText;
-    public int countdown = 3;
 
     [Header("Visuals")]
     public ParticleSystem tabletBreaks;
 
     Player player;
+    int countdown = 3;
 
-    public void Initiate(Player player)
+    public void Initiate(Player player, int countdown)
     {
         this.player = player;
+        this.countdown = countdown;
 
         UpdateText();
         player.engine.ExpandBody += Countdown;
