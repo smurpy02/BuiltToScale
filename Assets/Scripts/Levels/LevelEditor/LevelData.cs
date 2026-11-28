@@ -66,10 +66,7 @@ public class MidasComponentData : PuzzleComponentData
 {
     public List<Vector2Int> goldBlocks;
 
-    public MidasComponentData(int id, List<Vector2Int> goldBlocks) : base(id)
-    {
-        this.goldBlocks = goldBlocks;
-    }
+    public MidasComponentData(int id) : base(id) { }
 }
 
 [Serializable]

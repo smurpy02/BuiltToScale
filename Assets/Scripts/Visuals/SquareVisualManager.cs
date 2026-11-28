@@ -177,9 +177,11 @@ public class SquareVisualManager : MonoBehaviour
 
     public void Gold()
     {
-        DisableRenderers();
+        gold.transform.localScale = Vector3.zero;
 
         gold.SetActive(true);
+
+        gold.transform.DOScale(1, .2f).SetEase(Ease.OutBounce).OnComplete(() => DisableRenderers());
     }
     #endregion
 }

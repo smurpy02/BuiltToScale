@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,6 +22,7 @@ public class PuzzleComponentInstance
 
         if (puzzleComponent is CloneComponentData) ConfigureCloneData();
         if (puzzleComponent is TextComponentData) ConfigureTextData();
+        if (puzzleComponent is MidasComponentData) ConfigureMidasData();
         if(puzzleComponent is SnakeComponentData) ConfigureSnakeData();
 
         return puzzleComponent;
@@ -62,6 +64,27 @@ public class PuzzleComponentInstance
         textComponent.text = inputField.text;
 
         puzzleComponent = textComponent;
+    }
+
+    void ConfigureMidasData()
+    {
+        var midasComponent = puzzleComponent as MidasComponentData;
+        var matcher = GameObject.FindObjectsByType<PatternMatcher>(0)[0];
+
+        List<Vector2Int> goldBlocks = new();
+
+        foreach (Transform block in matcher.pattern.body)
+        {
+            var editorPattern = block.GetComponent<EditorPatternBlock>();
+
+            if (editorPattern == null) continue;
+
+            if (editorPattern.state == BlockState.Gold) goldBlocks.Add(Vector2Int.RoundToInt(block.localPosition));
+        }
+
+        midasComponent.goldBlocks = goldBlocks;
+
+        puzzleComponent = midasComponent;
     }
 
     void ConfigureSnakeData()

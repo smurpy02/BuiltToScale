@@ -46,7 +46,7 @@ public class LevelLoader : MonoBehaviour
 
     public static void LoadNextLevel()
     {
-        if (currentChapter == null || currentLevel == null) LoadScene(0);
+        if (currentChapter == null || currentLevel == null) { LoadScene(0); return; }
 
         if(currentChapter.levels.Last() == currentLevel)
         {
